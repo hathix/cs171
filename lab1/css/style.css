@@ -1,33 +1,37 @@
 /*ID Selector (e.g. #content)
 Class Selector
-Descendant Selector for the dynamically created Harvard facts (paragraphs) Custom Hover-Effect for hyperlinks
+Descendant Selector for the dynamically created Harvard facts (paragraphs)
+Custom Hover-Effect for hyperlinks
 Padding and Margin properties
 Color or Background-Color properties*/
 
-#content {
-    background-color: #EEE;
-    padding: 10px;
-    margin: 10px;
-}
 
 .centered {
-    text-align: center;
+  text-align: center;
 }
 
 #content p {
-    margin: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  padding: 15px;
+  border-color: #ddd;
 }
 
 a:hover {
-    text-decoration: overline;
-    color: red;
+    text-decoration: underline !important;
 }
 
 #cs171-basics {
-    background-color: #111;
+  background-color: white;
+  color: black;
+  border-color: black;
+  margin-bottom: 20px;
 }
 
 #cs171-basics:hover {
-    transform: scale(1.2, 1.2);
-    transition: transform 0.5s;
+  box-shadow: 0 0 2px #111;
+  transition: box-shadow 0.5s;
 }

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>The Harvard Factbook</title>
 
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootswatch-journal.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -21,7 +21,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        <a class="navbar-brand" href="#">Harvard Factbook</a>
+        <a class="navbar-brand" href="#">CS 171 Lab 1</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,25 +42,25 @@
     <!-- /.container-fluid -->
   </nav>
 
-  <h1>The Harvard Factbook</h1>
-  <div id="content"></div>
-  <a href="http://harvard.edu">Harvard</a>
-  <img src="http://logonoid.com/images/harvard-logo.png" class="centered" alt="Harvard logo">
-  <button id="cs171-basics" class="btn btn-primary">Get a random fact about Harvard University</button>
-
-
-  <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Action <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li role="separator" class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h1>The Harvard Factbook</h1>
+        <button id="cs171-basics" class="btn btn-primary">Get a random fact about Harvard University</button>
+        <div id="content" class="well"></div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <img src="http://i.imgur.com/DzC14yq.jpg" class="img-responsive img-rounded centered" alt="Pforzheimer House">
+        <br>
+        <div class="text-muted">Pforzheimer House / David Olvera-Sanchez, Harvard Admissions</div>
+      </div>
+    </div>
   </div>
+
+
+
+
+
 
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
