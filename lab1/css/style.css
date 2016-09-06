@@ -1,0 +1,24 @@
+/*ID Selector (e.g. #content)
+Class Selector
+Descendant Selector for the dynamically created Harvard facts (paragraphs) Custom Hover-Effect for hyperlinks
+Padding and Margin properties
+Color or Background-Color properties*/
+
+#content {
+    background-color: #EEE;
+    padding: 10px;
+    margin: 10px;
+}
+
+.centered {
+    text-align: center;
+}
+
+#content p {
+    margin: 10px;
+}
+
+a:hover {
+    text-decoration: overline;
+    color: red;
+}
