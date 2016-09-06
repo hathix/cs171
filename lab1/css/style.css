@@ -22,3 +22,12 @@ a:hover {
     text-decoration: overline;
     color: red;
 }
+
+#cs171-basics {
+    background-color: #111;
+}
+
+#cs171-basics:hover {
+    transform: scale(1.2, 1.2);
+    transition: transform 0.5s;
+}
