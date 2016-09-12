@@ -1,0 +1,23 @@
+#headline {
+    text-decoration: underline;
+}
+
+#ghi-table {
+    font-family: Verdana, Arial, sans-serif;
+}
+
+#ghi-table th {
+    color: red;
+}
+
+#ghi-table tr:nth-child(even) {
+    background-color: #eee;
+}
+
+
+
+
+/*Custom font (e.g. Arial)
+Custom style for the headline
+Highlight column names in the table
+Alternating row colors for the table*/
