@@ -12,7 +12,7 @@
 
 <body>
   <div class="container">
-    <h1 id="headline">Global Hunger Index</h1>
+    <h1 class="headline">Global Hunger Index</h1>
 
     <table id="ghi-table" class="sortable">
       <tr>
@@ -65,6 +65,8 @@
       </tr>
     </table>
 
+    <h1 class="headline">Data Visualizations</h1>
+
 
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
@@ -102,11 +104,81 @@
       </a>
     </div>
 
+
     <div class="row">
       <div class="col-xs-6">
-          <img class="img-responsive" src="img/nytimes-mrspresident.jpg">
+        <img class="img-responsive" src="img/planned-parenthood.jpg">
+      </div>
+
+      <div class="col-xs-6">
+        <p>This is a line chart. The mark used is a line, and the channels used are position (to mark the change in rates over time) and color (to differentiate the two rates.) Though there is no y-axis, both sets of y-values represent the number of procedures executed in a given year. The x-values represent year.</p>
+
+        <p>This is a <strong>bad visualization</strong> because the y-values are placed misleadingly and arbitrarily. This visualization lacks data integrity.</p>
+
+        <p>Positives:</p>
+        <ul>
+          <li>Minimal chartjunk</li>
+          <li>High data-ink ratio</li>
+          <li>Clearly articulates the point it tries to make</li>
+        </ul>
+
+        <p>Negatives:</p>
+        <ul>
+          <li>The y-axis is missing</li>
+          <li>y-values do not start at 0</li>
+          <li>No consistent scale is used for the y-axis</li>
+          <li>y-values are arbitrarily placed. Note that 327,000 is made to appear to be greater than 935,573, and that the magnitude of a drop from 2 million to 935,573 is shown to be the same as that of an increase from 289,750 to 327,000. This is extremely misleading and leads readers to faulty conclusions, namely that Planned Parenthood has started performing more abortions than prevention services (which is not true.)</li>
+        </ul>
+
+
+        <p>This visualization was used by anti-Planned Parenthood politicians to communicate that Planned Parenthood has turned its focus to abortions instead of health routines in an attempt to defund the organization. The data do not show this; health
+          routines have declined, but abortions have not increased much. This visualization effectively communicates the point the authors want to make, but the point is false and the visualization is misleading. There are a few ways the authors could
+          give the chart more integrity and clarity:</p>
+        <ul>
+          <li>Add a y-axis, start it at 0, and ensure that data points conform to that y-axis.</li>
+          <li>Find data from intermediate years to show that data isn't just being cherry-picked.</li>
+        </ul>
+
+        <p><a href="http://qz.com/580859/the-most-misleading-charts-of-2015-fixed/">Source</a></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <img class="img-responsive" src="img/nytimes-mrspresident.jpg">
       </div>
       <div class="col-xs-6">
+
+        <p>This is a type of bubble chart, except without axes. The mark used is area, and the channel used is size. The size of the bubbles represents the percent of people who hold a certain opinion. Color is used to identify the genders, but the age categories
+          just use black.</p>
+        <p> This is a <strong>bad visualization</strong> because the data is significantly distorted and the creator used the wrong kind of chart to visualize the data.</p>
+
+        <p> Positives:</p>
+        <ul>
+          <li>Little chartjunk</li>
+          <li>High data-ink ratio</li>
+        </ul>
+
+        <p>Negatives:</p>
+        <ul>
+          <li>The distortion of the data, as measured by the Tufte Lie Factor, is quite high. The circles are scaled by radius instead of area, so a 2x greater percentage actually appears 4x as large.</li>
+          <li>The coloring of the men/women bubbles doesn't make sense. A more recognized color scheme like blue/pink for man/women would have helped readers identify the genders better.</li>
+          <li>If a sample is being broken down into mutually exclusive categories (as each age/gender group is here), a stacked bar chart makes more sense than this bubble chart.
+        </ul>
+
+        <p>This visualization was likely meant for analysis instead of communication. The author likely wanted to convey how younger people and women are more likely to foresee a woman president. It could be improved in a few ways:</p>
+        <ul>
+          <li>The ordering of the age groups (&lt;45, 45-64, 65+) was effective in communicating this message, but the message could have been strengthened by using a more straightforward visualization like a bar chart.</li>
+          <li> With all 5 bubbles stacked atop each other, there appears to be no discernable trend; visually separating the age breakdown from the gender breakdown would have made both takeaways easier to identify.</li>
+        </ul>
+
+        <p><a href="https://eagereyes.org/blog/2008/ny-times-the-best-and-worst-of-data-visualization">Source</a></p>
+
+        <!-- Describe the design choices (type, color, scale, visual elements, ...)
+Explain why you have classified the respective visualization as good or bad.
+Describe the positive and negative aspects.
+Authors of visualizations try to convey a specific point of view on a given dataset. What do you think the author wanted to communicate? Can you suggest any improvements?
+Reference (i.e., link) to the source -->
       </div>
     </div </div>
 
