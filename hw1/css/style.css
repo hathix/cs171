@@ -7,7 +7,7 @@
 }
 
 #ghi-table th {
-    color: red;
+    border-bottom: 1px solid black;
 }
 
 #ghi-table tr:nth-child(even) {
