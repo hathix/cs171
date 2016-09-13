@@ -25,6 +25,8 @@ function createVisualization() {
    *
    * ************************************************************/
 
+   // 3. draw bar chart
+   renderBarChart(deliveryData);
 }
 
 /**
