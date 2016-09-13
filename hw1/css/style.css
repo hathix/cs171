@@ -15,7 +15,9 @@
 }
 
 
-
+.carousel-inner img {
+    margin: auto;
+}
 
 /*Custom font (e.g. Arial)
 Custom style for the headline
