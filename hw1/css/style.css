@@ -10,6 +10,14 @@
     border-bottom: 1px solid black;
 }
 
+#ghi-table td, #ghi-table th {
+    padding: 10px;
+}
+
+#ghi-table {
+    width: 100%;
+}
+
 #ghi-table tr:nth-child(even) {
     background-color: #eee;
 }
