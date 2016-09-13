@@ -1,34 +1,82 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>CS171 - HW2</title>
 
-		<!-- Load CSS libraries -->
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/style.css">
-	</head>
-	<body>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CS171 - HW2</title>
 
-	<!-- ********************** ADD YOUR HTML-ELEMENTS HERE *********************** -->	
-	<!-- Make sure to include a div-container with the id: 'chart-area' -->
-	
-	
+  <!-- Load CSS libraries -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
 
-	<!-- Load JS libraries: jQuery, bootstrap, D3, D3 Tooltips -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/d3.min.js"></script>
-	<script src="js/d3-tip.js"></script>
+<body>
 
-	<!-- Completed: Data loading, bar chart rendering -->
-	<script src="js/delivery-data.js"></script>
-	<script src="js/feedback-data.js"></script>
-	<script src="js/barchart.js"></script>
+  <!-- ********************** ADD YOUR HTML-ELEMENTS HERE *********************** -->
 
-	<!-- ****** TODO: FILTER DATA, DISPLAY BAR CHART & KEY FIGURES ****** -->
-	<script src="js/main.js"></script>
-	</body>
+  <div class="container-fluid">
+    <h2>Dataset Summary</h2>
+
+    <table class="table table-striped table-bordered">
+      <tbody>
+        <tr>
+          <td>Number of pizza deliveries</td>
+          <td id="number-deliveries"></td>
+        </tr>
+        <tr>
+          <td>Total pizzas delivered</td>
+          <td id="total-pizzas-delivered"></td>
+        </tr>
+        <tr>
+          <td>Average delivery time (min)</td>
+          <td id="average-delivery-time"></td>
+        </tr>
+        <tr>
+          <td>Total sales ($)</td>
+          <td id="total-sales"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Feedback</div>
+        <div class="panel-body">
+          <strong><span id="total-feedbacks"></span></strong> feedbacks
+
+          <ul>
+              <li class="text-success">
+                  <strong><span id="number-high-feedbacks"></span></strong> High
+              </li>
+              <li class="text-warning">
+                  <strong><span id="number-medium-feedbacks"></span></strong> Medium
+              </li>
+              <li class="text-danger">
+                  <strong><span id="number-low-feedbacks"></span></strong> Low
+              </li>
+          </ul>
+        </div>
+    </div>
+  </div>
+
+  <!-- Make sure to include a div-container with the id: 'chart-area' -->
+
+
+
+  <!-- Load JS libraries: jQuery, bootstrap, D3, D3 Tooltips -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/d3.min.js"></script>
+  <script src="js/d3-tip.js"></script>
+
+  <!-- Completed: Data loading, bar chart rendering -->
+  <script src="js/delivery-data.js"></script>
+  <script src="js/feedback-data.js"></script>
+  <script src="js/barchart.js"></script>
+
+  <!-- ****** TODO: FILTER DATA, DISPLAY BAR CHART & KEY FIGURES ****** -->
+  <script src="js/main.js"></script>
+</body>
+
 </html>
