@@ -70,3 +70,13 @@ function doublePrices(amusementRides) {
 
 var amusementRidesDouble = doublePrices(amusementRides);
 console.log(amusementRidesDouble);
+
+// 2.2 debugAmusementRide
+/**
+ * Prints the name and price of every ride.
+ */
+function debuAmusementRides(amusementRides) {
+    amusementRides.forEach(function(ride) {
+        console.log(ride.name + ": $" + ride.price);
+    })
+}
