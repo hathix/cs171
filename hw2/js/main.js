@@ -3,10 +3,10 @@
 // DATASETS
 
 // Global variable with 1198 pizza deliveries
-// console.log(deliveryData);
+console.log(deliveryData);
 
 // Global variable with 200 customer feedbacks
-// console.log(feedbackData.length);
+console.log(feedbackData.length);
 
 
 // FILTER DATA, THEN DISPLAY SUMMARY OF DATA & BAR CHART
@@ -19,7 +19,7 @@ function createVisualization() {
 	 *
 	 * ADD YOUR CODE HERE
 	 * (accordingly to the instructions in the HW2 assignment)
-	 * 
+	 *
 	 * 1) Filter data
 	 * 2) Display key figures
 	 * 3) Display bar chart
