@@ -20,16 +20,37 @@ function dataFiltering() {
    *
    * **************************************************/
 
+  // filter by type of attraction, if applicable
+  var selectBox = document.getElementById("attraction-category");
+  var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  var validAttractions;
+  if (selectedValue == "all") {
+    // if selectedValue is all, then no need to filter b/ everythign is applicable
+    validAttractions = attractions;
+  } else {
+      // otherwise choose only the ones of the selected type
+    validAttractions = attractions.filter(function(value) {
+      return value.Category == selectedValue;
+    });
+  }
   // find the top 5 global attractions by # of visitors
   // sort by # of visitors
-  attractions.sort(function(a, b) {
+  validAttractions.sort(function(a, b) {
     return a.Visitors < b.Visitors;
   });
   // choose just the top 5
-  top5 = attractions.filter(function(value, index) {
+  top5 = validAttractions.filter(function(value, index) {
     return index < 5;
   });
 
   // render
   renderBarChart(top5);
+}
+
+/**
+ * Called whenever the select box is updated.
+ */
+function dataManipulation() {
+    // re-render chart
+  dataFiltering();
 }
