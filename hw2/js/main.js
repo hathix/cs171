@@ -8,7 +8,7 @@ console.log(feedbackData.length);
 
 
 // FILTER DATA, THEN DISPLAY SUMMARY OF DATA & BAR CHART
-
+showDatasetSummary();
 createVisualization();
 
 function createVisualization() {
@@ -25,38 +25,44 @@ function createVisualization() {
    *
    * ************************************************************/
 
-  // 2. gather dataset summary
-  // deliveries
-  var numberDeliveries = deliveryData.length;
-  var numberPizzasDelivered = deliveryData.reduce(function(counter, delivery) {
-    return counter + delivery.count;
-  }, 0);
-  var totalDeliveryTime = deliveryData.reduce(function(counter, delivery) {
-    return counter + delivery.delivery_time;
-  }, 0);
-  var averageDeliveryTime = totalDeliveryTime / numberDeliveries;
-  var totalSales = deliveryData.reduce(function(counter, delivery) {
-    return counter + delivery.price;
-  }, 0);
+}
 
-  // feedback
-  var numFeedbacks = feedbackData.length;
-  var numFeedbacksByCategory = {
-    low: getFeedbacksByQuality("low").length,
-    medium: getFeedbacksByQuality("medium").length,
-    high: getFeedbacksByQuality("high").length
-  };
+/**
+ * Renders a summary of the dataset.
+ */
+function showDatasetSummary() {
+    // 2. gather dataset summary
+    // deliveries
+    var numberDeliveries = deliveryData.length;
+    var numberPizzasDelivered = deliveryData.reduce(function(counter, delivery) {
+      return counter + delivery.count;
+    }, 0);
+    var totalDeliveryTime = deliveryData.reduce(function(counter, delivery) {
+      return counter + delivery.delivery_time;
+    }, 0);
+    var averageDeliveryTime = totalDeliveryTime / numberDeliveries;
+    var totalSales = deliveryData.reduce(function(counter, delivery) {
+      return counter + delivery.price;
+    }, 0);
 
-  // 2. show summary stats
-  $('#number-deliveries').html(numberDeliveries);
-  $('#total-pizzas-delivered').html(numberPizzasDelivered);
-  $('#average-delivery-time').html(averageDeliveryTime);
-  $('#total-sales').html(totalSales);
+    // feedback
+    var numFeedbacks = feedbackData.length;
+    var numFeedbacksByCategory = {
+      low: getFeedbacksByQuality("low").length,
+      medium: getFeedbacksByQuality("medium").length,
+      high: getFeedbacksByQuality("high").length
+    };
 
-  $('#total-feedbacks').html(numFeedbacks);
-  $('#number-high-feedbacks').html(numFeedbacksByCategory.high);
-  $('#number-medium-feedbacks').html(numFeedbacksByCategory.medium);
-  $('#number-low-feedbacks').html(numFeedbacksByCategory.low);
+    // 2. show summary stats
+    $('#number-deliveries').html(numberDeliveries);
+    $('#total-pizzas-delivered').html(numberPizzasDelivered);
+    $('#average-delivery-time').html(averageDeliveryTime);
+    $('#total-sales').html(totalSales);
+
+    $('#total-feedbacks').html(numFeedbacks);
+    $('#number-high-feedbacks').html(numFeedbacksByCategory.high);
+    $('#number-medium-feedbacks').html(numFeedbacksByCategory.medium);
+    $('#number-low-feedbacks').html(numFeedbacksByCategory.low);
 }
 
 /**
