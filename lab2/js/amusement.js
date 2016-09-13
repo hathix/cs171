@@ -71,12 +71,28 @@ function doublePrices(amusementRides) {
 var amusementRidesDouble = doublePrices(amusementRides);
 console.log(amusementRidesDouble);
 
-// 2.2 debugAmusementRide
+// 2.3 debugAmusementRides
 /**
  * Prints the name and price of every ride.
  */
-function debuAmusementRides(amusementRides) {
+function debugAmusementRides(amusementRides) {
     amusementRides.forEach(function(ride) {
         console.log(ride.name + ": $" + ride.price);
-    })
+    });
 }
+
+debugAmusementRides(amusementRides);
+
+// 2.4 changing the DOM
+/**
+ * Prints the rides' prices to a certain DOM element.
+ */
+function writeRidePrices(amusementRides) {
+    amusementRides.forEach(function(ride) {
+        var message = ride.name + ": $" + ride.price;
+        var html = "<li>" + message + "</li>";
+        document.getElementById("prices").innerHTML += html;
+    });
+}
+
+writeRidePrices(amusementRides);
