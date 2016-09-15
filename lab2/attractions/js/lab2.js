@@ -36,7 +36,7 @@ function dataFiltering() {
   // find the top 5 global attractions by # of visitors
   // sort by # of visitors
   validAttractions.sort(function(a, b) {
-    return a.Visitors < b.Visitors;
+    return b.Visitors - a.Visitors;
   });
   // choose just the top 5
   top5 = validAttractions.filter(function(value, index) {
