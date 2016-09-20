@@ -67,7 +67,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Area</label>
         <div class="col-sm-10">
-            <select class="form-control">
+            <select class="form-control" id="area-select" onchange="selectFilter()">
               <option value="all">All</option>
               <option value="Boston">Boston</option>
               <option value="Cambridge">Cambridge</option>
@@ -78,7 +78,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Order Type</label>
         <div class="col-sm-10">
-            <select class="form-control">
+            <select class="form-control" id="order-type-select" onchange="selectFilter()">
               <option value="all">All</option>
               <option value="web">Web</option>
               <option value="phone">Phone</option>
