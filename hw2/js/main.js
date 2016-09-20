@@ -4,7 +4,7 @@
 console.log(deliveryData);
 
 // Global variable with 200 customer feedbacks
-console.log(feedbackData.length);
+console.log(feedbackData);
 
 createVisualization();
 
@@ -26,24 +26,26 @@ function createVisualization() {
   var area = getSelectBoxValue("area-select");
   var orderType = getSelectBoxValue("order-type-select");
   console.log(area, orderType);
-  // 4b. now filter
+  // 4b. now filter data
   var filteredData = deliveryData.filter(function(delivery) {
     return (area == "all" || area == delivery.area) &&
       (orderType == "all" || orderType == delivery.order_type);
   });
 
+  // 5. filter feedbacks: only include those whose corresponding deliveries
+  // are in the filtered data
+
   // 3. draw bar chart
   renderBarChart(filteredData);
 
   // 5. show dataset summary
-  // FILTER DATA, THEN DISPLAY SUMMARY OF DATA & BAR CHART
-  showDatasetSummary(filteredData);
+  showDatasetSummary(filteredData, feedbackData);
 }
 
 /**
- * Renders a summary of the given dataset.
+ * Renders a summary of the given dataset with the given feedback data.
  */
-function showDatasetSummary(data) {
+function showDatasetSummary(data, feedbacks) {
   // 2. gather dataset summary
   // deliveries
   var numberDeliveries = data.length;
@@ -59,11 +61,11 @@ function showDatasetSummary(data) {
   }, 0);
 
   // feedback
-  var numFeedbacks = feedbackData.length;
+  var numFeedbacks = feedbacks.length;
   var numFeedbacksByCategory = {
-    low: getFeedbacksByQuality("low").length,
-    medium: getFeedbacksByQuality("medium").length,
-    high: getFeedbacksByQuality("high").length
+    low: getFeedbacksByQuality(feedbacks, "low").length,
+    medium: getFeedbacksByQuality(feedbacks, "medium").length,
+    high: getFeedbacksByQuality(feedbacks, "high").length
   };
 
   // 2. show summary stats
@@ -79,10 +81,11 @@ function showDatasetSummary(data) {
 }
 
 /**
- * Returns the subset of all feedbacks with the given level of quality ("low", "medium", "high").
+ * Returns the subset of all given feedbacks with the given level of
+ * quality ("low", "medium", "high").
  */
-function getFeedbacksByQuality(quality) {
-  return feedbackData.filter(function(feedback) {
+function getFeedbacksByQuality(feedbacks, quality) {
+  return feedbacks.filter(function(feedback) {
     return feedback.quality == quality;
   });
 }
