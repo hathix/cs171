@@ -6,7 +6,6 @@ console.log(deliveryData);
 // Global variable with 200 customer feedbacks
 console.log(feedbackData.length);
 
-
 createVisualization();
 
 function createVisualization() {
