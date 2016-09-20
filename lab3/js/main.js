@@ -71,6 +71,9 @@ d3.csv("data/cities.csv", function(data) {
 
     // 3.3 only look at eu cities
     var euCities = data.filter(function(city) {
-        return city.eu === true;
+        return city.eu === "true";
     });
+
+    // 3.4 write the number of EU cities
+    d3.select("body").append("p").text("Number of EU cities: " + euCities.length);
 });
