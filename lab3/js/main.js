@@ -113,5 +113,28 @@ d3.csv("data/cities.csv", function(data) {
       return d.population > largePopulation ? largeRadius : smallRadius;
     })
     .attr('fill', 'red');
-  // .attr('stroke', 'black');
+
+  // 3.8 draw labels
+  /* Use the SVG text element
+All the elements should have the same class: city-label
+The labels should be only visible for cities with a population equal or higher than 1.000.000. You can use the SVG property opacity to solve this task.
+*/
+    var yOffset = 12;
+  svg.selectAll('text')
+    .data(euCities)
+    .enter()
+    .append('text')
+    .attr('x', function(d, i) {
+      return d.x;
+    })
+    .attr('y', function(d, i) {
+      return d.y - yOffset;
+    })
+    .attr('opacity', function(d) {
+        // only show labels for large cities
+        return d.population > largePopulation ? 1 : 0;
+    })
+    .text(function(d) {
+      return d.city;
+    });
 });
