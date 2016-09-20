@@ -112,7 +112,11 @@ d3.csv("data/cities.csv", function(data) {
     .attr('r', function(d) {
       return d.population > largePopulation ? largeRadius : smallRadius;
     })
-    .attr('fill', 'red');
+    .attr('fill', 'red')
+    .on('click', function(d, i) {
+        // write city population to console when clicked
+        console.log(d.city, d.population);
+    });
 
   // 3.8 draw labels
   /* Use the SVG text element
