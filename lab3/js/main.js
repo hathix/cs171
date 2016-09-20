@@ -119,11 +119,12 @@ d3.csv("data/cities.csv", function(data) {
 All the elements should have the same class: city-label
 The labels should be only visible for cities with a population equal or higher than 1.000.000. You can use the SVG property opacity to solve this task.
 */
-    var yOffset = 12;
+  var yOffset = 12;
   svg.selectAll('text')
     .data(euCities)
     .enter()
     .append('text')
+    .attr('class', 'city-label')
     .attr('x', function(d, i) {
       return d.x;
     })
@@ -131,8 +132,8 @@ The labels should be only visible for cities with a population equal or higher t
       return d.y - yOffset;
     })
     .attr('opacity', function(d) {
-        // only show labels for large cities
-        return d.population > largePopulation ? 1 : 0;
+      // only show labels for large cities
+      return d.population > largePopulation ? 1 : 0;
     })
     .text(function(d) {
       return d.city;
