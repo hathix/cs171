@@ -6,11 +6,11 @@
 /****************/
 
 .bar {
-  fill: steelblue;
+  fill: cadetblue;
 }
 
 .bar:hover {
-  fill: brown;
+  fill: darkorchid;
 }
 
 .axis {
