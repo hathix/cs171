@@ -63,3 +63,14 @@ svg.selectAll("circle")
     return d.price < cheapPrice ? "green" : "red";
   })
   .attr('stroke', 'black');
+
+
+// 3.2 city data
+d3.csv("data/cities.csv", function(data) {
+    console.log("city data", data);
+
+    // 3.3 only look at eu cities
+    var euCities = data.filter(function(city) {
+        return city.eu === true;
+    });
+});
