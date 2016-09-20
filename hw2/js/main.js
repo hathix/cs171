@@ -34,12 +34,18 @@ function createVisualization() {
 
   // 5. filter feedbacks: only include those whose corresponding deliveries
   // are in the filtered data
+  var filteredDeliveryIds = filteredData.map(function(delivery) {
+      return delivery.delivery_id;
+  });
+  var filteredFeedbacks = feedbackData.filter(function(feedback) {
+      return filteredDeliveryIds.indexOf(feedback.delivery_id) != -1;
+  });
 
   // 3. draw bar chart
   renderBarChart(filteredData);
 
   // 5. show dataset summary
-  showDatasetSummary(filteredData, feedbackData);
+  showDatasetSummary(filteredData, filteredFeedbacks);
 }
 
 /**
