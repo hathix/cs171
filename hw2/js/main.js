@@ -68,9 +68,9 @@ function showDatasetSummary(data) {
 
   // 2. show summary stats
   $('#number-deliveries').html(numberDeliveries);
-  $('#total-pizzas-delivered').html(numberPizzasDelivered);
-  $('#average-delivery-time').html(averageDeliveryTime);
-  $('#total-sales').html(totalSales);
+  $('#total-pizzas-delivered').html(numberPizzasDelivered.toFixed(2));
+  $('#average-delivery-time').html(averageDeliveryTime.toFixed(2));
+  $('#total-sales').html(totalSales.toFixed(2));
 
   $('#total-feedbacks').html(numFeedbacks);
   $('#number-high-feedbacks').html(numFeedbacksByCategory.high);
