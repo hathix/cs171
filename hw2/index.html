@@ -17,8 +17,32 @@
   <!-- ********************** ADD YOUR HTML-ELEMENTS HERE *********************** -->
 
   <div class="container-fluid">
-    <div class="row">
 
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Area</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="area-select" onchange="selectFilter()">
+            <option value="all">All</option>
+            <option value="Boston">Boston</option>
+            <option value="Cambridge">Cambridge</option>
+            <option value="Somerville">Somerville</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Order Type</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="order-type-select" onchange="selectFilter()">
+            <option value="all">All</option>
+            <option value="web">Web</option>
+            <option value="phone">Phone</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
       <div class="col-xs-12 col-md-6">
         <h2>Dataset Summary</h2>
 
@@ -64,35 +88,7 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <h2>Bar Chart</h2>
-
-
-
-        <form class="form-horizontal">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Area</label>
-            <div class="col-sm-10">
-              <select class="form-control" id="area-select" onchange="selectFilter()">
-              <option value="all">All</option>
-              <option value="Boston">Boston</option>
-              <option value="Cambridge">Cambridge</option>
-              <option value="Somerville">Somerville</option>
-            </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Order Type</label>
-            <div class="col-sm-10">
-              <select class="form-control" id="order-type-select" onchange="selectFilter()">
-              <option value="all">All</option>
-              <option value="web">Web</option>
-              <option value="phone">Phone</option>
-            </select>
-            </div>
-          </div>
-        </form>
-
         <div id="chart-area"></div>
-
       </div>
     </div>
   </div>
