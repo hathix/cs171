@@ -37,15 +37,17 @@ var sandwiches = [{
 }];
 
 /*
-[ ] Set the x/y coordinates and make sure that the circles don't overlap each other
-[ ] Radius: large sandwiches should be twice as big as small ones
-[ ] Colors: use two different circle colors. One color ( fill ) for cheap products < 7.00 USD and one for more expensive products
+[x] Set the x/y coordinates and make sure that the circles don't overlap each other
+[x] Radius: large sandwiches should be twice as big as small ones
+[x] Colors: use two different circle colors. One color ( fill ) for cheap products < 7.00 USD and one for more expensive products
 [ ] Add a border to every circle (SVG property: stroke )
  */
 // 2.2-2.3 circles to visualize
 var largeRadius = 30;
 var smallRadius = 20;
 var padding = 8;
+var cheapPrice = 7;
+
 svg.selectAll("circle")
   .data(sandwiches)
   .enter()
@@ -55,5 +57,9 @@ svg.selectAll("circle")
   })
   .attr('cy', largeRadius)
   .attr('r', function(d) {
-      return d.size == "large" ? largeRadius : smallRadius;
-  });
+    return d.size == "large" ? largeRadius : smallRadius;
+  })
+  .attr('fill', function(d) {
+    return d.price < cheapPrice ? "green" : "red";
+  })
+  .attr('stroke', 'black');
