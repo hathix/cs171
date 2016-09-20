@@ -7,8 +7,6 @@ console.log(deliveryData);
 console.log(feedbackData.length);
 
 
-// FILTER DATA, THEN DISPLAY SUMMARY OF DATA & BAR CHART
-showDatasetSummary();
 createVisualization();
 
 function createVisualization() {
@@ -29,7 +27,7 @@ function createVisualization() {
   var area = getSelectBoxValue("area-select");
   var orderType = getSelectBoxValue("order-type-select");
   console.log(area, orderType);
-  // now filter
+  // 4b. now filter
   var filteredData = deliveryData.filter(function(delivery) {
     return (area == "all" || area == delivery.area) &&
       (orderType == "all" || orderType == delivery.order_type);
@@ -37,23 +35,27 @@ function createVisualization() {
 
   // 3. draw bar chart
   renderBarChart(filteredData);
+
+  // 5. show dataset summary
+  // FILTER DATA, THEN DISPLAY SUMMARY OF DATA & BAR CHART
+  showDatasetSummary(filteredData);
 }
 
 /**
- * Renders a summary of the dataset.
+ * Renders a summary of the given dataset.
  */
-function showDatasetSummary() {
+function showDatasetSummary(data) {
   // 2. gather dataset summary
   // deliveries
-  var numberDeliveries = deliveryData.length;
-  var numberPizzasDelivered = deliveryData.reduce(function(counter, delivery) {
+  var numberDeliveries = data.length;
+  var numberPizzasDelivered = data.reduce(function(counter, delivery) {
     return counter + delivery.count;
   }, 0);
-  var totalDeliveryTime = deliveryData.reduce(function(counter, delivery) {
+  var totalDeliveryTime = data.reduce(function(counter, delivery) {
     return counter + delivery.delivery_time;
   }, 0);
   var averageDeliveryTime = totalDeliveryTime / numberDeliveries;
-  var totalSales = deliveryData.reduce(function(counter, delivery) {
+  var totalSales = data.reduce(function(counter, delivery) {
     return counter + delivery.price;
   }, 0);
 
