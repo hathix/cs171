@@ -67,13 +67,51 @@ svg.selectAll("circle")
 
 // 3.2 city data
 d3.csv("data/cities.csv", function(data) {
-    console.log("city data", data);
+  console.log("city data", data);
 
-    // 3.3 only look at eu cities
-    var euCities = data.filter(function(city) {
-        return city.eu === "true";
-    });
+  // 3.3 only look at eu cities
+  var euCities = data.filter(function(city) {
+    return city.eu === "true";
+  });
 
-    // 3.4 write the number of EU cities
-    d3.select("body").append("p").text("Number of EU cities: " + euCities.length);
+  // 3.4 write the number of EU cities
+  d3.select("body")
+    .append("p")
+    .text("Number of EU cities: " + euCities.length);
+
+  // 3.5 clean data - convert strings to numbers, if
+  euCities.forEach(function(city) {
+    city.population = parseInt(city.population);
+    city.x = parseInt(city.x);
+    city.y = parseInt(city.y);
+  });
+
+  // 3.6 draw svg circles for each city
+  /*
+  All the elements (drawing area + circles) should be added dynamically with D3 SVG container: width = 700px, height = 550px
+  Use the x/y coordinates from the dataset to position the circles
+   */
+  var largeRadius = 8;
+  var smallRadius = 4;
+  var largePopulation = 1000000;
+
+  var svg = d3.select("body")
+    .append("svg");
+  svg.attr('width', 700)
+    .attr('height', 550)
+    .selectAll("circle")
+    .data(euCities)
+    .enter()
+    .append("circle")
+    .attr('cx', function(d, i) {
+      return d.x;
+    })
+    .attr('cy', function(d, i) {
+      return d.y;
+    })
+    .attr('r', function(d) {
+      return d.population > largePopulation ? largeRadius : smallRadius;
+    })
+    .attr('fill', 'red');
+  // .attr('stroke', 'black');
 });
