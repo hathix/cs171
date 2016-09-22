@@ -27,7 +27,7 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
   // load data
   var barSize = 30;
   var padding = 6;
-  var barRightShift = 60;
+  var barRightShift = 210;
   svg.selectAll("rect")
     .data(data)
     .enter()
@@ -60,4 +60,20 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .text(function(d) {
       return d.height_ft
     });
+
+    // add building name labels
+    svg.selectAll("text.label-name")
+      .data(data)
+      .enter()
+      .append("text")
+      .attr('class', 'label-name')
+      .attr('x', function(d) {
+        return barRightShift;
+      })
+      .attr('y', function(d, i) {
+        return (barSize + padding) * i + barSize / 2;
+      })
+      .text(function(d) {
+        return d.building;
+      });
 });

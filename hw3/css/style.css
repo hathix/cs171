@@ -2,3 +2,7 @@
     text-anchor: end;
     fill: white;
 }
+
+.label-name {
+    text-anchor: end;
+}
