@@ -10,7 +10,8 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     building.height_ft = parseInt(building.height_ft);
     building.height_m = parseInt(building.height_m);
     building.height_px = parseInt(building.height_px);
-  })
+    building.floors = parseInt(building.floors);
+});
 
   // sort buildings in decreasing height
   data.sort(function(a, b) {
@@ -45,7 +46,7 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     })
     .attr('class', 'building-bar')
     .on('click', function(d, i){
-        updateBuildingData(d);
+        updateBuildingPreview(d);
     });
 
   // add height label
@@ -80,6 +81,17 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
       return d.building;
     })
     .on('click', function(d, i){
-        updateBuildingData(d);
+        updateBuildingPreview(d);
     });
+
+
 });
+
+function updateBuildingPreview(data) {
+    $('#building-name').html(data.building);
+    $('#building-height').html(data.height_ft);
+    $('#building-floors').html(data.floors);
+    $('#building-location').html(data.city + ", " + data.country);
+    $('#building-completed').html(data.completed);
+    $('#building-image').attr('src', "data/img/" + data.image);
+}
