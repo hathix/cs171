@@ -5,13 +5,6 @@ The bars should be left-aligned
 Similar to Lab 3, the different heights are given in pixels, so you don't have to use dynamic scales (data column: height_px )
 */
   console.log(data);
-
-  // 4. create visualization
-  var svg = d3.select("#chart-holder")
-    .append("svg")
-    .attr('width', 500)
-    .attr('height', 500);
-
   // clean data: parse ints
   data.forEach(function(building) {
     building.height_ft = parseInt(building.height_ft);
@@ -23,6 +16,14 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
   data.sort(function(a, b) {
     return b.height_ft - a.height_ft;
   });
+
+
+  // 4. create visualization
+  var svg = d3.select("#chart-holder")
+    .append("svg")
+    .attr('width', 500)
+    .attr('height', 500);
+
 
   // load data
   var barSize = 30;
@@ -42,8 +43,10 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .attr('height', function(d) {
       return barSize;
     })
-    .attr('class', 'building-bar') // TODO add color to class in CSS
-    .attr('fill', 'blue');
+    .attr('class', 'building-bar')
+    .on('click', function(d, i){
+        updateBuildingData(d);
+    });
 
   // add height label
   svg.selectAll("text.label-height")
@@ -61,19 +64,22 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
       return d.height_ft
     });
 
-    // add building name labels
-    svg.selectAll("text.label-name")
-      .data(data)
-      .enter()
-      .append("text")
-      .attr('class', 'label-name')
-      .attr('x', function(d) {
-        return barRightShift;
-      })
-      .attr('y', function(d, i) {
-        return (barSize + padding) * i + barSize / 2;
-      })
-      .text(function(d) {
-        return d.building;
-      });
+  // add building name labels
+  svg.selectAll("text.label-name")
+    .data(data)
+    .enter()
+    .append("text")
+    .attr('class', 'label-name')
+    .attr('x', function(d) {
+      return barRightShift;
+    })
+    .attr('y', function(d, i) {
+      return (barSize + padding) * i + barSize / 2;
+    })
+    .text(function(d) {
+      return d.building;
+    })
+    .on('click', function(d, i){
+        updateBuildingData(d);
+    });
 });

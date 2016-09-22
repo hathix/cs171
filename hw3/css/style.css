@@ -6,3 +6,8 @@
 .label-name {
     text-anchor: end;
 }
+
+.building-bar {
+    fill: steelblue;
+    cursor: pointer;
+}
