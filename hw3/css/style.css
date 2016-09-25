@@ -9,6 +9,10 @@
     cursor: pointer;
 }
 
+.label-height, .label-name {
+    font-size: 15px;
+}
+
 .building-bar {
     fill: steelblue;
     cursor: pointer;
@@ -21,4 +25,9 @@
 
 #container {
     padding: 10px;
+}
+
+#infobox {
+    /* default to hidden */
+    display: none;
 }

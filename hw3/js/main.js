@@ -27,9 +27,9 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
 
 
   // load data
-  var barSize = 30;
+  var barSize = 40;
   var padding = 6;
-  var barRightShift = 210;
+  var barRightShift = 225;
   svg.selectAll("rect")
     .data(data)
     .enter()
@@ -91,6 +91,9 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
 });
 
 function updateBuildingPreview(data) {
+
+    // make infobox visible
+    $('#infobox').css('display', 'block');
 
   // Bonus: Wikipedia link
   // e.g. https://en.wikipedia.org/wiki/Issaquah,_Washington

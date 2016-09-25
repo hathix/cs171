@@ -4,56 +4,70 @@
 <head>
   <meta charset="UTF-8">
   <title>CS 171 HW 3</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.sandstone.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
   <div class="container-fluid" id="container">
+
+    <h1>The World's Tallest Buildings</h1>
+
     <div class="row">
-      <div class="col-xs-6" id="chart-holder">
+      <div class="col-xs-6">
+        <div id="chart-holder" class="well"></div>
+
+        <span class="text-muted">
+              All building heights in feet
+          </span>
       </div>
       <div class="col-xs-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h2 id="building-name"></h2>
-          </div>
-          <div class="panel-body">
 
+        <div id="infobox">
+
+          <h2 id="building-name"></h2>
+
+
+
+          <div class="row">
+
+            <div class="col-xs-12 col-md-6">
               <img id="building-image" class="img-responsive">
+            </div>
 
-            <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <td>Height (ft)</td>
-                  <td id="building-height"></td>
-                </tr>
-                <tr>
-                  <td>Location</td>
-                  <td id="building-location"></td>
-                </tr>
-                <tr>
-                  <td>Floors</td>
-                  <td id="building-floors"></td>
-                </tr>
-                <tr>
-                  <td>Completed</td>
-                  <td id="building-completed"></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="col-xs-12 col-md-6">
 
-            <a id="building-wikipedia-url" target="_blank">Wikipedia</a>
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Height (ft)</td>
+                    <td id="building-height"></td>
+                  </tr>
+                  <tr>
+                    <td>Location</td>
+                    <td id="building-location"></td>
+                  </tr>
+                  <tr>
+                    <td>Floors</td>
+                    <td id="building-floors"></td>
+                  </tr>
+                  <tr>
+                    <td>Completed</td>
+                    <td id="building-completed"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <a id="building-wikipedia-url" target="_blank">Wikipedia</a>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <script src="js/d3.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+        <script src="js/d3.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
 </body>
 
 </html>
