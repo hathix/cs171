@@ -11,7 +11,7 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     building.height_m = parseInt(building.height_m);
     building.height_px = parseInt(building.height_px);
     building.floors = parseInt(building.floors);
-});
+  });
 
   // sort buildings in decreasing height
   data.sort(function(a, b) {
@@ -45,8 +45,8 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
       return barSize;
     })
     .attr('class', 'building-bar')
-    .on('click', function(d, i){
-        updateBuildingPreview(d);
+    .on('click', function(d, i) {
+      updateBuildingPreview(d);
     });
 
   // add height label
@@ -80,18 +80,33 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .text(function(d) {
       return d.building;
     })
-    .on('click', function(d, i){
-        updateBuildingPreview(d);
+    .on('click', function(d, i) {
+      updateBuildingPreview(d);
     });
 
 
 });
 
 function updateBuildingPreview(data) {
-    $('#building-name').html(data.building);
-    $('#building-height').html(data.height_ft);
-    $('#building-floors').html(data.floors);
-    $('#building-location').html(data.city + ", " + data.country);
-    $('#building-completed').html(data.completed);
-    $('#building-image').attr('src', "data/img/" + data.image);
+
+    // Bonus: Wikipedia link
+    // e.g. https://en.wikipedia.org/wiki/Issaquah,_Washington
+    // replace spaces with underscores
+    var slug = data.building.replace(/ /g, '_');
+    // build url
+    var wikipediaURL = "https://en.wikipedia.org/wiki/" + slug;
+
+  $('#building-name')
+    .html(data.building);
+  $('#building-height')
+    .html(data.height_ft);
+  $('#building-floors')
+    .html(data.floors);
+  $('#building-location')
+    .html(data.city + ", " + data.country);
+  $('#building-completed')
+    .html(data.completed);
+  $('#building-image')
+    .attr('src', "data/img/" + data.image);
+    $('#building-wikipedia-url').attr('href', wikipediaURL);
 }
