@@ -1,33 +1,33 @@
 .label-height {
-    text-anchor: end;
-    fill: white;
-    alignment-baseline: central;
+  text-anchor: end;
+  fill: white;
+  alignment-baseline: central;
 }
 
 .label-name {
-    text-anchor: end;
-    cursor: pointer;
+  text-anchor: end;
+  cursor: pointer;
 }
 
 .label-height, .label-name {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 .building-bar {
-    fill: steelblue;
-    cursor: pointer;
+  fill: steelblue;
+  cursor: pointer;
 }
 
 #building-image {
-    text-align: center;
-    margin: auto;
+  text-align: center;
+  margin: auto;
 }
 
 #container {
-    padding: 10px;
+  padding: 10px;
 }
 
 #infobox {
-    /* default to hidden */
-    display: none;
+  /* default to hidden */
+  display: none;
 }

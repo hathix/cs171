@@ -92,8 +92,9 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
 
 function updateBuildingPreview(data) {
 
-    // make infobox visible
-    $('#infobox').css('display', 'block');
+  // make infobox visible
+  $('#infobox')
+    .css('display', 'block');
 
   // Bonus: Wikipedia link
   // e.g. https://en.wikipedia.org/wiki/Issaquah,_Washington
