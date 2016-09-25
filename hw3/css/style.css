@@ -1,6 +1,7 @@
 .label-height {
     text-anchor: end;
     fill: white;
+    alignment-baseline: central;
 }
 
 .label-name {
@@ -11,4 +12,13 @@
 .building-bar {
     fill: steelblue;
     cursor: pointer;
+}
+
+#building-image {
+    text-align: center;
+    margin: auto;
+}
+
+#container {
+    padding: 10px;
 }

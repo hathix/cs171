@@ -50,17 +50,22 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     });
 
   // add height label
+  var textLeftPadding = 6;
+  var textRightPadding = 6;
+  var textTopPadding = 4.5;
+  var calculateYLocation = function(d, i) {
+    return (barSize + padding) * i + barSize / 2 + textTopPadding;
+  };
+
   svg.selectAll("text.label-height")
     .data(data)
     .enter()
     .append("text")
     .attr('class', 'label-height')
     .attr('x', function(d) {
-      return barRightShift + d.height_px;
+      return barRightShift + d.height_px - textLeftPadding;
     })
-    .attr('y', function(d, i) {
-      return (barSize + padding) * i + barSize / 2;
-    })
+    .attr('y', calculateYLocation)
     .text(function(d) {
       return d.height_ft
     });
@@ -72,11 +77,9 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .append("text")
     .attr('class', 'label-name')
     .attr('x', function(d) {
-      return barRightShift;
+      return barRightShift - textRightPadding;
     })
-    .attr('y', function(d, i) {
-      return (barSize + padding) * i + barSize / 2;
-    })
+    .attr('y', calculateYLocation)
     .text(function(d) {
       return d.building;
     })
@@ -89,12 +92,12 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
 
 function updateBuildingPreview(data) {
 
-    // Bonus: Wikipedia link
-    // e.g. https://en.wikipedia.org/wiki/Issaquah,_Washington
-    // replace spaces with underscores
-    var slug = data.building.replace(/ /g, '_');
-    // build url
-    var wikipediaURL = "https://en.wikipedia.org/wiki/" + slug;
+  // Bonus: Wikipedia link
+  // e.g. https://en.wikipedia.org/wiki/Issaquah,_Washington
+  // replace spaces with underscores
+  var slug = data.building.replace(/ /g, '_');
+  // build url
+  var wikipediaURL = "https://en.wikipedia.org/wiki/" + slug;
 
   $('#building-name')
     .html(data.building);
@@ -108,5 +111,6 @@ function updateBuildingPreview(data) {
     .html(data.completed);
   $('#building-image')
     .attr('src', "data/img/" + data.image);
-    $('#building-wikipedia-url').attr('href', wikipediaURL);
+  $('#building-wikipedia-url')
+    .attr('href', wikipediaURL);
 }
