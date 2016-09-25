@@ -5,6 +5,7 @@
 
 .label-name {
     text-anchor: end;
+    cursor: pointer;
 }
 
 .building-bar {
