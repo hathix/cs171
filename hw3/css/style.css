@@ -10,12 +10,16 @@
 }
 
 .label-height, .label-name {
-  font-size: 15px;
+  font-size: 15px
 }
 
 .building-bar {
   fill: steelblue;
   cursor: pointer;
+}
+
+.building-bar:hover {
+    fill: seagreen;
 }
 
 #building-image {

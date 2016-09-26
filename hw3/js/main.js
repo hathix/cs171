@@ -1,7 +1,8 @@
+// load building data
 d3.csv("data/buildings.csv", function(data) {
   console.log(data);
 
-  // clean data: parse ints
+  // clean data: parse numbers from strings to integers
   data.forEach(function(building) {
     building.height_ft = parseInt(building.height_ft);
     building.height_m = parseInt(building.height_m);
@@ -9,28 +10,30 @@ d3.csv("data/buildings.csv", function(data) {
     building.floors = parseInt(building.floors);
   });
 
-  // sort buildings in decreasing height
+  // sort buildings by decreasing height
   data.sort(function(a, b) {
     return b.height_ft - a.height_ft;
   });
 
-  // 4. create visualization
+  // 4. create visualization chart area
   var svg = d3.select("#chart-holder")
     .append("svg")
     .attr('width', 500)
     .attr('height', 500);
 
   // load data into graph
+  // useful constants
   var barSize = 40;
-  var padding = 6;
+  var barPadding = 6;
   var barRightShift = 225;
+  // draw bars
   svg.selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
     .attr('x', barRightShift)
     .attr('y', function(d, i) {
-      return (barSize + padding) * i;
+      return (barSize + barPadding) * i;
     })
     .attr('width', function(d) {
       return d.height_px;
@@ -48,7 +51,7 @@ d3.csv("data/buildings.csv", function(data) {
   // a function to calculate the y-location of a text label. Designed to be
   // used as a click handler.
   var calculateYLocation = function(d, i) {
-    return (barSize + padding) * i + barSize / 2 + textTopPadding;
+    return (barSize + barPadding) * i + barSize / 2 + textTopPadding;
   };
 
   // add height labels
@@ -99,6 +102,7 @@ function updateBuildingPreview(data) {
   // build url
   var wikipediaURL = "https://en.wikipedia.org/wiki/" + slug;
 
+  // fill in all the info we have
   $('#building-name')
     .html(data.building);
   $('#building-height')
