@@ -1,4 +1,17 @@
+.city-dot {
+  fill: skyblue;
+  cursor: pointer;
+}
+
+.city-dot:hover {
+  fill: tomato;
+}
+
 .city-label {
   font-size: 11px;
   text-anchor: middle;
+}
+
+body {
+  padding: 20px;
 }

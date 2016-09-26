@@ -60,7 +60,7 @@ svg.selectAll("circle")
     return d.size == "large" ? largeRadius : smallRadius;
   })
   .attr('fill', function(d) {
-    return d.price < cheapPrice ? "green" : "red";
+    return d.price < cheapPrice ? "limegreen" : "tomato";
   })
   .attr('stroke', 'black');
 
@@ -112,7 +112,7 @@ d3.csv("data/cities.csv", function(data) {
     .attr('r', function(d) {
       return d.population > largePopulation ? largeRadius : smallRadius;
     })
-    .attr('fill', 'red')
+    .attr('class', 'city-dot')
     .on('click', function(d, i) {
         // write city population to console when clicked
         console.log(d.city, d.population);
