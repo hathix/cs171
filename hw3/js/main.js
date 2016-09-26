@@ -1,10 +1,6 @@
 d3.csv("data/buildings.csv", function(data) {
-  /* Create a drawing area with at least 500 x 500px
-Bind the loaded data to SVG rectangles (and place them correctly)
-The bars should be left-aligned
-Similar to Lab 3, the different heights are given in pixels, so you don't have to use dynamic scales (data column: height_px )
-*/
   console.log(data);
+
   // clean data: parse ints
   data.forEach(function(building) {
     building.height_ft = parseInt(building.height_ft);
@@ -18,15 +14,13 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     return b.height_ft - a.height_ft;
   });
 
-
   // 4. create visualization
   var svg = d3.select("#chart-holder")
     .append("svg")
     .attr('width', 500)
     .attr('height', 500);
 
-
-  // load data
+  // load data into graph
   var barSize = 40;
   var padding = 6;
   var barRightShift = 225;
@@ -41,22 +35,23 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .attr('width', function(d) {
       return d.height_px;
     })
-    .attr('height', function(d) {
-      return barSize;
-    })
+    .attr('height', barSize)
     .attr('class', 'building-bar')
     .on('click', function(d, i) {
       updateBuildingPreview(d);
     });
 
-  // add height label
+  // add labels
   var textLeftPadding = 6;
   var textRightPadding = 6;
   var textTopPadding = 4.5;
+  // a function to calculate the y-location of a text label. Designed to be
+  // used as a click handler.
   var calculateYLocation = function(d, i) {
     return (barSize + padding) * i + barSize / 2 + textTopPadding;
   };
 
+  // add height labels
   svg.selectAll("text.label-height")
     .data(data)
     .enter()
@@ -86,12 +81,13 @@ Similar to Lab 3, the different heights are given in pixels, so you don't have t
     .on('click', function(d, i) {
       updateBuildingPreview(d);
     });
-
-
 });
 
+/**
+ * Displays the given building's height, location, etc.
+ * in the infobox on the side of the graph.
+ */
 function updateBuildingPreview(data) {
-
   // make infobox visible
   $('#infobox')
     .css('display', 'block');
