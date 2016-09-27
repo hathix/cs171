@@ -84,16 +84,21 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var xAxis = d3.svg.axis()
     .scale(incomeScale)
     .orient('bottom');
-  // y: life expectancy
-  var yAxis = d3.svg.axis()
-    .scale(lifeExpectancyScale)
-    .orient('left');
-
   svg.append('g')
     .attr('class', 'axis')
     .attr("transform", "translate(" + (margin.left) + "," + (height +
       margin.top) + ")")
     .call(xAxis);
+    // .append('text')
+    // .attr('axis-label')
+    // .text('income')
+    // .attr('x', 50)
+    // .attr('y', 0);
+
+  // y: life expectancy
+  var yAxis = d3.svg.axis()
+    .scale(lifeExpectancyScale)
+    .orient('left');
   svg.append('g')
     .attr('class', 'axis')
     .attr("transform", "translate(" + (margin.left) + "," + (margin.top) +
