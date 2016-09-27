@@ -23,6 +23,10 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .attr('width', width)
     .attr('height', height);
 
+    // SCATTER PLOT FOR INCOME AND LIFE EXPECTANCY
+    var circleRadius = 8;
+    var padding = circleRadius * 2;
+
   // linear scales for income and life expectancy
   // income: x axis
   var incomeMax = d3.max(data, function(d) {
@@ -30,14 +34,14 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   });
   var incomeScale = d3.scale.linear()
     .domain([0, incomeMax])
-    .range([0, width]);
+    .range([padding , width - padding]);
   // life expectancy: y axis
   var lifeExpectancyMax = d3.max(data, function(d) {
     return d.LifeExpectancy
   });
   var lifeExpectancyScale = d3.scale.linear()
     .domain([0, lifeExpectancyMax])
-    .range([0, height]);
+    .range([padding, height - padding]);
 
   // draw svg circles from data points
   svg.selectAll('circle')
@@ -50,7 +54,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .attr('cy', function(d) {
       return lifeExpectancyScale(d.LifeExpectancy);
     })
-    .attr('r', 8)
+    .attr('r', circleRadius)
     .attr('class', 'country-circle');
 
 });
