@@ -25,6 +25,11 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
 
   console.log(data);
 
+  // sort data by increasing population (so smaller countries drawn first)
+  data.sort(function(a, b) {
+    return a.Population - b.Population;
+  });
+
   // create new svg area
   var svg = d3.select('#chart-area')
     .append('svg')
@@ -66,6 +71,12 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .domain([0, populationMax])
     .range([4, 30]);
 
+  // color circles by region
+  var colorPalette = d3.scale.category10()
+    .domain(data.map(function(d) {
+      return d.Region;
+    }));
+
   // draw svg circles from data points
   var circleGroup = svg.append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -81,7 +92,10 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
       return lifeExpectancyScale(d.LifeExpectancy);
     })
     .attr('r', function(d) {
-        return populationScale(d.Population);
+      return populationScale(d.Population);
+    })
+    .attr('fill', function(d) {
+        return colorPalette(d.Region);
     })
     .attr('class', 'country-circle');
 
