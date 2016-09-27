@@ -50,8 +50,12 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var lifeExpectancyMin = d3.min(data, function(d) {
     return d.LifeExpectancy
   });
+  // add a buffer to prevent elements from hitting the x axis
+  var lifeExpectancyBuffer = 5;
   var lifeExpectancyScale = d3.scale.linear()
-    .domain([lifeExpectancyMin, lifeExpectancyMax])
+    .domain([
+        lifeExpectancyMin - lifeExpectancyBuffer,
+        lifeExpectancyMax + lifeExpectancyBuffer])
     .range([height, 0]);
 
 
