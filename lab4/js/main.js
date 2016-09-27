@@ -32,8 +32,6 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .attr('height', height + margin.top + margin.bottom);
 
   // SCATTER PLOT FOR INCOME AND LIFE EXPECTANCY
-  var circleRadius = 8;
-  // var dotPadding = 35;
 
   // linear scales for income and life expectancy
   // income: x axis
@@ -60,6 +58,14 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .range([height, 0]);
 
 
+  // make linear population-dependent radius scale
+  var populationMax = d3.max(data, function(d) {
+    return d.Population
+  });
+  var populationScale = d3.scale.linear()
+    .domain([0, populationMax])
+    .range([4, 30]);
+
   // draw svg circles from data points
   var circleGroup = svg.append('g')
     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -74,7 +80,9 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
       // "coding" y starts from the top, but "graph" y starts from the bottom
       return lifeExpectancyScale(d.LifeExpectancy);
     })
-    .attr('r', circleRadius)
+    .attr('r', function(d) {
+        return populationScale(d.Population);
+    })
     .attr('class', 'country-circle');
 
 
@@ -108,7 +116,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .call(yAxis);
 
   // add a label left of the axis, rotated so it's parallel with the axis
-  var cx = margin.left * -2/3;
+  var cx = margin.left * -2 / 3;
   var cy = (margin.top + height) / 2;
   yGroup.append('text')
     .attr('class', 'axis-label')
