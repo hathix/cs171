@@ -23,9 +23,9 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .attr('width', width)
     .attr('height', height);
 
-    // SCATTER PLOT FOR INCOME AND LIFE EXPECTANCY
-    var circleRadius = 8;
-    var padding = circleRadius * 2;
+  // SCATTER PLOT FOR INCOME AND LIFE EXPECTANCY
+  var circleRadius = 8;
+  var padding = circleRadius * 2;
 
   // linear scales for income and life expectancy
   // income: x axis
@@ -34,7 +34,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   });
   var incomeScale = d3.scale.linear()
     .domain([0, incomeMax])
-    .range([padding , width - padding]);
+    .range([padding, width - padding]);
   // life expectancy: y axis
   var lifeExpectancyMax = d3.max(data, function(d) {
     return d.LifeExpectancy
@@ -56,5 +56,22 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     })
     .attr('r', circleRadius)
     .attr('class', 'country-circle');
+
+
+  // create axes
+  // x: income
+  var xAxis = d3.svg.axis()
+    .scale(incomeScale)
+    .orient('bottom');
+  // y: life expectancy
+  var yAxis = d3.svg.axis()
+    .scale(lifeExpectancyScale)
+    .orient('left');
+  svg.append('g')
+    .attr('class', 'axis')
+    .attr("transform", "translate(0," + (height - padding) + ")")
+    .call(xAxis);
+  // svg.append('g').call(yAxis);
+  // group.attr('transform', 'translate(' + padding + ',' + padding + ')')
 
 });
