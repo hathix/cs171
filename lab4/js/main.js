@@ -1,6 +1,14 @@
+// Mike Bostock's margin convention
+var margin = {
+    top: 20,
+    right: 10,
+    bottom: 20,
+    left: 10
+};
+
 // SVG Size
-var width = 700,
-  height = 500;
+var width = 700 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
 
 // Load CSV file
 d3.csv("data/wealth-health-2014.csv", function(data) {
@@ -20,12 +28,12 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   // create new svg area
   var svg = d3.select('#chart-area')
     .append('svg')
-    .attr('width', width)
-    .attr('height', height);
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom);
 
   // SCATTER PLOT FOR INCOME AND LIFE EXPECTANCY
   var circleRadius = 8;
-  var dotPadding = 35;
+  // var dotPadding = 35;
 
   // linear scales for income and life expectancy
   // income: x axis
@@ -34,7 +42,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   });
   var incomeScale = d3.scale.linear()
     .domain([0, incomeMax])
-    .range([dotPadding, width - dotPadding]);
+    .range([0, width]);
   // life expectancy: y axis
   var lifeExpectancyMax = d3.max(data, function(d) {
     return d.LifeExpectancy
@@ -44,11 +52,13 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   });
   var lifeExpectancyScale = d3.scale.linear()
     .domain([lifeExpectancyMin, lifeExpectancyMax])
-    .range([height - dotPadding, dotPadding]);
+    .range([height, 0]);
 
 
   // draw svg circles from data points
-  svg.selectAll('circle')
+  var circleGroup = svg.append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  circleGroup.selectAll('circle')
     .data(data)
     .enter()
     .append('circle')
@@ -64,7 +74,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
 
 
   // create axes
-  var axisPadding = 20;
+  // var axisPadding = 20;
   // x: income
   var xAxis = d3.svg.axis()
     .scale(incomeScale)
@@ -75,11 +85,11 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .orient('left');
   svg.append('g')
     .attr('class', 'axis')
-    .attr("transform", "translate(0," + (height - axisPadding) + ")")
+    .attr("transform", "translate(0," + (height + margin.top) + ")")
     .call(xAxis);
     svg.append('g')
       .attr('class', 'axis')
-      .attr("transform", "translate(" + axisPadding + ", 0)")
+      .attr("transform", "translate(" + (margin.left * 2) + ", 0)")
       .call(yAxis);
 
 
