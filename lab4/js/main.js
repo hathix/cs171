@@ -1,9 +1,9 @@
 // Mike Bostock's margin convention
 var margin = {
-    top: 20,
-    right: 10,
-    bottom: 20,
-    left: 10
+  top: 20,
+  right: 30,
+  bottom: 20,
+  left: 30
 };
 
 // SVG Size
@@ -57,7 +57,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
 
   // draw svg circles from data points
   var circleGroup = svg.append('g')
-  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
   circleGroup.selectAll('circle')
     .data(data)
     .enter()
@@ -66,7 +66,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
       return incomeScale(d.Income);
     })
     .attr('cy', function(d) {
-        // "coding" y starts from the top, but "graph" y starts from the bottom
+      // "coding" y starts from the top, but "graph" y starts from the bottom
       return lifeExpectancyScale(d.LifeExpectancy);
     })
     .attr('r', circleRadius)
@@ -83,14 +83,15 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var yAxis = d3.svg.axis()
     .scale(lifeExpectancyScale)
     .orient('left');
+
   svg.append('g')
     .attr('class', 'axis')
-    .attr("transform", "translate(0," + (height + margin.top) + ")")
+    .attr("transform", "translate(" + (margin.left) + "," + (height + margin.top) + ")")
     .call(xAxis);
-    svg.append('g')
-      .attr('class', 'axis')
-      .attr("transform", "translate(" + (margin.left * 2) + ", 0)")
-      .call(yAxis);
+  svg.append('g')
+    .attr('class', 'axis')
+    .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")")
+    .call(yAxis);
 
 
 });
