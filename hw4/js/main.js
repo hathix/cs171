@@ -22,6 +22,8 @@ d3.csv("data/refugee.csv", function(data) {
         d.date = timeFormat.parse(d.date);
     });
 
+    // data is sorted by date
+
     console.log(data);
 
     // create new svg area
@@ -29,4 +31,25 @@ d3.csv("data/refugee.csv", function(data) {
       .append('svg')
       .attr('width', outerWidth)
       .attr('height', outerHeight);
+
+
+    // create axis scales
+    // x axis: time scales
+    // data is sorted by date, so first and last are min and max respectively
+    var firstDate = data[0].date;
+    var lastDate = data[data.length - 1].date;
+    var timeScale = d3.scale.time()
+        .domain([firstDate, lastDate])
+        .range([0, width]);
+
+    // y axis: linear scale
+    var populationMax = d3.max(data, function(d) {
+        return d.Population;
+    });
+    var populationMin = d3.min(data, function(d) {
+        return d.Population;
+    });
+    var populationScale = d3.scale.linear()
+        .domain([populationMin, populationMax])
+        .range([0, innerHeight]);
 });
