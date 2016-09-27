@@ -31,7 +31,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var incomeScale = d3.scale.linear()
     .domain([0, incomeMax])
     .range([0, width]);
-// life expectancy: y axis
+  // life expectancy: y axis
   var lifeExpectancyMax = d3.max(data, function(d) {
     return d.LifeExpectancy
   });
@@ -39,11 +39,18 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
     .domain([0, lifeExpectancyMax])
     .range([0, height]);
 
-    // draw svg circles from data points
-    svg.select('circle').data(data).enter().append('circle').attr('x', function(d) {
-        return incomeScale(d.Income);
-    }).attr('y', function(d) {
-        return incomeScale(d.LifeExpectancy);
-    }).attr('r', 10).attr('fill', 'steelblue');
+  // draw svg circles from data points
+  svg.selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('cx', function(d) {
+      return incomeScale(d.Income);
+    })
+    .attr('cy', function(d) {
+      return lifeExpectancyScale(d.LifeExpectancy);
+    })
+    .attr('r', 8)
+    .attr('class', 'country-circle');
 
 });
