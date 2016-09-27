@@ -43,9 +43,15 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var incomeMax = d3.max(data, function(d) {
     return d.Income;
   });
-  var incomeScale = d3.scale.linear()
-    .domain([0, incomeMax])
+  var incomeMin = d3.min(data, function(d) {
+    return d.Income;
+  });
+  // add a buffer to prevent elements from hitting the y axis
+  var incomeBuffer = 100;
+  var incomeScale = d3.scale.log()
+    .domain([incomeMin - incomeBuffer, incomeMax + incomeBuffer])
     .range([0, width]);
+
   // life expectancy: y axis
   var lifeExpectancyMax = d3.max(data, function(d) {
     return d.LifeExpectancy
