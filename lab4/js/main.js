@@ -1,9 +1,9 @@
 // Mike Bostock's margin convention
 var margin = {
   top: 20,
-  right: 30,
-  bottom: 20,
-  left: 30
+  right: 20,
+  bottom: 60,
+  left: 60
 };
 
 // SVG Size
@@ -84,26 +84,38 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var xAxis = d3.svg.axis()
     .scale(incomeScale)
     .orient('bottom');
-  svg.append('g')
-    .attr('class', 'axis')
+  var xGroup = svg.append('g');
+  xGroup.attr('class', 'axis')
     .attr("transform", "translate(" + (margin.left) + "," + (height +
       margin.top) + ")")
     .call(xAxis);
-    // .append('text')
-    // .attr('axis-label')
-    // .text('income')
-    // .attr('x', 50)
-    // .attr('y', 0);
+
+  // add a centered label below the axis
+  xGroup.append('text')
+    .attr('class', 'axis-label')
+    .text('Income')
+    .attr('x', (margin.left + width) / 2)
+    .attr('y', margin.bottom * 2 / 3);
 
   // y: life expectancy
   var yAxis = d3.svg.axis()
     .scale(lifeExpectancyScale)
     .orient('left');
-  svg.append('g')
-    .attr('class', 'axis')
+  var yGroup = svg.append('g');
+  yGroup.attr('class', 'axis')
     .attr("transform", "translate(" + (margin.left) + "," + (margin.top) +
       ")")
     .call(yAxis);
+
+  // add a label left of the axis, rotated so it's parallel with the axis
+  var cx = margin.left * -2/3;
+  var cy = (margin.top + height) / 2;
+  yGroup.append('text')
+    .attr('class', 'axis-label')
+    .text('Life Expectancy')
+    .attr('x', cx)
+    .attr('y', cy)
+    .attr('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
 
 
 });

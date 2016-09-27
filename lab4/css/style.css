@@ -37,4 +37,5 @@
 .axis-label {
   fill: #888;
   font-size: 10px;
+  text-anchor: middle;
 }
