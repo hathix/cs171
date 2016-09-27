@@ -111,7 +111,8 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   // x: income
   var xAxis = d3.svg.axis()
     .scale(incomeScale)
-    .orient('bottom');
+    .orient('bottom')
+    .ticks(6, d3.format("d"));
   var xGroup = svg.append('g');
   xGroup.attr('class', 'axis')
     .attr("transform", "translate(" + (margin.left) + "," + (height +
