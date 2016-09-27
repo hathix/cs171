@@ -54,8 +54,9 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
   var lifeExpectancyBuffer = 5;
   var lifeExpectancyScale = d3.scale.linear()
     .domain([
-        lifeExpectancyMin - lifeExpectancyBuffer,
-        lifeExpectancyMax + lifeExpectancyBuffer])
+      lifeExpectancyMin - lifeExpectancyBuffer,
+      lifeExpectancyMax + lifeExpectancyBuffer
+    ])
     .range([height, 0]);
 
 
@@ -90,11 +91,13 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
 
   svg.append('g')
     .attr('class', 'axis')
-    .attr("transform", "translate(" + (margin.left) + "," + (height + margin.top) + ")")
+    .attr("transform", "translate(" + (margin.left) + "," + (height +
+      margin.top) + ")")
     .call(xAxis);
   svg.append('g')
     .attr('class', 'axis')
-    .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")")
+    .attr("transform", "translate(" + (margin.left) + "," + (margin.top) +
+      ")")
     .call(yAxis);
 
 
