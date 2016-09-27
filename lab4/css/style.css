@@ -1,13 +1,16 @@
-
-
 /**** ADD YOUR STYLES ****/
+
 .country-circle {
-    /*fill: steelblue;*/
-    stroke: black;
+  stroke: black;
 }
 
+
 /****************/
+
+
 /*   BAR-CHART  */
+
+
 /****************/
 
 .bar {
@@ -22,9 +25,7 @@
   font: 10px sans-serif;
 }
 
-.axis path,
-.axis line,
-.domain {
+.axis path, .axis line, .domain {
   fill: none;
   stroke: #888;
   shape-rendering: crispEdges;

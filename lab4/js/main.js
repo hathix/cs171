@@ -101,7 +101,7 @@ d3.csv("data/wealth-health-2014.csv", function(data) {
       return populationScale(d.Population);
     })
     .attr('fill', function(d) {
-        return colorPalette(d.Region);
+      return colorPalette(d.Region);
     })
     .attr('class', 'country-circle');
 
