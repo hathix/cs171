@@ -3,7 +3,7 @@ d3.csv("data/refugee.csv", function(data) {
 
   // Mike Bostock's margin convention
   var margin = {
-    top: 20,
+    top: 40,
     right: 20,
     bottom: 60,
     left: 80
@@ -122,7 +122,7 @@ d3.csv("data/refugee.csv", function(data) {
     .attr('class', 'chart-title')
     .text('Camp Population')
     .attr('x', (margin.left + innerWidth) / 2)
-    .attr('y', margin.top * 3 / 2);
+    .attr('y', margin.top * 1/2);
 
 
 
@@ -186,7 +186,7 @@ d3.csv("data/refugee.csv", function(data) {
     // this is the datum `d` we're showing info about
     var d = mouseDate - datumLeft.date > datumRight.date - mouseDate ?
       datumRight : datumLeft;
-    console.log(d);
+    // console.log(d);
     // focus.select("text.y1")
     //   .attr("transform",
     //     "translate(" + x(d.date) + "," +
