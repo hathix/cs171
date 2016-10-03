@@ -174,25 +174,38 @@ var percentScale = d3.scale.linear()
 
 // draw bars
 // useful constants
-var numBars = shelterData.length;
-var barPadding = innerWidth * 0.07;
-var barSize = (innerWidth - (barPadding * (numBars + 1))) / numBars;
+// var numBars = shelterData.length;
+var barPadding = 0.1;
+var barOuterPadding = 0.1;
+// var barSize = (innerWidth - (barPadding * (numBars + 1))) / numBars;
 
 var chartGroup = svg.append('g')
-    .attr('transform', 'translate(' + margin.left +  ',' + margin.top + ')');
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+
+var typeScale = d3.scale.ordinal()
+  .domain(shelterData.map(function(d) {
+    return d.type
+  }))
+  .rangeRoundBands(
+    [0, innerWidth],
+    barPadding,
+    barOuterPadding
+  );
+
+// draw bars
 chartGroup.selectAll("rect")
   .data(shelterData)
   .enter()
   .append("rect")
   .attr('x', function(d, i) {
-    return barSize * i + barPadding * (i + 1);
+    return typeScale(d.type)
   })
   .attr('y', function(d, i) {
     return percentScale(d.percent);
   })
   .attr('width', function(d) {
-    return barSize;
+    return typeScale.rangeBand()
   })
   .attr('height', function(d) {
     // build the bar up
@@ -200,22 +213,22 @@ chartGroup.selectAll("rect")
   })
   .attr('class', 'bar');
 
-// var xAxis = d3.svg.axis()
-//   .scale(timeScale)
-//   .orient('bottom');
-//
-// var xGroup = svg.append('g');
-// xGroup.attr('class', 'axis')
-//   .attr("transform", "translate(" + (margin.left) + "," + (innerHeight +
-//     margin.top) + ")")
-//   .call(xAxis);
-//
-// // add a centered label below the axis
-// xGroup.append('text')
-//   .attr('class', 'axis-label')
-//   .text('Date')
-//   .attr('x', (margin.left + innerWidth) / 2)
-  // .attr('y', margin.bottom * 2 / 3);
+var xAxis = d3.svg.axis()
+  .scale(typeScale)
+  .orient('bottom');
+
+var xGroup = svg.append('g');
+xGroup.attr('class', 'axis')
+  .attr("transform", "translate(" + (margin.left) + "," + (innerHeight +
+    margin.top) + ")")
+  .call(xAxis);
+
+// add a centered label below the axis
+xGroup.append('text')
+  .attr('class', 'axis-label')
+  .text('Type of Shelter')
+  .attr('x', (margin.left + innerWidth) / 2)
+  .attr('y', margin.bottom * 2 / 3);
 
 // y: life expectancy
 var yAxis = d3.svg.axis()
