@@ -2,6 +2,10 @@
     fill: cadetblue;
 }
 
+.bar-label {
+    text-anchor: middle;
+}
+
 /* BAR CHART */
 .axis {
   font: 10px sans-serif;

@@ -199,7 +199,7 @@ chartGroup.selectAll("rect")
   .enter()
   .append("rect")
   .attr('x', function(d, i) {
-    return typeScale(d.type)
+    return typeScale(d.type);
   })
   .attr('y', function(d, i) {
     return percentScale(d.percent);
@@ -212,6 +212,25 @@ chartGroup.selectAll("rect")
     return innerHeight - percentScale(d.percent);
   })
   .attr('class', 'bar');
+
+// draw labels
+var labelPadding = innerHeight * 0.03;
+chartGroup.selectAll(".bar-label")
+.data(shelterData)
+.enter()
+.append("text")
+.attr('x', function(d, i) {
+    // center over bar
+  return typeScale(d.type) + typeScale.rangeBand() / 2;
+})
+.attr('y', function(d, i) {
+    // move it a little up
+  return percentScale(d.percent) - labelPadding;
+})
+.text(function(d) {
+    return d3.format(".2%")(d.percent);
+})
+.attr('class', 'bar-label');
 
 var xAxis = d3.svg.axis()
   .scale(typeScale)
