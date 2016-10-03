@@ -128,13 +128,13 @@ d3.csv("data/refugee.csv", function(data) {
 // camp shelter data
 var shelterData = [{
   type: "Caravan",
-  percent: 79.68
+  percent: .7968
 }, {
   type: "Tent + Caravan",
-  percent: 10.81
+  percent: .1081
 }, {
   type: "Tent",
-  percent: 9.51
+  percent: .0951
 }];
 
 // Mike Bostock's margin convention
@@ -167,9 +167,9 @@ var svg = d3.select('#bar-chart-area')
 
 // y axis: linear scale
 // these are percentages that run rather large, so we can go all the way
-// to 100
+// to 100%
 var percentScale = d3.scale.linear()
-  .domain([0, 100])
+  .domain([0, 1])
   .range([innerHeight, 0]);
 
 // draw bars
@@ -233,7 +233,8 @@ xGroup.append('text')
 // y: life expectancy
 var yAxis = d3.svg.axis()
   .scale(percentScale)
-  .orient('left');
+  .orient('left')
+  .tickFormat(d3.format(".0%"));
 
 var yGroup = svg.append('g');
 yGroup.attr('class', 'axis')
