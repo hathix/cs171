@@ -1,9 +1,18 @@
 .area, .bar {
-    fill: cadetblue;
+    fill: Firebrick;
+}
+
+.area {
+    opacity: 0.6;
 }
 
 .bar-label {
     text-anchor: middle;
+}
+
+.x-line {
+    stroke: FireBrick;
+    width: 20px;
 }
 
 /* BAR CHART */

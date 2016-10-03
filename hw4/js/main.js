@@ -53,6 +53,11 @@ d3.csv("data/refugee.csv", function(data) {
     .domain([0, populationMax])
     .range([innerHeight, 0]);
 
+  // create area for all internal (non-axis) elements
+  var internal = svg.append('g')
+    .attr('class', 'internal')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
   // make area-generating function
   var area = d3.svg.area()
     .x(function(d) {
@@ -66,11 +71,10 @@ d3.csv("data/refugee.csv", function(data) {
     });
 
   // draw area on a path
-  var path = svg.append('path')
+  var path = internal.append('path')
     .datum(data)
     .attr('class', 'area')
-    .attr('d', area)
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('d', area);
 
 
   // draw axes
@@ -120,9 +124,101 @@ d3.csv("data/refugee.csv", function(data) {
     .attr('x', (margin.left + innerWidth) / 2)
     .attr('y', margin.top * 3 / 2);
 
+
+
+
+  // draw line with dynamic tooltip
+  // adapted from http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
+  var bisectDate = d3.bisector(function(d) {
+      return d.date;
+    })
+    .left;
+  // Define the line at the top of the area chart (which we're gonna target)
+  var valueLine = d3.svg.line()
+    .x(function(d) {
+      return timeScale(d.date);
+    })
+    .y(function(d) {
+      return populationScale(d.population);
+    });
+      // var lineGroup = internal.append("g");
+      // lineGroup.append("path")
+      //   .attr("class", "line")
+      //   .attr("d", valueLine(data));
+
+  // group containing the tooltip itself
+  var tooltip = internal.append("g")
+    .style("display", "none");
+
+
+  // add a vertical (x=) line
+  tooltip.append("line")
+    .attr("class", "x-line")
+    .attr("y1", 0)
+    .attr("y2", innerHeight);
+
+
+  // append area to capture mouse
+  internal.append("rect")
+    .attr("width", innerWidth)
+    .attr("height", innerHeight)
+    .style("fill", "none")
+    .style("pointer-events", "all")
+    .on("mouseover", function() {
+      tooltip.style("display", null);
+    })
+    .on("mouseout", function() {
+      tooltip.style("display", "none");
+    })
+    .on("mousemove", mousemove);
+
+
+  function mousemove() {
+    // find the date that the user is on
+    var mouseDate = timeScale.invert(d3.mouse(this)[0]);
+    // find index of date within array
+    var index = bisectDate(data, mouseDate, 1);
+    // find the data object (element of the `data` array) that this corresponds to
+    // off by one in either direction
+    var datumLeft = data[index - 1];
+    var datumRight = data[index];
+    // choose left or right, whichever we're closer to
+    // this is the datum `d` we're showing info about
+    var d = mouseDate - datumLeft.date > datumRight.date - mouseDate ?
+      datumRight : datumLeft;
+    console.log(d);
+    // focus.select("text.y1")
+    //   .attr("transform",
+    //     "translate(" + x(d.date) + "," +
+    //     y(d.close) + ")")
+    //   .text(d.close);
+    // focus.select("text.y2")
+    //   .attr("transform",
+    //     "translate(" + x(d.date) + "," +
+    //     y(d.close) + ")")
+    //   .text(d.close);
+    // focus.select("text.y3")
+    //   .attr("transform",
+    //     "translate(" + x(d.date) + "," +
+    //     y(d.close) + ")")
+    //   .text(formatDate(d.date));
+    // focus.select("text.y4")
+    //   .attr("transform",
+    //     "translate(" + x(d.date) + "," +
+    //     y(d.close) + ")")
+    //   .text(formatDate(d.date));
+    tooltip.select(".x-line")
+      .attr("transform",
+        "translate(" + timeScale(d.date) + ",0)");
+    //   .attr("y2", innerHeight - populationScale(d.population));
+    // focus.select(".y")
+    //   .attr("transform",
+    //     "translate(" + width * -1 + "," +
+    //     y(d.close) + ")")
+    //   .attr("x2", width + width);
+  }
+
 });
-
-
 
 /* CAMP SHELTERS */
 // camp shelter data
