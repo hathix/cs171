@@ -175,10 +175,13 @@ var percentScale = d3.scale.linear()
 // draw bars
 // useful constants
 var numBars = shelterData.length;
-var barPadding = innerWidth / 10;
+var barPadding = innerWidth * 0.07;
 var barSize = (innerWidth - (barPadding * (numBars + 1))) / numBars;
 
-svg.selectAll("rect")
+var chartGroup = svg.append('g')
+    .attr('transform', 'translate(' + margin.left +  ',' + margin.top + ')');
+
+chartGroup.selectAll("rect")
   .data(shelterData)
   .enter()
   .append("rect")
@@ -197,7 +200,6 @@ svg.selectAll("rect")
   })
   .attr('class', 'bar');
 
-//
 // var xAxis = d3.svg.axis()
 //   .scale(timeScale)
 //   .orient('bottom');
@@ -213,28 +215,29 @@ svg.selectAll("rect")
 //   .attr('class', 'axis-label')
 //   .text('Date')
 //   .attr('x', (margin.left + innerWidth) / 2)
-//   .attr('y', margin.bottom * 2 / 3);
-//
-// // y: life expectancy
-// var yAxis = d3.svg.axis()
-//   .scale(populationScale)
-//   .orient('left');
-// var yGroup = svg.append('g');
-// yGroup.attr('class', 'axis')
-//   .attr("transform", "translate(" + (margin.left) + "," + (margin.top) +
-//     ")")
-//   .call(yAxis);
-//
-// // add a label left of the axis, rotated so it's parallel with the axis
-// var cx = margin.left * -2 / 3;
-// var cy = (margin.top + innerHeight) / 2;
-// yGroup.append('text')
-//   .attr('class', 'axis-label')
-//   .text('Life Expectancy')
-//   .attr('x', cx)
-//   .attr('y', cy)
-//   .attr('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
-//
+  // .attr('y', margin.bottom * 2 / 3);
+
+// y: life expectancy
+var yAxis = d3.svg.axis()
+  .scale(percentScale)
+  .orient('left');
+
+var yGroup = svg.append('g');
+yGroup.attr('class', 'axis')
+  .attr("transform", "translate(" + (margin.left) + "," + (margin.top) +
+    ")")
+  .call(yAxis);
+
+// add a label left of the axis, rotated so it's parallel with the axis
+var cx = margin.left * -2 / 3;
+var cy = (margin.top + innerHeight) / 2;
+yGroup.append('text')
+  .attr('class', 'axis-label')
+  .text('Percent')
+  .attr('x', cx)
+  .attr('y', cy)
+  .attr('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
+
 // add chart title
 svg.append('text')
   .attr('class', 'chart-title')
