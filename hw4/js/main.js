@@ -3,7 +3,7 @@ var margin = {
   top: 20,
   right: 20,
   bottom: 60,
-  left: 60
+  left: 80
 };
 
 var outerWidth = 500;
