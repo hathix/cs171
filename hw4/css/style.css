@@ -12,7 +12,12 @@
 
 .x-line {
     stroke: FireBrick;
-    width: 20px;
+    stroke-width: 3px;
+}
+
+.text-population {
+    stroke: black;
+    font-size: 16px;
 }
 
 /* BAR CHART */
