@@ -112,4 +112,11 @@ d3.csv("data/refugee.csv", function(data) {
     .attr('x', cx)
     .attr('y', cy)
     .attr('transform', 'rotate(-90 ' + cx + ' ' + cy + ')');
+
+ // add chart title
+ svg.append('text')
+    .attr('class', 'chart-title')
+    .text('Camp Population')
+    .attr('x', (margin.left + innerWidth) / 2)
+    .attr('y', margin.top * 3 / 2);
 });
