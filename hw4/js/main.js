@@ -216,21 +216,21 @@ chartGroup.selectAll("rect")
 // draw labels
 var labelPadding = innerHeight * 0.03;
 chartGroup.selectAll(".bar-label")
-.data(shelterData)
-.enter()
-.append("text")
-.attr('x', function(d, i) {
+  .data(shelterData)
+  .enter()
+  .append("text")
+  .attr('x', function(d, i) {
     // center over bar
-  return typeScale(d.type) + typeScale.rangeBand() / 2;
-})
-.attr('y', function(d, i) {
+    return typeScale(d.type) + typeScale.rangeBand() / 2;
+  })
+  .attr('y', function(d, i) {
     // move it a little up
-  return percentScale(d.percent) - labelPadding;
-})
-.text(function(d) {
+    return percentScale(d.percent) - labelPadding;
+  })
+  .text(function(d) {
     return d3.format(".2%")(d.percent);
-})
-.attr('class', 'bar-label');
+  })
+  .attr('class', 'bar-label');
 
 var xAxis = d3.svg.axis()
   .scale(typeScale)
