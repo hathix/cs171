@@ -79,7 +79,6 @@ d3.csv("data/refugee.csv", function(data) {
 
   // draw axes
   // x: time
-  // TODO change
   var xAxis = d3.svg.axis()
     .scale(timeScale)
     .orient('bottom');
@@ -133,18 +132,6 @@ d3.csv("data/refugee.csv", function(data) {
       return d.date;
     })
     .left;
-  // Define the line at the top of the area chart (which we're gonna target)
-  // var valueLine = d3.svg.line()
-  //   .x(function(d) {
-  //     return timeScale(d.date);
-  //   })
-  //   .y(function(d) {
-  //     return populationScale(d.population);
-  //   });
-  // var lineGroup = internal.append("g");
-  // lineGroup.append("path")
-  //   .attr("class", "line")
-  //   .attr("d", valueLine(data));
 
   // group containing the tooltip itself
   var tooltip = internal.append("g")
@@ -160,9 +147,6 @@ d3.csv("data/refugee.csv", function(data) {
   // add descriptive text
   tooltip.append("text")
     .attr("class", "tooltip-text text-population")
-    // .style("stroke", "white")
-    // .style("stroke-width", "3.5px")
-    // .style("opacity", 0.8)
     .attr("dx", 5)
     .attr("dy", 5);
   tooltip.append("text")
@@ -199,17 +183,6 @@ d3.csv("data/refugee.csv", function(data) {
     // this is the datum `d` we're showing info about
     var d = mouseDate - datumLeft.date > datumRight.date - mouseDate ?
       datumRight : datumLeft;
-    // console.log(d);
-    // focus.select("text.y1")
-    //   .attr("transform",
-    //     "translate(" + x(d.date) + "," +
-    //     y(d.close) + ")")
-    //   .text(d.close);
-    // focus.select("text.y2")
-    //   .attr("transform",
-    //     "translate(" + x(d.date) + "," +
-    //     y(d.close) + ")")
-    //   .text(d.close);
 
     var transformTop = "translate(" + timeScale(d.date) + ",0)";
 
@@ -221,12 +194,6 @@ d3.csv("data/refugee.csv", function(data) {
       .text(d3.time.format("%Y-%m-%d")(d.date));
     tooltip.select(".x-line")
       .attr("transform", transformTop);
-    //   .attr("y2", innerHeight - populationScale(d.population));
-    // focus.select(".y")
-    //   .attr("transform",
-    //     "translate(" + width * -1 + "," +
-    //     y(d.close) + ")")
-    //   .attr("x2", width + width);
   }
 
 });
@@ -262,15 +229,6 @@ var svg = d3.select('#bar-chart-area')
   .attr('width', outerWidth)
   .attr('height', outerHeight);
 
-
-// create axis scales
-// // x axis: time scales
-// // data is sorted by date, so first and last are min and max respectively
-// var firstDate = data[0].date;
-// var lastDate = data[data.length - 1].date;
-// var timeScale = d3.time.scale()
-//   .domain([firstDate, lastDate])
-//   .range([0, innerWidth]);
 
 // y axis: linear scale
 // these are percentages that run rather large, so we can go all the way
@@ -381,6 +339,6 @@ yGroup.append('text')
 // add chart title
 svg.append('text')
   .attr('class', 'chart-title')
-  .text('Camp Population')
+  .text('Type of Shelter')
   .attr('x', (margin.left + innerWidth) / 2)
   .attr('y', margin.top * 1 / 2);
