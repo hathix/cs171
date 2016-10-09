@@ -35,15 +35,32 @@ var yAxis = d3.svg.axis()
 
 var xGroup = svg.append('g')
   .attr('class', 'axis')
-  .attr("transform", "translate(" + (margin.left) + "," + (height + margin.top) +
+  .attr("transform", "translate(" + 0 + "," + height +
     ")");
 var yGroup = svg.append('g')
-  .attr('class', 'axis')
-  .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")");
+  .attr('class', 'axis');
+  // .attr("transform", "translate(" + (0) + "," + (0) + ")");
 
 // bars
-var barGroup = svg.append('g')
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var barGroup = svg.append('g');
+  // .attr("transform", "translate(" + margin + "," + margin.top + ")");
+
+
+// update graph based on which metric they chose
+var rankMetric;
+
+function updateRankMetric() {
+  console.log('update');
+  rankMetric = d3.select("#ranking-type")
+    .property("value");
+}
+updateRankMetric();
+
+d3.select("#ranking-type")
+  .on("change", function() {
+      updateRankMetric();
+      updateVisualization();
+  });
 
 // Initialize data
 loadData();
@@ -63,11 +80,6 @@ function loadData() {
     // Store csv data in global variable
     data = csv;
 
-    // sort
-    data.sort(function(a, b) {
-      return b.stores - a.stores;
-    });
-
     // Draw the visualization for the first time
     updateVisualization();
   });
@@ -78,13 +90,19 @@ function updateVisualization() {
 
   console.log(data);
 
+
+  // sort
+  data.sort(function(a, b) {
+    return b[rankMetric] - a[rankMetric];
+  });
+
   // update domains
   // x: store names
   x.domain(data.map(function(d) {
     return d.company;
   }));
   y.domain([0, d3.max(data.map(function(d) {
-    return d.stores;
+    return d[rankMetric];
   }))]);
 
   // redraw axes
@@ -102,11 +120,11 @@ function updateVisualization() {
       return x(d.company);
     })
     .attr("y", function(d) {
-      return y(d.stores);
+      return y(d[rankMetric]);
     })
     .attr("width", x.rangeBand())
     .attr("height", function(d) {
-      return height - y(d.stores);
+      return height - y(d[rankMetric]);
     });
 
   bars.exit()
