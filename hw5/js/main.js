@@ -94,7 +94,7 @@ d3.select("#y-axis-metric")
   });
 
 // update the domain based on their chosen time period
-d3.select(".year-selector")
+d3.selectAll(".year-selector")
   .on("change", function() {
     updateTimePeriod();
     updateVisualization();
@@ -137,11 +137,14 @@ function updateVisualization() {
 
   console.log(data);
 
+  // only include years within the years specified
+  var filteredData = data.filter(function(d) {
+      return d.YEAR_INT >= timePeriod[0] && d.YEAR_INT <= timePeriod[1];
+  });
+
   // update domains
   // x: years
-  x.domain(d3.extent(data.map(function(d) {
-    return d.YEAR_INT;
-  })));
+  x.domain(timePeriod);
   y.domain([0, d3.max(data.map(function(d) {
     return d[yAxisMetric];
   }))]);
@@ -156,13 +159,13 @@ function updateVisualization() {
   // redraw line
   lineGroup.transition()
     .duration(1000)
-    .attr('d', line(data));
+    .attr('d', line(filteredData));
 
 
   // circles: enter/update/exit
   // enter
   var circles = circleGroup.selectAll('circle')
-    .data(data);
+    .data(filteredData);
   circles.enter()
     .append('circle')
     .attr('class', 'tooltip-circle')
@@ -195,10 +198,10 @@ function updateYAxisMetric() {
 
 // update the time period shown
 function updateTimePeriod() {
-  timePeriod[0] = d3.select("#year-start")
-    .property("value");
-  timePeriod[1] = d3.select("#year-end")
-    .property("value");
+  timePeriod[0] = parseInt(d3.select("#year-start")
+    .property("value"));
+  timePeriod[1] = parseInt(d3.select("#year-end")
+    .property("value"));
 }
 
 
