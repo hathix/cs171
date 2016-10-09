@@ -42,7 +42,8 @@ var yGroup = svg.append('g')
   .attr("transform", "translate(" + (margin.left) + "," + (margin.top) + ")");
 
 // bars
-var barGroup = svg.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var barGroup = svg.append('g')
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Initialize data
 loadData();
@@ -61,6 +62,11 @@ function loadData() {
 
     // Store csv data in global variable
     data = csv;
+
+    // sort
+    data.sort(function(a, b) {
+      return b.stores - a.stores;
+    });
 
     // Draw the visualization for the first time
     updateVisualization();
