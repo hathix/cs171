@@ -57,6 +57,8 @@ var line = d3.svg.line()
 var lineGroup = svg.append('path')
 	.attr('class', 'line');
 
+// prepare circles
+var circleGroup = svg.append('g');
 
 // Initialize data
 loadData();
@@ -114,6 +116,21 @@ function updateVisualization() {
 	  // redraw line
 	lineGroup.attr('d', line(data));
 
+
+    // circles: enter/update/exit
+    // enter
+    var circles = circleGroup.selectAll('circle').data(data);
+    circles.enter().append('circle').attr('class', 'tooltip-circle');
+
+    // update
+    circles.attr('r', 5).attr('cx', function(d) {
+        return x(formatDate(d.YEAR))
+    }).attr('cy', function(d) {
+        return y(d.GOALS)
+    });
+
+    // exit
+    circles.exit().remove();
 }
 
 
