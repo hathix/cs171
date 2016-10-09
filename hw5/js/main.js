@@ -49,6 +49,14 @@ var barGroup = svg.append('g');
 // .attr("transform", "translate(" + margin + "," + margin.top + ")");
 
 
+// prepare the line
+var line = d3.svg.line()
+    .x(function(d) { return x(formatDate(d.YEAR)); })
+    .y(function(d) { return y(d.GOALS); })
+    .interpolate("linear");
+var lineGroup = svg.append('path');
+
+
 // Initialize data
 loadData();
 
@@ -92,7 +100,7 @@ function updateVisualization() {
     return formatDate(d.YEAR);
   }));
   y.domain([0, d3.max(data.map(function(d) {
-    return d.AVERAGE_GOALS;
+    return d.GOALS;
   }))]);
 
   // redraw axes
@@ -101,6 +109,9 @@ function updateVisualization() {
   yGroup.transition()
       .duration(1000).call(yAxis);
 
+
+	  // redraw line
+	lineGroup.attr('d', line(data));
 
 }
 
