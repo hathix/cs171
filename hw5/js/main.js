@@ -51,11 +51,15 @@ var barGroup = svg.append('g');
 
 // prepare the line
 var line = d3.svg.line()
-    .x(function(d) { return x(formatDate(d.YEAR)); })
-    .y(function(d) { return y(d[yAxisMetric]); })
-    .interpolate("monotone");
+  .x(function(d) {
+    return x(formatDate(d.YEAR));
+  })
+  .y(function(d) {
+    return y(d[yAxisMetric]);
+  })
+  .interpolate("monotone");
 var lineGroup = svg.append('path')
-	.attr('class', 'line');
+  .attr('class', 'line');
 
 // prepare circles
 var circleGroup = svg.append('g');
@@ -69,6 +73,14 @@ var data;
 // store the value to track on the y-axis
 var yAxisMetric = "GOALS";
 
+
+// initialize tooltip
+var tooltip = d3.tip()
+  .attr('class', 'd3-tip')
+  .html(function(d) {
+    return d.EDITION + ": " + d[yAxisMetric];
+  });
+svg.call(tooltip);
 
 // update graph based on which metric they choose
 d3.select("#y-axis-metric")
@@ -117,34 +129,50 @@ function updateVisualization() {
 
   // redraw axes
   xGroup.call(xAxis);
-  yGroup.transition().duration(1000).call(yAxis);
+  yGroup.transition()
+    .duration(1000)
+    .call(yAxis);
 
 
-	  // redraw line
-	lineGroup.transition().duration(1000).attr('d', line(data));
+  // redraw line
+  lineGroup.transition()
+    .duration(1000)
+    .attr('d', line(data));
 
 
-    // circles: enter/update/exit
-    // enter
-    var circles = circleGroup.selectAll('circle').data(data);
-    circles.enter().append('circle').attr('class', 'tooltip-circle');
+  // circles: enter/update/exit
+  // enter
+  var circles = circleGroup.selectAll('circle')
+    .data(data);
+  circles.enter()
+    .append('circle')
+    .attr('class', 'tooltip-circle')
+    .on('mouseover', tooltip.show)
+    .on('mouseout', tooltip.hide);
 
-    // update
-    circles.transition().duration(1000).attr('r', 5).attr('cx', function(d) {
-        return x(formatDate(d.YEAR))
-    }).attr('cy', function(d) {
-        return y(d[yAxisMetric])
+  // update
+  circles.transition()
+    .duration(1000)
+    .attr('r', 5)
+    .attr('cx', function(d) {
+      return x(formatDate(d.YEAR))
+    })
+    .attr('cy', function(d) {
+      return y(d[yAxisMetric])
     });
 
-    // exit
-    circles.exit().transition().duration(1000).remove();
+  // exit
+  circles.exit()
+    .transition()
+    .duration(1000)
+    .remove();
 }
 
 
 function updateYAxisMetric() {
-    console.log('update');
-    yAxisMetric = d3.select("#y-axis-metric")
-      .property("value");
+  console.log('update');
+  yAxisMetric = d3.select("#y-axis-metric")
+    .property("value");
 }
 
 // Show details for a specific FIFA World Cup
