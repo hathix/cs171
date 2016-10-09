@@ -1,5 +1,4 @@
-// SVG drawing area
-
+/* VARIABLES */
 var margin = {
   top: 40,
   right: 40,
@@ -10,16 +9,18 @@ var margin = {
 var width = 600 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
-var svg = d3.select("#chart-area")
-  .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
 // Date parser (https://github.com/mbostock/d3/wiki/Time-Formatting)
 var formatDate = d3.time.format("%Y");
+
+// FIFA world cup
+var data;
+
+// store the value to track on the y-axis
+var yAxisMetric = "GOALS";
+
+// store the years to show
+// [start, end]
+var timePeriod = [];
 
 // Scales
 var x = d3.scale.linear()
@@ -27,6 +28,15 @@ var x = d3.scale.linear()
 
 var y = d3.scale.linear()
   .range([height, 0]);
+
+
+/* SET UP D3 ELEMENTS */
+var svg = d3.select("#chart-area")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // axes
 var xAxis = d3.svg.axis()
@@ -36,19 +46,12 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
   .scale(y)
   .orient("left");
-
 var xGroup = svg.append('g')
   .attr('class', 'axis x-axis')
   .attr("transform", "translate(" + 0 + "," + height +
     ")");
 var yGroup = svg.append('g')
   .attr('class', 'axis y-axis');
-// .attr("transform", "translate(" + (0) + "," + (0) + ")");
-
-// bars
-var barGroup = svg.append('g');
-// .attr("transform", "translate(" + margin + "," + margin.top + ")");
-
 
 // prepare the line
 var line = d3.svg.line()
@@ -65,19 +68,6 @@ var lineGroup = svg.append('path')
 // prepare circles
 var circleGroup = svg.append('g');
 
-// Initialize data
-loadData();
-
-// FIFA world cup
-var data;
-
-// store the value to track on the y-axis
-var yAxisMetric = "GOALS";
-
-// store the years to show
-// [start, end]
-var timePeriod = [];
-
 // initialize tooltip
 var tooltip = d3.tip()
   .attr('class', 'd3-tip')
@@ -86,19 +76,31 @@ var tooltip = d3.tip()
   });
 svg.call(tooltip);
 
-// update graph based on which metric they choose
-d3.select("#y-axis-metric")
-  .on("change", function() {
-    updateYAxisMetric();
-    updateVisualization();
-  });
+/* OTHER INIT */
+initialize();
 
-// update the domain based on their chosen time period
-d3.selectAll(".year-selector")
-  .on("change", function() {
-    updateTimePeriod();
-    updateVisualization();
-  })
+// set up visualization
+function initialize() {
+  // initialize click handlers
+
+  // update graph based on which metric they choose
+  d3.select("#y-axis-metric")
+    .on("change", function() {
+      updateYAxisMetric();
+      updateVisualization();
+    });
+
+  // update the domain based on their chosen time period
+  d3.selectAll(".year-selector")
+    .on("change", function() {
+      updateTimePeriod();
+      updateVisualization();
+    });
+
+  // Initialize data
+  loadData();
+}
+
 
 // Load CSV file
 function loadData() {
@@ -160,7 +162,7 @@ function updateVisualization() {
   lineGroup.attr('d', []);
 
 
-  // circles: enter/update/exit
+  // redraw circles: enter/update/exit
   // enter
   var circles = circleGroup.selectAll('circle')
     .data(filteredData);
@@ -172,10 +174,7 @@ function updateVisualization() {
     .on('click', showEdition);
 
   // remove old ones first; exit
-  // get them out of the way as fast as we can
   circles.exit()
-    //   .transition()
-    //   .duration(1000)
     .remove();
 
   // update
@@ -191,8 +190,6 @@ function updateVisualization() {
     .attr('cy', function(d) {
       return y(d[yAxisMetric])
     });
-
-
 }
 
 // update what's used for the x-asix (goals, attendance, etc)
@@ -229,17 +226,25 @@ function endall(transition, callback) {
 
 // Show details for a specific FIFA World Cup
 function showEdition(d) {
-    console.log('clicked', d);
+  console.log('clicked', d);
 
-    $('#edition-title').html(d.EDITION);
-$('#edition-winner').html(d.WINNER);
-$('#edition-goals').html(d.GOALS);
-$('#edition-average-goals').html(d.AVERAGE_GOALS);
-$('#edition-matches').html(d.MATCHES);
+  $('#edition-title')
+    .html(d.EDITION);
+  $('#edition-winner')
+    .html(d.WINNER);
+  $('#edition-goals')
+    .html(d.GOALS);
+  $('#edition-average-goals')
+    .html(d.AVERAGE_GOALS);
+  $('#edition-matches')
+    .html(d.MATCHES);
 
 
-$('#edition-teams').html(d.TEAMS);
-$('#edition-average-attendance').html(d.AVERAGE_ATTENDANCE);
+  $('#edition-teams')
+    .html(d.TEAMS);
+  $('#edition-average-attendance')
+    .html(d.AVERAGE_ATTENDANCE);
 
-$('#edition-info').removeClass('hidden');
+  $('#edition-info')
+    .removeClass('hidden');
 }
