@@ -34,11 +34,11 @@ var yAxis = d3.svg.axis()
   .orient("left");
 
 var xGroup = svg.append('g')
-  .attr('class', 'axis')
+  .attr('class', 'axis x-axis')
   .attr("transform", "translate(" + 0 + "," + height +
     ")");
 var yGroup = svg.append('g')
-  .attr('class', 'axis');
+  .attr('class', 'axis y-axis');
 // .attr("transform", "translate(" + (0) + "," + (0) + ")");
 
 // bars
@@ -106,8 +106,10 @@ function updateVisualization() {
   }))]);
 
   // redraw axes
-  xGroup.call(xAxis);
-  yGroup.call(yAxis);
+  xGroup.transition()
+      .duration(1000).call(xAxis);
+  yGroup.transition()
+      .duration(1000).call(yAxis);
 
   // redraw bars
   var bars = barGroup.selectAll('rect')
@@ -121,7 +123,10 @@ function updateVisualization() {
     .attr('class', 'bar');
 
   // update existing stuff
-  bars.attr("x", function(d) {
+  bars
+    .transition()
+    .duration(1000)
+    .attr("x", function(d) {
       return x(d.company);
     })
     .attr("y", function(d) {
@@ -133,6 +138,8 @@ function updateVisualization() {
     });
 
   bars.exit()
+    .transition()
+    .duration(1000)
     .remove();
 
 }
