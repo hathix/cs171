@@ -145,7 +145,7 @@ function updateVisualization() {
   // update domains
   // x: years
   x.domain(timePeriod);
-  y.domain([0, d3.max(data.map(function(d) {
+  y.domain([0, d3.max(filteredData.map(function(d) {
     return d[yAxisMetric];
   }))]);
 
@@ -157,9 +157,7 @@ function updateVisualization() {
 
 
   // redraw line
-  lineGroup.transition()
-    .duration(1000)
-    .attr('d', line(filteredData));
+  lineGroup.attr('d', []);
 
 
   // circles: enter/update/exit
@@ -172,8 +170,17 @@ function updateVisualization() {
     .on('mouseover', tooltip.show)
     .on('mouseout', tooltip.hide);
 
+    // remove old ones first; exit
+    // get them out of the way as fast as we can
+    circles.exit()
+    //   .transition()
+    //   .duration(1000)
+      .remove();
+
   // update
-  circles.transition()
+  circles.transition().call(endall, function() {
+      lineGroup.attr('d', line(filteredData));
+  })
     .duration(1000)
     .attr('r', 5)
     .attr('cx', function(d) {
@@ -183,11 +190,7 @@ function updateVisualization() {
       return y(d[yAxisMetric])
     });
 
-  // exit
-  circles.exit()
-    .transition()
-    .duration(1000)
-    .remove();
+
 }
 
 // update what's used for the x-asix (goals, attendance, etc)
@@ -202,6 +205,17 @@ function updateTimePeriod() {
     .property("value"));
   timePeriod[1] = parseInt(d3.select("#year-end")
     .property("value"));
+}
+
+// fires `callback` when all transitions are completed.
+// http://stackoverflow.com/questions/10692100/invoke-a-callback-at-the-end-of-a-transition#10692220
+function endall(transition, callback) {
+  if (!callback) callback = function(){};
+  if (transition.size() === 0) { callback() }
+  var n = 0;
+  transition
+      .each(function() { ++n; })
+      .each("end", function() { if (!--n) callback.apply(this, arguments); });
 }
 
 
