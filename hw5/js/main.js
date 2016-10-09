@@ -52,7 +52,7 @@ var barGroup = svg.append('g');
 // prepare the line
 var line = d3.svg.line()
     .x(function(d) { return x(formatDate(d.YEAR)); })
-    .y(function(d) { return y(d[yAxisCategory]); })
+    .y(function(d) { return y(d[yAxisMetric]); })
     .interpolate("monotone");
 var lineGroup = svg.append('path')
 	.attr('class', 'line');
@@ -67,8 +67,15 @@ loadData();
 var data;
 
 // store the value to track on the y-axis
-var yAxisCategory = "GOALS";
+var yAxisMetric = "GOALS";
 
+
+// update graph based on which metric they choose
+d3.select("#y-axis-metric")
+  .on("change", function() {
+    updateYAxisMetric();
+    updateVisualization();
+  });
 
 // Load CSV file
 function loadData() {
@@ -105,14 +112,12 @@ function updateVisualization() {
     return formatDate(d.YEAR);
   }));
   y.domain([0, d3.max(data.map(function(d) {
-    return d[yAxisCategory];
+    return d[yAxisMetric];
   }))]);
 
   // redraw axes
-  xGroup.transition()
-      .duration(1000).call(xAxis);
-  yGroup.transition()
-      .duration(1000).call(yAxis);
+  xGroup.call(xAxis);
+  yGroup.call(yAxis);
 
 
 	  // redraw line
@@ -128,7 +133,7 @@ function updateVisualization() {
     circles.attr('r', 5).attr('cx', function(d) {
         return x(formatDate(d.YEAR))
     }).attr('cy', function(d) {
-        return y(d[yAxisCategory])
+        return y(d[yAxisMetric])
     });
 
     // exit
@@ -136,8 +141,10 @@ function updateVisualization() {
 }
 
 
-function updateYAxisCategory() {
-
+function updateYAxisMetric() {
+    console.log('update');
+    yAxisMetric = d3.select("#y-axis-metric")
+      .property("value");
 }
 
 // Show details for a specific FIFA World Cup

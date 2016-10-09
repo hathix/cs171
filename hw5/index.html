@@ -16,6 +16,23 @@
 		<h1>FIFA World Cup<sup>TM</sup></h1>
 		<h2>All Time Statistics</h2>
 
+		<!-- Select box to choose the y axis category -->
+		<form class="form-inline">
+			<div class="form-group">
+			<label for="rankingType">Show</label>
+			<select class="form-control" id="y-axis-metric">
+				  <option value="AVERAGE_ATTENDANCE">Average attendance</option>
+				  <option value="AVERAGE_GOALS">Average goals</option>
+				  <option value="GOALS">Goals</option>
+				  <option value="MATCHES">Matches</option>
+				  <option value="TEAMS">Teams</option>
+				</select>
+
+				<!-- Activity IV -->
+				<!--<button type="button" class="btn btn-link" id="change-sorting"><i class="glyphicon glyphicon-sort"></i> Sort</button>-->
+		  </div>
+		</form>
+
 		<!-- Parent container for the visualization -->
 		<div id="chart-area"></div>
 
