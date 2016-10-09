@@ -39,11 +39,11 @@ var xGroup = svg.append('g')
     ")");
 var yGroup = svg.append('g')
   .attr('class', 'axis');
-  // .attr("transform", "translate(" + (0) + "," + (0) + ")");
+// .attr("transform", "translate(" + (0) + "," + (0) + ")");
 
 // bars
 var barGroup = svg.append('g');
-  // .attr("transform", "translate(" + margin + "," + margin.top + ")");
+// .attr("transform", "translate(" + margin + "," + margin.top + ")");
 
 
 // update graph based on which metric they chose
@@ -58,8 +58,8 @@ updateRankMetric();
 
 d3.select("#ranking-type")
   .on("change", function() {
-      updateRankMetric();
-      updateVisualization();
+    updateRankMetric();
+    updateVisualization();
   });
 
 // Initialize data
@@ -111,12 +111,17 @@ function updateVisualization() {
 
   // redraw bars
   var bars = barGroup.selectAll('rect')
-    .data(data);
+    .data(data, function(d) {
+      return d.company;
+    });
 
+  // add new stuff
   bars.enter()
     .append('rect')
-    .attr('class', 'bar')
-    .attr("x", function(d) {
+    .attr('class', 'bar');
+
+  // update existing stuff
+  bars.attr("x", function(d) {
       return x(d.company);
     })
     .attr("y", function(d) {
