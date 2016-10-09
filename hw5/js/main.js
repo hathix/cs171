@@ -139,7 +139,7 @@ function updateVisualization() {
 
   // only include years within the years specified
   var filteredData = data.filter(function(d) {
-      return d.YEAR_INT >= timePeriod[0] && d.YEAR_INT <= timePeriod[1];
+    return d.YEAR_INT >= timePeriod[0] && d.YEAR_INT <= timePeriod[1];
   });
 
   // update domains
@@ -170,17 +170,18 @@ function updateVisualization() {
     .on('mouseover', tooltip.show)
     .on('mouseout', tooltip.hide);
 
-    // remove old ones first; exit
-    // get them out of the way as fast as we can
-    circles.exit()
+  // remove old ones first; exit
+  // get them out of the way as fast as we can
+  circles.exit()
     //   .transition()
     //   .duration(1000)
-      .remove();
+    .remove();
 
   // update
-  circles.transition().call(endall, function() {
+  circles.transition()
+    .call(endall, function() {
       lineGroup.attr('d', line(filteredData));
-  })
+    })
     .duration(1000)
     .attr('r', 5)
     .attr('cx', function(d) {
@@ -210,12 +211,18 @@ function updateTimePeriod() {
 // fires `callback` when all transitions are completed.
 // http://stackoverflow.com/questions/10692100/invoke-a-callback-at-the-end-of-a-transition#10692220
 function endall(transition, callback) {
-  if (!callback) callback = function(){};
-  if (transition.size() === 0) { callback() }
+  if (!callback) callback = function() {};
+  if (transition.size() === 0) {
+    callback()
+  }
   var n = 0;
   transition
-      .each(function() { ++n; })
-      .each("end", function() { if (!--n) callback.apply(this, arguments); });
+    .each(function() {
+      ++n;
+    })
+    .each("end", function() {
+      if (!--n) callback.apply(this, arguments);
+    });
 }
 
 
