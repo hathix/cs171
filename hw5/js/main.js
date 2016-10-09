@@ -22,8 +22,8 @@ var svg = d3.select("#chart-area")
 var formatDate = d3.time.format("%Y");
 
 // Scales
-var x = d3.scale.ordinal()
-  .rangeRoundBands([width, 0], .1);
+var x = d3.scale.linear()
+  .range([0, width])
 
 var y = d3.scale.linear()
   .range([height, 0]);
@@ -31,7 +31,8 @@ var y = d3.scale.linear()
 // axes
 var xAxis = d3.svg.axis()
   .scale(x)
-  .orient("bottom");
+  .orient("bottom")
+  .tickFormat(d3.format("0000"));
 var yAxis = d3.svg.axis()
   .scale(y)
   .orient("left");
@@ -52,7 +53,7 @@ var barGroup = svg.append('g');
 // prepare the line
 var line = d3.svg.line()
   .x(function(d) {
-    return x(formatDate(d.YEAR));
+    return x(d.YEAR_INT);
   })
   .y(function(d) {
     return y(d[yAxisMetric]);
@@ -73,6 +74,9 @@ var data;
 // store the value to track on the y-axis
 var yAxisMetric = "GOALS";
 
+// store the years to show
+// [start, end]
+var timePeriod = [];
 
 // initialize tooltip
 var tooltip = d3.tip()
@@ -89,11 +93,21 @@ d3.select("#y-axis-metric")
     updateVisualization();
   });
 
+// update the domain based on their chosen time period
+d3.select(".year-selector")
+  .on("change", function() {
+    updateTimePeriod();
+    updateVisualization();
+  })
+
 // Load CSV file
 function loadData() {
   d3.csv("data/fifa-world-cup.csv", function(error, csv) {
 
     csv.forEach(function(d) {
+      // store year as an int too
+      d.YEAR_INT = +d.YEAR;
+
       // Convert string to 'date object'
       d.YEAR = formatDate.parse(d.YEAR);
 
@@ -108,6 +122,11 @@ function loadData() {
     // Store csv data in global variable
     data = csv;
 
+    // set the time period to be the default (earliest/latest)
+    timePeriod = d3.extent(data.map(function(d) {
+      return d.YEAR_INT;
+    }));
+
     // Draw the visualization for the first time
     updateVisualization();
   });
@@ -120,9 +139,9 @@ function updateVisualization() {
 
   // update domains
   // x: years
-  x.domain(data.map(function(d) {
-    return formatDate(d.YEAR);
-  }));
+  x.domain(d3.extent(data.map(function(d) {
+    return d.YEAR_INT;
+  })));
   y.domain([0, d3.max(data.map(function(d) {
     return d[yAxisMetric];
   }))]);
@@ -155,7 +174,7 @@ function updateVisualization() {
     .duration(1000)
     .attr('r', 5)
     .attr('cx', function(d) {
-      return x(formatDate(d.YEAR))
+      return x(d.YEAR_INT);
     })
     .attr('cy', function(d) {
       return y(d[yAxisMetric])
@@ -168,12 +187,20 @@ function updateVisualization() {
     .remove();
 }
 
-
+// update what's used for the x-asix (goals, attendance, etc)
 function updateYAxisMetric() {
-  console.log('update');
   yAxisMetric = d3.select("#y-axis-metric")
     .property("value");
 }
+
+// update the time period shown
+function updateTimePeriod() {
+  timePeriod[0] = d3.select("#year-start")
+    .property("value");
+  timePeriod[1] = d3.select("#year-end")
+    .property("value");
+}
+
 
 // Show details for a specific FIFA World Cup
 function showEdition(d) {

@@ -20,7 +20,7 @@
 		<!-- Select box to choose the y axis category -->
 		<form class="form-inline">
 			<div class="form-group">
-			<label for="rankingType">Show</label>
+			<label for="y-axis-metric">Show</label>
 			<select class="form-control" id="y-axis-metric">
 				  <option value="AVERAGE_ATTENDANCE">Average attendance</option>
 				  <option value="AVERAGE_GOALS">Average goals</option>
@@ -32,6 +32,15 @@
 				<!-- Activity IV -->
 				<!--<button type="button" class="btn btn-link" id="change-sorting"><i class="glyphicon glyphicon-sort"></i> Sort</button>-->
 		  </div>
+		</form>
+
+		<form class="form-inline">
+			<div class="form-group">
+				<label>Years</label>
+				<input type="number" class="form-control year-selector" id="year-start" min="1930" max="2014" step="4" />
+				<label>to</label>
+				<input type="number" class="form-control year-selector" id="year-end" min="1930" max="2014" step="4" />
+			</div>
 		</form>
 
 		<!-- Parent container for the visualization -->
