@@ -53,8 +53,9 @@ var barGroup = svg.append('g');
 var line = d3.svg.line()
     .x(function(d) { return x(formatDate(d.YEAR)); })
     .y(function(d) { return y(d.GOALS); })
-    .interpolate("linear");
-var lineGroup = svg.append('path');
+    .interpolate("monotone");
+var lineGroup = svg.append('path')
+	.attr('class', 'line');
 
 
 // Initialize data
