@@ -52,7 +52,7 @@ var barGroup = svg.append('g');
 // prepare the line
 var line = d3.svg.line()
     .x(function(d) { return x(formatDate(d.YEAR)); })
-    .y(function(d) { return y(d.GOALS); })
+    .y(function(d) { return y(d[yAxisCategory]); })
     .interpolate("monotone");
 var lineGroup = svg.append('path')
 	.attr('class', 'line');
@@ -65,6 +65,9 @@ loadData();
 
 // FIFA world cup
 var data;
+
+// store the value to track on the y-axis
+var yAxisCategory = "GOALS";
 
 
 // Load CSV file
@@ -91,7 +94,6 @@ function loadData() {
   });
 }
 
-
 // Render visualization
 function updateVisualization() {
 
@@ -103,7 +105,7 @@ function updateVisualization() {
     return formatDate(d.YEAR);
   }));
   y.domain([0, d3.max(data.map(function(d) {
-    return d.GOALS;
+    return d[yAxisCategory];
   }))]);
 
   // redraw axes
@@ -126,13 +128,17 @@ function updateVisualization() {
     circles.attr('r', 5).attr('cx', function(d) {
         return x(formatDate(d.YEAR))
     }).attr('cy', function(d) {
-        return y(d.GOALS)
+        return y(d[yAxisCategory])
     });
 
     // exit
     circles.exit().remove();
 }
 
+
+function updateYAxisCategory() {
+
+}
 
 // Show details for a specific FIFA World Cup
 function showEdition(d) {
