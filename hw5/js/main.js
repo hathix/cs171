@@ -117,11 +117,11 @@ function updateVisualization() {
 
   // redraw axes
   xGroup.call(xAxis);
-  yGroup.call(yAxis);
+  yGroup.transition().duration(1000).call(yAxis);
 
 
 	  // redraw line
-	lineGroup.attr('d', line(data));
+	lineGroup.transition().duration(1000).attr('d', line(data));
 
 
     // circles: enter/update/exit
@@ -130,14 +130,14 @@ function updateVisualization() {
     circles.enter().append('circle').attr('class', 'tooltip-circle');
 
     // update
-    circles.attr('r', 5).attr('cx', function(d) {
+    circles.transition().duration(1000).attr('r', 5).attr('cx', function(d) {
         return x(formatDate(d.YEAR))
     }).attr('cy', function(d) {
         return y(d[yAxisMetric])
     });
 
     // exit
-    circles.exit().remove();
+    circles.exit().transition().duration(1000).remove();
 }
 
 
