@@ -1,6 +1,10 @@
 
 /* ADD YOUR STYLES HERE */
 
+.hidden {
+    display: none;
+}
+
 
 /****************/
 /*  LINE CHART  */
@@ -64,4 +68,3 @@
   top: 100%;
   left: 0;
 }
-

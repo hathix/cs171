@@ -168,7 +168,8 @@ function updateVisualization() {
     .append('circle')
     .attr('class', 'tooltip-circle')
     .on('mouseover', tooltip.show)
-    .on('mouseout', tooltip.hide);
+    .on('mouseout', tooltip.hide)
+    .on('click', showEdition);
 
   // remove old ones first; exit
   // get them out of the way as fast as we can
@@ -228,5 +229,17 @@ function endall(transition, callback) {
 
 // Show details for a specific FIFA World Cup
 function showEdition(d) {
+    console.log('clicked', d);
 
+    $('#edition-title').html(d.EDITION);
+$('#edition-winner').html(d.WINNER);
+$('#edition-goals').html(d.GOALS);
+$('#edition-average-goals').html(d.AVERAGE_GOALS);
+$('#edition-matches').html(d.MATCHES);
+
+
+$('#edition-teams').html(d.TEAMS);
+$('#edition-average-attendance').html(d.AVERAGE_ATTENDANCE);
+
+$('#edition-info').removeClass('hidden');
 }
