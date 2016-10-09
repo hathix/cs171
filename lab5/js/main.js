@@ -23,11 +23,10 @@ function initializeVisualization() {
 
   // initialize elements
   orderLabel = svg.append('text')
-    .text('Orders')
     .attr('x', margin.left)
     .attr('y', margin.top);
 
-  var circleGroupLeftPadding = 100;
+  var circleGroupLeftPadding = 120;
   circleGroup = svg.append('g')
     .attr('transform', 'translate(' + (margin.left + circleGroupLeftPadding) +
       ',' + margin.top + ')');
@@ -47,15 +46,23 @@ function updateVisualization(orders) {
     // Enter (initialize the newly added elements)
     circle.enter().append("circle")
         .attr("class", "dot")
-        .attr("fill", "#707086");
+        .attr("fill", function(d) {
+			if (d.product == "tea") {
+				return "#cdaa7d";
+			} else {
+				return "#8b2323";
+			}
+		});
 
     // Update (set the dynamic properties of the elements)
-    var circleRadius = 50;
-	var circlePadding = 20;
+    var circleRadius = 40;
+	var circlePadding = 15;
     circle
         .attr("r", function(d) { return circleRadius; })
         .attr("cx", function(d, index) { return (index * 2 + 1) * circleRadius + index * circlePadding })
         .attr("cy", 0);
+
+		orderLabel.text("Orders: " + orders.length);
 
     // Exit
     circle.exit().remove();
