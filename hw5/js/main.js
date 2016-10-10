@@ -165,7 +165,9 @@ function updateVisualization() {
   // redraw circles: enter/update/exit
   // enter
   var circles = circleGroup.selectAll('circle')
-    .data(filteredData);
+    .data(filteredData, function(d) {
+        return d.YEAR_INT;
+    });
   circles.enter()
     .append('circle')
     .attr('class', 'tooltip-circle')
