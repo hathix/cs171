@@ -78,7 +78,7 @@ StackedAreaChart.prototype.initVis = function() {
     .attr("class", "y-axis axis");
 
 
-  // Initialize stack layout\
+  // Initialize stack layout
   // get all categories
   var dataCategories = colorScale.domain();
   // Rearrange data into layers
@@ -118,6 +118,10 @@ StackedAreaChart.prototype.initVis = function() {
 
 
   // TO-DO: Tooltip placeholder
+  // offset it a little to the right of the axis
+  vis.tooltip = vis.svg.append("text")
+    .attr('x', 20)
+    .attr('y', 0);
 
 
   // (Filter, aggregate, modify data)
@@ -165,7 +169,7 @@ StackedAreaChart.prototype.updateVis = function() {
 
   categories.enter()
     .append("path")
-    .attr("class", "area");
+    .attr("class", "area")
 
   categories
     .style("fill", function(d) {
@@ -173,7 +177,13 @@ StackedAreaChart.prototype.updateVis = function() {
     })
     .attr("d", function(d) {
       return vis.area(d.values);
-    })
+  })
+  .on("mouseover", function(d){
+      vis.tooltip.text(d.name);
+  })
+  .on("mouseout", function(d) {
+      vis.tooltip.text(null);
+  });
 
   // TO-DO: Update tooltip text
 
