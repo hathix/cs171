@@ -45,7 +45,27 @@ StackedAreaChart.prototype.initVis = function() {
       ")");
 
   // TO-DO: Overlay with path clipping
-
+  // get all categories
+  var dataCategories = colorScale.domain();
+  // Rearrange data into layers
+  var transposedData = dataCategories.map(function(name) {
+    return {
+      name: name,
+      values: vis.data.map(function(d) {
+        return {
+          Year: d.Year,
+          y: d[name]
+        };
+      })
+    };
+  });
+  // Initialize layout function
+  // with the 'values' accessor due to the multi-dimensional array
+  var stack = d3.layout.stack()
+    .values(function(d) {
+      return d.values;
+    });
+  var stackedData = stack(transposedData);
 
   // Scales and axes
   vis.x = d3.time.scale()
