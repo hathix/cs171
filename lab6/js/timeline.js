@@ -76,10 +76,18 @@ Timeline.prototype.initVis = function() {
     .attr("d", vis.area);
 
 
-  // TO-DO: Initialize brush component
+  // TO-DO: Initialize brush
+  vis.brush = d3.svg.brush()
+    .x(vis.x)
+    .on("brush", brushed);
 
   // TO-DO: Append brush component here
-
+  vis.svg.append("g")
+    .attr("class", "x brush")
+    .call(vis.brush)
+    .selectAll("rect")
+    .attr("y", -6)
+    .attr("height", vis.height + 7);
 
   vis.svg.append("g")
     .attr("class", "x-axis axis")

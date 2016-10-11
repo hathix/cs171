@@ -172,6 +172,7 @@ StackedAreaChart.prototype.updateVis = function() {
 
   // TO-DO: Update tooltip text
 
+
   categories.exit()
     .remove();
 

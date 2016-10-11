@@ -54,7 +54,9 @@ function createVis() {
   // TO-DO: Instantiate visualization objects here
   // areachart = new ...
 
-	areachart = new StackedAreaChart("stacked-area-chart", allData.layers);
+  areachart = new StackedAreaChart("stacked-area-chart", allData.layers);
+
+  timeline = new Timeline("timeline", allData.years);
 
 }
 
@@ -62,4 +64,10 @@ function createVis() {
 function brushed() {
 
   // TO-DO: React to 'brushed' event
+  // set domain to whatever is brushed
+  areachart.x.domain(
+    timeline.brush.empty() ? areachart.x.domain() : timeline.brush.extent());
+
+    // update view
+    areachart.wrangleData();
 }
