@@ -45,27 +45,7 @@ StackedAreaChart.prototype.initVis = function() {
       ")");
 
   // TO-DO: Overlay with path clipping
-  // get all categories
-  var dataCategories = colorScale.domain();
-  // Rearrange data into layers
-  var transposedData = dataCategories.map(function(name) {
-    return {
-      name: name,
-      values: vis.data.map(function(d) {
-        return {
-          Year: d.Year,
-          y: d[name]
-        };
-      })
-    };
-  });
-  // Initialize layout function
-  // with the 'values' accessor due to the multi-dimensional array
-  var stack = d3.layout.stack()
-    .values(function(d) {
-      return d.values;
-    });
-  var stackedData = stack(transposedData);
+
 
   // Scales and axes
   vis.x = d3.time.scale()
@@ -93,20 +73,50 @@ StackedAreaChart.prototype.initVis = function() {
     .attr("class", "y-axis axis");
 
 
-  // TO-DO: Initialize stack layout
+  // Initialize stack layout\
+  // get all categories
+  var dataCategories = colorScale.domain();
+  // Rearrange data into layers
+  var transposedData = dataCategories.map(function(name) {
+    return {
+      name: name,
+      values: vis.data.map(function(d) {
+        return {
+          Year: d.Year,
+          y: d[name]
+        };
+      })
+    };
+  });
+
+  // Initialize layout function
+  // with the 'values' accessor due to the multi-dimensional array
+  var stack = d3.layout.stack()
+    .values(function(d) {
+      return d.values;
+    });
+  vis.stackedData = stack(transposedData);
 
 
-
-  // TO-DO: Stacked area layout
-  // vis.area = d3.svg.area()
-  //	...
+  // Stacked area layout
+  vis.area = d3.svg.area()
+    .interpolate("cardinal")
+    .x(function(d) {
+      return vis.x(d.Year);
+    })
+    .y0(function(d) {
+      return vis.y(d.y0);
+    })
+    .y1(function(d) {
+      return vis.y(d.y0 + d.y);
+    });
 
 
   // TO-DO: Tooltip placeholder
 
 
-  // TO-DO: (Filter, aggregate, modify data)
-  // vis.wrangleData();
+  // (Filter, aggregate, modify data)
+  vis.wrangleData();
 }
 
 
