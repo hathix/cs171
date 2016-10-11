@@ -45,7 +45,12 @@ StackedAreaChart.prototype.initVis = function() {
       ")");
 
   // TO-DO: Overlay with path clipping
-
+  vis.svg.append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", vis.width)
+    .attr("height", vis.height);
 
   // Scales and axes
   vis.x = d3.time.scale()
