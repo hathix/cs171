@@ -71,7 +71,7 @@ AreaChart.prototype.initVis = function() {
       return vis.x(d.date);
     })
     .y0(function(d) {
-      return 0;
+      return vis.height;
     })
     .y1(function(d) {
       return vis.y(d.values);
@@ -136,22 +136,21 @@ AreaChart.prototype.updateVis = function() {
   })]);
 
   // enter/update/exit the area
-  var area = vis.svg.selectAll(".area")
+  var areaPath = vis.svg.selectAll(".area")
     .data(vis.displayData);
 
-  area.enter()
+  areaPath.enter()
     .append("path")
+    .datum(vis.displayData)
     .attr("class", "area")
 
-  area
-    .attr("d", function(d) {
-      return vis.area(d.values);
-    });
+  areaPath
+    .attr("d", vis.area);
 
   // TO-DO: Update tooltip text
 
 
-  area.exit()
+  areaPath.exit()
     .remove();
 
 

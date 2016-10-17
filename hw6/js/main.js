@@ -1,11 +1,17 @@
-
 // Bar chart configurations: data keys and chart titles
-var configs = [
-	{ key: "ownrent", title: "Own or Rent" },
-	{ key: "electricity", title: "Electricity" },
-	{ key: "latrine", title: "Latrine" },
-	{ key: "hohreligion", title: "Religion" }
-];
+var configs = [{
+  key: "ownrent",
+  title: "Own or Rent" 
+}, {
+  key: "electricity",
+  title: "Electricity" 
+}, {
+  key: "latrine",
+  title: "Latrine" 
+}, {
+  key: "hohreligion",
+  title: "Religion" 
+}];
 
 
 // Initialize variables to save the charts later
@@ -14,7 +20,8 @@ var areachart;
 
 
 // Date parser to convert strings to date objects
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+var parseDate = d3.time.format("%Y-%m-%d")
+  .parse;
 
 
 // (1) Load CSV data
@@ -22,18 +29,18 @@ var parseDate = d3.time.format("%Y-%m-%d").parse;
 // 	(3) Create new bar chart objects
 // 	(4) Create new are chart object
 
-d3.csv("data/household_characteristics.csv", function(data){
+d3.csv("data/household_characteristics.csv", function(data) {
 
-	// * TO-DO *
-	console.log(data);
+  // * TO-DO *
+  console.log(data);
 
-	// make a bar chart for each variable (entry in config)
-	var barCharts = configs.map(function(entry) {
-		return new BarChart("#bar-chart-holder", data, entry);
-	});
+  // make a bar chart for each variable (entry in config)
+  var barCharts = configs.map(function(entry) {
+    return new BarChart("#bar-chart-holder", data, entry);
+  });
 
-	// make an area chart to show # of surveys
-	new AreaChart("#area-chart-holder", data);
+  // make an area chart to show # of surveys
+  new AreaChart("#area-chart-holder", data);
 
 });
 
@@ -41,6 +48,6 @@ d3.csv("data/household_characteristics.csv", function(data){
 // React to 'brushed' event and update all bar charts
 function brushed() {
 
-	// * TO-DO *
+  // * TO-DO *
 
 }

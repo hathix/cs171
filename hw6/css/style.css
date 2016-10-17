@@ -2,12 +2,14 @@
 /* ADD YOUR STYLES HERE */
 
 
+/*  AREA CHART */
+
+.area {
+    fill: FireBrick;
+}
+
 /****************/
-
-
 /*   BAR-CHART  */
-
-
 /****************/
 
 .bar {
