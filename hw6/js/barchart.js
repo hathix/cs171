@@ -24,7 +24,6 @@ BarChart = function(_parentElement, _data, _config) {
 BarChart.prototype.initVis = function() {
   var vis = this;
 
-
   // * TO-DO *
 
 
@@ -54,13 +53,15 @@ BarChart.prototype.wrangleData = function() {
       return leaves.length;
     })
     .entries(vis.data);
+
   // sort descending
   countPeopleByBucket.sort(function(a, b) {
     return b.values - a.values;
   });
   console.log(countPeopleByBucket);
 
-  // create svg
+  // Create drawin components
+  // variables
   vis.margin = {
     top: 20,
     right: 0,
@@ -73,9 +74,7 @@ BarChart.prototype.wrangleData = function() {
   vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
   vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
 
-
-  // SVG drawing area
-
+  // Draw SVG
   vis.svg = d3.select(vis.parentElement)
     .append("svg")
     .attr("width", vis.outerWidth)
@@ -83,6 +82,19 @@ BarChart.prototype.wrangleData = function() {
     .append("g")
     .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top +
       ")");
+
+  // Scales and axes
+
+  vis.x = d3.scale.linear()
+    .range([vis.width, 0]);
+  vis.y = d3.scale.ordinal()
+    .rangeRoundBands([0, vis.height], .1);
+
+  vis.yAxis = d3.svg.axis()
+    .scale(vis.y)
+    .orient("left");
+  vis.svg.append("g")
+    .attr("class", "y-axis axis");
 
 
   // Update the visualization
