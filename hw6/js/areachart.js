@@ -82,14 +82,6 @@ AreaChart.prototype.initVis = function() {
     .x(vis.x)
     .on("brush", throttleBrushed);
 
-  //    Append brush component here
-  vis.svg.append("g")
-    .attr("class", "x brush")
-    .call(vis.brush)
-    .selectAll("rect")
-    .attr("y", -6)
-    .attr("height", vis.height + 7);
-
   // (Filter, aggregate, modify data)
   vis.wrangleData();
 }
@@ -165,6 +157,16 @@ AreaChart.prototype.updateVis = function() {
 
   areaPath.exit()
     .remove();
+
+
+
+      //    Append brush component here
+      vis.svg.append("g")
+        .attr("class", "x brush")
+        .call(vis.brush)
+        .selectAll("rect")
+        .attr("y", -6)
+        .attr("height", vis.height + 7);
 
 
   // Update the axes
