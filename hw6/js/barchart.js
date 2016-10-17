@@ -1,19 +1,18 @@
-
-
 /*
  * BarChart - Object constructor function
  * @param _parentElement 	-- the HTML element in which to draw the bar charts
  * @param _data						-- the dataset 'household characteristics'
  * @param _config					-- variable from the dataset (e.g. 'electricity') and title for each bar chart
+ *                       			   `key`, `title`
  */
 
-BarChart = function(_parentElement, _data, _config){
-	this.parentElement = _parentElement;
-	this.data = _data;
-	this.config = _config;
-	this.displayData = _data;
+BarChart = function(_parentElement, _data, _config) {
+  this.parentElement = _parentElement;
+  this.data = _data;
+  this.config = _config;
+  this.displayData = _data;
 
-	this.initVis();
+  this.initVis();
 }
 
 
@@ -22,15 +21,15 @@ BarChart = function(_parentElement, _data, _config){
  * Initialize visualization (static content; e.g. SVG area, axes)
  */
 
-BarChart.prototype.initVis = function(){
-	var vis = this;
+BarChart.prototype.initVis = function() {
+  var vis = this;
 
 
-	// * TO-DO *
+  // * TO-DO *
 
 
-	// (Filter, aggregate, modify data)
-	vis.wrangleData();
+  // (Filter, aggregate, modify data)
+  vis.wrangleData();
 }
 
 
@@ -39,18 +38,55 @@ BarChart.prototype.initVis = function(){
  * Data wrangling
  */
 
-BarChart.prototype.wrangleData = function(){
-	var vis = this;
+BarChart.prototype.wrangleData = function() {
+  var vis = this;
 
-	// (1) Group data by key variable (e.g. 'electricity') and count leaves
-	// (2) Sort columsn descending
+  // calculations
+  // (1) Group data by key variable (e.g. 'electricity') and count leaves
+  // (2) Sort columsn descending
+  // * TO-DO *
+  // count people in each bucket
+  var countPeopleByBucket = d3.nest()
+    .key(function(d) {
+      return d[vis.config.key]
+    })
+    .rollup(function(leaves) {
+      return leaves.length;
+    })
+    .entries(vis.data);
+  // sort descending
+  countPeopleByBucket.sort(function(a, b) {
+    return b.values - a.values;
+  });
+  console.log(countPeopleByBucket);
+
+  // create svg
+  vis.margin = {
+    top: 20,
+    right: 0,
+    bottom: 30,
+    left: 60
+  };
+  vis.outerWidth = 500;
+  vis.outerHeight = 200;
+
+  vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
+  vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
 
 
-	// * TO-DO *
+  // SVG drawing area
+
+  vis.svg = d3.select(vis.parentElement)
+    .append("svg")
+    .attr("width", vis.outerWidth)
+    .attr("height", vis.outerHeight)
+    .append("g")
+    .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top +
+      ")");
 
 
-	// Update the visualization
-	vis.updateVis();
+  // Update the visualization
+  vis.updateVis();
 }
 
 
@@ -59,19 +95,20 @@ BarChart.prototype.wrangleData = function(){
  * The drawing function - should use the D3 update sequence (enter, update, exit)
  */
 
-BarChart.prototype.updateVis = function(){
-	var vis = this;
+BarChart.prototype.updateVis = function() {
+  var vis = this;
 
-	// (1) Update domains
-	// (2) Draw rectangles
-	// (3) Draw labels
-	
-
-	// * TO-DO *
+  // (1) Update domains
+  // (2) Draw rectangles
+  // (3) Draw labels
 
 
-	// Update the y-axis
-	vis.svg.select(".y-axis").call(vis.yAxis);
+  // * TO-DO *
+
+
+  // Update the y-axis
+  vis.svg.select(".y-axis")
+    .call(vis.yAxis);
 }
 
 
@@ -81,15 +118,15 @@ BarChart.prototype.updateVis = function(){
  * Example for brushRegion: 07/16/2016 to 07/28/2016
  */
 
-BarChart.prototype.selectionChanged = function(brushRegion){
-	var vis = this;
+BarChart.prototype.selectionChanged = function(brushRegion) {
+  var vis = this;
 
-	// Filter data accordingly without changing the original data
-
-	
-	// * TO-DO *
+  // Filter data accordingly without changing the original data
 
 
-	// Update the visualization
-	vis.wrangleData();
+  // * TO-DO *
+
+
+  // Update the visualization
+  vis.wrangleData();
 }

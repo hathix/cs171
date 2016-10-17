@@ -10,7 +10,7 @@ var configs = [
 
 // Initialize variables to save the charts later
 var barcharts = [];
-var areachart; 
+var areachart;
 
 
 // Date parser to convert strings to date objects
@@ -25,13 +25,20 @@ var parseDate = d3.time.format("%Y-%m-%d").parse;
 d3.csv("data/household_characteristics.csv", function(data){
 
 	// * TO-DO *
-	
+	console.log(data);
+
+	// make a bar chart for each variable (entry in config)
+	var parentElement = "#bar-chart-holder";
+	var barCharts = configs.map(function(entry) {
+		return new BarChart(parentElement, data, entry);
+	});
+
 });
 
 
 // React to 'brushed' event and update all bar charts
 function brushed() {
-	
+
 	// * TO-DO *
 
 }
