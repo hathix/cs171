@@ -34,7 +34,7 @@ AreaChart.prototype.initVis = function() {
 
 
   // SVG drawing area
-  vis.svg = d3.select("#" + vis.parentElement)
+  vis.svg = d3.select(vis.parentElement)
     .append("svg")
     .attr("width", vis.width + vis.margin.left + vis.margin.right)
     .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
@@ -42,21 +42,9 @@ AreaChart.prototype.initVis = function() {
     .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top +
       ")");
 
-  // TO-DO: Overlay with path clipping
-  vis.svg.append("defs")
-    .append("clipPath")
-    .attr("id", "clip")
-    .append("rect")
-    .attr("width", vis.width)
-    .attr("height", vis.height);
-
   // Scales and axes
   vis.x = d3.time.scale()
-    .range([0, vis.width])
-    .domain(d3.extent(vis.data, function(d) {
-      return d.Year;
-    }));
-
+    .range([0, vis.width]);
   vis.y = d3.scale.linear()
     .range([vis.height, 0]);
 
@@ -76,42 +64,17 @@ AreaChart.prototype.initVis = function() {
     .attr("class", "y-axis axis");
 
 
-  // Initialize stack layout
-  // get all categories
-  var dataCategories = colorScale.domain();
-  // Rearrange data into layers
-  var transposedData = dataCategories.map(function(name) {
-    return {
-      name: name,
-      values: vis.data.map(function(d) {
-        return {
-          Year: d.Year,
-          y: d[name]
-        };
-      })
-    };
-  });
-
-  // Initialize layout function
-  // with the 'values' accessor due to the multi-dimensional array
-  var stack = d3.layout.stack()
-    .values(function(d) {
-      return d.values;
-    });
-  vis.stackedData = stack(transposedData);
-
-
-  // Stacked area layout
+  // area layout
   vis.area = d3.svg.area()
     .interpolate("cardinal")
     .x(function(d) {
-      return vis.x(d.Year);
+      return vis.x(d.date);
     })
     .y0(function(d) {
-      return vis.y(d.y0);
+      return 0;
     })
     .y1(function(d) {
-      return vis.y(d.y0 + d.y);
+      return vis.y(d.values);
     });
 
 
@@ -128,10 +91,28 @@ AreaChart.prototype.wrangleData = function() {
   var vis = this;
 
   // (1) Group data by date and count survey results for each day
+
+  var countSurveysByDate = d3.nest()
+    .key(function(d) {
+      return d.survey;
+    })
+    .rollup(function(leaves) {
+      return leaves.length;
+    })
+    .entries(vis.data);
+
+  // the key must be a string, so let's add our own date field
+  // that caches the parsing
+  countSurveysByDate.forEach(function(d) {
+    d.date = parseDate(d.key);
+  })
+
   // (2) Sort data by day
-
-
-  // * TO-DO *
+  countSurveysByDate.sort(function(a, b) {
+    return a.date - b.date;
+  });
+  console.log(countSurveysByDate);
+  vis.displayData = countSurveysByDate;
 
 
   // Update the visualization
@@ -146,6 +127,37 @@ AreaChart.prototype.wrangleData = function() {
 AreaChart.prototype.updateVis = function() {
   var vis = this;
 
-  // * TO-DO *
+  // update domains
+  vis.x.domain(d3.extent(vis.displayData, function(d) {
+    return d.date;
+  }));
+  vis.y.domain([0, d3.max(vis.displayData, function(d) {
+    return d.values;
+  })]);
 
-}
+  // enter/update/exit the area
+  var area = vis.svg.selectAll(".area")
+    .data(vis.displayData);
+
+  area.enter()
+    .append("path")
+    .attr("class", "area")
+
+  area
+    .attr("d", function(d) {
+      return vis.area(d.values);
+    });
+
+  // TO-DO: Update tooltip text
+
+
+  area.exit()
+    .remove();
+
+
+  // Update the axes
+  vis.svg.select(".x-axis")
+    .call(vis.xAxis);
+  vis.svg.select(".y-axis")
+    .call(vis.yAxis);
+};
