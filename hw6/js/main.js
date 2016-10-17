@@ -28,10 +28,12 @@ d3.csv("data/household_characteristics.csv", function(data){
 	console.log(data);
 
 	// make a bar chart for each variable (entry in config)
-	var parentElement = "#bar-chart-holder";
 	var barCharts = configs.map(function(entry) {
-		return new BarChart(parentElement, data, entry);
+		return new BarChart("#bar-chart-holder", data, entry);
 	});
+
+	// make an area chart to show # of surveys
+	new AreaChart("#area-chart-holder", data);
 
 });
 

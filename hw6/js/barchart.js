@@ -42,7 +42,6 @@ BarChart.prototype.initVis = function() {
   };
   vis.outerWidth = 500;
   vis.outerHeight = 150;
-
   vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
   vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
 
@@ -109,8 +108,6 @@ BarChart.prototype.wrangleData = function() {
     return b.values - a.values;
   });
   this.displayData = countPeopleByBucket;
-  console.log(countPeopleByBucket);
-
 
   // Update the visualization
   vis.updateVis();
