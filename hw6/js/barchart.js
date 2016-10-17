@@ -72,8 +72,8 @@ BarChart.prototype.initVis = function() {
   // label group
   vis.labelGroup = vis.svg.append("g");
   vis.labelPadding = {
-      top: 20,
-      left: 5
+    top: 20,
+    left: 5
   };
 
   // (Filter, aggregate, modify data)
@@ -131,7 +131,9 @@ BarChart.prototype.updateVis = function(visData) {
 
   // (2) Draw rectangles
   var bars = vis.barGroup.selectAll('rect')
-    .data(visData);
+    .data(visData, function(d) {
+        return d.key;
+    });
 
   // add new stuff
   bars.enter()
@@ -140,8 +142,8 @@ BarChart.prototype.updateVis = function(visData) {
 
   // update existing stuff
   bars
-  // .transition()
-  // .duration(1000)
+    .transition()
+    .duration(1000)
     .attr("x", 0)
     .attr("y", function(d) {
       return vis.y(d.key);
@@ -153,14 +155,16 @@ BarChart.prototype.updateVis = function(visData) {
 
   // remove old
   bars.exit()
-    // .transition()
-    // .duration(1000)
+    .transition()
+    .duration(1000)
     .remove();
 
 
   // (3) Draw labels
   var labels = vis.labelGroup.selectAll('text')
-    .data(visData);
+    .data(visData, function(d) {
+        return d.key;
+    });
 
   // add new
   labels.enter()
@@ -174,6 +178,8 @@ BarChart.prototype.updateVis = function(visData) {
     .attr("y", function(d) {
       return vis.y(d.key) + vis.labelPadding.top;
     })
+    .transition()
+    .duration(1000)
     .text(function(d) {
       return d.values;
     });
@@ -188,6 +194,8 @@ BarChart.prototype.updateVis = function(visData) {
 
   // Update the y-axis
   vis.svg.select(".y-axis")
+  .transition()
+  .duration(1000)
     .call(vis.yAxis);
 }
 
@@ -201,11 +209,16 @@ BarChart.prototype.updateVis = function(visData) {
 BarChart.prototype.selectionChanged = function(brushRegion) {
   var vis = this;
 
+  // if there's <1 day selected, don't do anything
+  if (brushRegion[0].getDate() == brushRegion[1].getDate()) {
+      return;
+  }
+
   // Filter data accordingly without changing the original data
   vis.displayData = vis.data.filter(function(d) {
-      var date = parseDate(d.survey);
-      // date is between start and end
-      return date >= brushRegion[0] && date <= brushRegion[1];
+    var date = parseDate(d.survey);
+    // date is between start and end
+    return date >= brushRegion[0] && date <= brushRegion[1];
   });
 
   // Update the visualization

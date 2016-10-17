@@ -80,7 +80,7 @@ AreaChart.prototype.initVis = function() {
   // initialize brush
   vis.brush = d3.svg.brush()
     .x(vis.x)
-    .on("brush", brushed);
+    .on("brush", throttleBrushed);
 
   //    Append brush component here
   vis.svg.append("g")

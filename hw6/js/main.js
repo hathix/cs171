@@ -57,6 +57,7 @@ function brushed() {
       areaChart.brush.empty() ? areaChart.x.domain() : areaChart.brush.extent()
     );
   })
-
-
 }
+
+// A throttled version of brushed, which fires once every so often - this way it doesn't overload our transitions.
+var throttleBrushed = _.throttle(brushed, 10);
