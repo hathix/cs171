@@ -111,6 +111,8 @@ BarChart.prototype.updateVis = function() {
   var vis = this;
 
   // (1) Update domains
+
+
   // (2) Draw rectangles
   // (3) Draw labels
 
