@@ -36,11 +36,11 @@ BarChart.prototype.initVis = function() {
   // variables
   vis.margin = {
     top: 0,
-    right: 40,
+    right: 80,
     bottom: 0,
-    left: 100
+    left: 160
   };
-  vis.outerWidth = 500;
+  vis.outerWidth = $(vis.parentElement).width();
   vis.outerHeight = 150;
   vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
   vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
@@ -48,6 +48,7 @@ BarChart.prototype.initVis = function() {
   // Draw SVG
   vis.svg = d3.select(vis.parentElement)
     .append("svg")
+    .attr("id", "bar-chart")
     .attr("width", vis.outerWidth)
     .attr("height", vis.outerHeight)
     .append("g")

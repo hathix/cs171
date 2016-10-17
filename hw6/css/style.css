@@ -19,15 +19,24 @@
 /****************/
 
 .bar {
-  fill: #3C948B;
+  /*fill: #3C948B;*/
+  fill: FireBrick;
 }
 
 .bar:hover {
-  fill: #327972;
+  /*fill: #327972;*/
 }
 
 .axis {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
+}
+
+
+
+.axis-label {
+  fill: #888;
+  font-size: 12px;
+  text-anchor: middle;
 }
 
 .axis path, .axis line, .domain {
@@ -36,12 +45,6 @@
   shape-rendering: crispEdges;
 }
 
-#chart-area text {
-  font-size: 11px;
-}
-
-.axis-label {
-  fill: #888;
-  font-size: 10px;
-  text-anchor: middle;
+#bar-chart {
+    font: 16px sans-serif;
 }

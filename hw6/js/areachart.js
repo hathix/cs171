@@ -23,11 +23,11 @@ AreaChart.prototype.initVis = function() {
   // * TO-DO *
   vis.margin = {
     top: 40,
-    right: 0,
+    right: 30,
     bottom: 60,
-    left: 60
+    left: 90
   };
-  vis.outerWidth = 500;
+  vis.outerWidth = $(vis.parentElement).width();
   vis.outerHeight = 500;
   vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
   vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
