@@ -101,16 +101,15 @@ BarChart.prototype.wrangleData = function() {
     .rollup(function(leaves) {
       return leaves.length;
     })
-    .entries(vis.data);
+    .entries(vis.displayData);
 
   // sort descending
   countPeopleByBucket.sort(function(a, b) {
     return b.values - a.values;
   });
-  this.displayData = countPeopleByBucket;
 
   // Update the visualization
-  vis.updateVis();
+  vis.updateVis(countPeopleByBucket);
 }
 
 
@@ -119,20 +118,20 @@ BarChart.prototype.wrangleData = function() {
  * The drawing function - should use the D3 update sequence (enter, update, exit)
  */
 
-BarChart.prototype.updateVis = function() {
+BarChart.prototype.updateVis = function(visData) {
   var vis = this;
 
   // (1) Update domains
-  vis.x.domain([0, d3.max(vis.displayData, function(d) {
+  vis.x.domain([0, d3.max(visData, function(d) {
     return d.values;
   })]);
-  vis.y.domain(vis.displayData.map(function(d) {
+  vis.y.domain(visData.map(function(d) {
     return d.key;
   }));
 
   // (2) Draw rectangles
   var bars = vis.barGroup.selectAll('rect')
-    .data(vis.displayData);
+    .data(visData);
 
   // add new stuff
   bars.enter()
@@ -161,7 +160,7 @@ BarChart.prototype.updateVis = function() {
 
   // (3) Draw labels
   var labels = vis.labelGroup.selectAll('text')
-    .data(vis.displayData);
+    .data(visData);
 
   // add new
   labels.enter()
@@ -203,10 +202,11 @@ BarChart.prototype.selectionChanged = function(brushRegion) {
   var vis = this;
 
   // Filter data accordingly without changing the original data
-
-
-  // * TO-DO *
-
+  vis.displayData = vis.data.filter(function(d) {
+      var date = parseDate(d.survey);
+      // date is between start and end
+      return date >= brushRegion[0] && date <= brushRegion[1];
+  });
 
   // Update the visualization
   vis.wrangleData();

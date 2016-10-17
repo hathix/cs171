@@ -23,6 +23,10 @@ var areachart;
 var parseDate = d3.time.format("%Y-%m-%d")
   .parse;
 
+// store charts
+var barCharts;
+var areaChart;
+
 
 // (1) Load CSV data
 // 	(2) Convert strings to date objects
@@ -35,12 +39,12 @@ d3.csv("data/household_characteristics.csv", function(data) {
   console.log(data);
 
   // make a bar chart for each variable (entry in config)
-  var barCharts = configs.map(function(entry) {
+  barCharts = configs.map(function(entry) {
     return new BarChart("#bar-chart-holder", data, entry);
   });
 
   // make an area chart to show # of surveys
-  new AreaChart("#area-chart-holder", data);
+  areaChart = new AreaChart("#area-chart-holder", data);
 
 });
 
@@ -48,6 +52,11 @@ d3.csv("data/household_characteristics.csv", function(data) {
 // React to 'brushed' event and update all bar charts
 function brushed() {
 
-  // * TO-DO *
+  barCharts.forEach(function(barChart) {
+    barChart.selectionChanged(
+      areaChart.brush.empty() ? areaChart.x.domain() : areaChart.brush.extent()
+    );
+  })
+
 
 }

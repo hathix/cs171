@@ -77,6 +77,18 @@ AreaChart.prototype.initVis = function() {
       return vis.y(d.values);
     });
 
+  // initialize brush
+  vis.brush = d3.svg.brush()
+    .x(vis.x)
+    .on("brush", brushed);
+
+  //    Append brush component here
+  vis.svg.append("g")
+    .attr("class", "x brush")
+    .call(vis.brush)
+    .selectAll("rect")
+    .attr("y", -6)
+    .attr("height", vis.height + 7);
 
   // (Filter, aggregate, modify data)
   vis.wrangleData();
@@ -139,6 +151,7 @@ AreaChart.prototype.updateVis = function() {
   var areaPath = vis.svg.selectAll(".area")
     .data(vis.displayData);
 
+ // TODO stop appending all the time
   areaPath.enter()
     .append("path")
     .datum(vis.displayData)

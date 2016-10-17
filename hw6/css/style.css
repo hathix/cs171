@@ -8,6 +8,12 @@
     fill: FireBrick;
 }
 
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
 /****************/
 /*   BAR-CHART  */
 /****************/
