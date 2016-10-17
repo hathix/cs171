@@ -67,10 +67,10 @@ BarChart.prototype.wrangleData = function() {
     top: 20,
     right: 0,
     bottom: 30,
-    left: 60
+    left: 100
   };
   vis.outerWidth = 500;
-  vis.outerHeight = 200;
+  vis.outerHeight = 150;
 
   vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
   vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
@@ -88,7 +88,7 @@ BarChart.prototype.wrangleData = function() {
   vis.x = d3.scale.linear()
     .range([vis.width, 0]);
   vis.y = d3.scale.ordinal()
-    .rangeRoundBands([0, vis.height], .1);
+    .rangeRoundBands([0, vis.height], .2);
 
   vis.yAxis = d3.svg.axis()
     .scale(vis.y)
@@ -134,14 +134,12 @@ BarChart.prototype.updateVis = function() {
   bars
   // .transition()
   // .duration(1000)
-    .attr("x", function(d) {
-      return vis.x(d.values);
-    })
+    .attr("x", 0)
     .attr("y", function(d) {
       return vis.y(d.key);
     })
     .attr("width", function(d) {
-      return vis.width - vis.y(d.key);
+      return vis.width - vis.x(d.values);
     })
     .attr("height", vis.y.rangeBand());
 
