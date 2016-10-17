@@ -58,6 +58,7 @@ BarChart.prototype.wrangleData = function() {
   countPeopleByBucket.sort(function(a, b) {
     return b.values - a.values;
   });
+  this.displayData = countPeopleByBucket;
   console.log(countPeopleByBucket);
 
   // Create drawin components
@@ -84,7 +85,6 @@ BarChart.prototype.wrangleData = function() {
       ")");
 
   // Scales and axes
-
   vis.x = d3.scale.linear()
     .range([vis.width, 0]);
   vis.y = d3.scale.ordinal()
@@ -93,8 +93,11 @@ BarChart.prototype.wrangleData = function() {
   vis.yAxis = d3.svg.axis()
     .scale(vis.y)
     .orient("left");
-  vis.svg.append("g")
+  vis.yAxisGroup = vis.svg.append("g")
     .attr("class", "y-axis axis");
+
+  // bar group
+  vis.barGroup = vis.svg.append("g");
 
 
   // Update the visualization
@@ -111,9 +114,43 @@ BarChart.prototype.updateVis = function() {
   var vis = this;
 
   // (1) Update domains
-
+  vis.x.domain([0, d3.max(vis.displayData, function(d) {
+    return d.values;
+  })]);
+  vis.y.domain(vis.displayData.map(function(d) {
+    return d.key;
+  }));
 
   // (2) Draw rectangles
+  var bars = vis.barGroup.selectAll('rect')
+    .data(vis.displayData);
+
+  // add new stuff
+  bars.enter()
+    .append('rect')
+    .attr('class', 'bar');
+
+  // update existing stuff
+  bars
+  // .transition()
+  // .duration(1000)
+    .attr("x", function(d) {
+      return vis.x(d.values);
+    })
+    .attr("y", function(d) {
+      return vis.y(d.key);
+    })
+    .attr("width", function(d) {
+      return vis.width - vis.y(d.key);
+    })
+    .attr("height", vis.y.rangeBand());
+
+  bars.exit()
+    // .transition()
+    // .duration(1000)
+    .remove();
+
+
   // (3) Draw labels
 
 
