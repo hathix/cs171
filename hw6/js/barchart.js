@@ -26,48 +26,56 @@ BarChart.prototype.initVis = function() {
 
   // * TO-DO *
 
-// make static title
-d3.select(vis.parentElement).append("h3").text(vis.config.title);
+  // make static title
+  d3.select(vis.parentElement)
+    .append("h3")
+    .text(vis.config.title);
 
 
-    // Create drawing components
-    // variables
-    vis.margin = {
+  // Create drawing components
+  // variables
+  vis.margin = {
+    top: 0,
+    right: 40,
+    bottom: 0,
+    left: 100
+  };
+  vis.outerWidth = 500;
+  vis.outerHeight = 150;
+
+  vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
+  vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
+
+  // Draw SVG
+  vis.svg = d3.select(vis.parentElement)
+    .append("svg")
+    .attr("width", vis.outerWidth)
+    .attr("height", vis.outerHeight)
+    .append("g")
+    .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top +
+      ")");
+
+  // Scales and axes
+  vis.x = d3.scale.linear()
+    .range([vis.width, 0]);
+  vis.y = d3.scale.ordinal()
+    .rangeRoundBands([0, vis.height], .2);
+
+  vis.yAxis = d3.svg.axis()
+    .scale(vis.y)
+    .orient("left");
+  vis.yAxisGroup = vis.svg.append("g")
+    .attr("class", "y-axis axis");
+
+  // bar group
+  vis.barGroup = vis.svg.append("g");
+
+  // label group
+  vis.labelGroup = vis.svg.append("g");
+  vis.labelPadding = {
       top: 20,
-      right: 0,
-      bottom: 30,
-      left: 100
-    };
-    vis.outerWidth = 500;
-    vis.outerHeight = 150;
-
-    vis.width = vis.outerWidth - vis.margin.left - vis.margin.right;
-    vis.height = vis.outerHeight - vis.margin.top - vis.margin.bottom;
-
-    // Draw SVG
-    vis.svg = d3.select(vis.parentElement)
-      .append("svg")
-      .attr("width", vis.outerWidth)
-      .attr("height", vis.outerHeight)
-      .append("g")
-      .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top +
-        ")");
-
-    // Scales and axes
-    vis.x = d3.scale.linear()
-      .range([vis.width, 0]);
-    vis.y = d3.scale.ordinal()
-      .rangeRoundBands([0, vis.height], .2);
-
-    vis.yAxis = d3.svg.axis()
-      .scale(vis.y)
-      .orient("left");
-    vis.yAxisGroup = vis.svg.append("g")
-      .attr("class", "y-axis axis");
-
-    // bar group
-    vis.barGroup = vis.svg.append("g");
-
+      left: 5
+  };
 
   // (Filter, aggregate, modify data)
   vis.wrangleData();
@@ -102,6 +110,7 @@ BarChart.prototype.wrangleData = function() {
   });
   this.displayData = countPeopleByBucket;
   console.log(countPeopleByBucket);
+
 
   // Update the visualization
   vis.updateVis();
@@ -146,6 +155,7 @@ BarChart.prototype.updateVis = function() {
     })
     .attr("height", vis.y.rangeBand());
 
+  // remove old
   bars.exit()
     // .transition()
     // .duration(1000)
@@ -153,6 +163,28 @@ BarChart.prototype.updateVis = function() {
 
 
   // (3) Draw labels
+  var labels = vis.labelGroup.selectAll('text')
+    .data(vis.displayData);
+
+  // add new
+  labels.enter()
+    .append('text')
+    .attr('class', 'label');
+
+  // update
+  labels.attr("x", function(d) {
+      return vis.width - vis.x(d.values) + vis.labelPadding.left;
+    })
+    .attr("y", function(d) {
+      return vis.y(d.key) + vis.labelPadding.top;
+    })
+    .text(function(d) {
+      return d.values;
+    });
+
+  // exit
+  labels.exit()
+    .remove();
 
 
   // * TO-DO *
