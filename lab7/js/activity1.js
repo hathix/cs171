@@ -9,7 +9,9 @@ var svg = d3.select("#chart-area")
 
 // 1) INITIALIZE FORCE-LAYOUT
 var force = d3.layout.force()
-  .size([width, height]);
+  .size([width, height])
+  .linkDistance(30)
+  .gravity(.05);
 
 
 // Load data
@@ -30,7 +32,7 @@ d3.json("data/airports.json", function(data) {
     .enter()
     .append("line")
     .attr("class", "edge")
-    .attr("stroke", "green");
+    .attr("stroke", "black");
 
   // 4) DRAW THE NODES (SVG CIRCLE)
   // Draw nodes
@@ -38,9 +40,20 @@ d3.json("data/airports.json", function(data) {
     .data(data.nodes)
     .enter()
     .append("circle")
-    .attr("class", "node")
-    .attr("r", 5)
-    .attr("fill", "green");
+    .attr("class", function(d) {
+      return "node " + (d.country == "United States" ? "domestic" :
+        "foreign");
+    })
+    .attr("r", 5);
+
+  // add tooltip
+  node.append("title")
+    .text(function(d) {
+      return d.name;
+    });
+
+  // draggable nodes
+  node.call(force.drag);
 
   // 5) LISTEN TO THE 'TICK' EVENT AND UPDATE THE X/Y COORDINATES FOR ALL ELEMENTS
   force.on("tick", function() {
@@ -57,12 +70,15 @@ d3.json("data/airports.json", function(data) {
     // Update edge coordinates
     edge.attr("x1", function(d) {
         return d.source.x;
-    }).attr("x2", function(d) {
+      })
+      .attr("x2", function(d) {
         return d.target.x;
-    }).attr("y1", function(d) {
+      })
+      .attr("y1", function(d) {
         return d.source.y;
-    }).attr("y2", function(d) {
+      })
+      .attr("y2", function(d) {
         return d.target.y;
-    })
+      })
   });
 });
