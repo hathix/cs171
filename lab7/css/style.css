@@ -7,5 +7,17 @@
 }
 
 .map {
-    fill: #BBB;
+    fill: #bbb;
+}
+
+/*.map:hover {
+    fill: forestgreen;
+}*/
+
+.airport {
+    fill: dodgerblue;
+}
+
+h1 {
+    text-align: center;
 }
