@@ -24,16 +24,7 @@ var choroplethMetric = null;
 
 // d3 tooltip
 var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .html(function(d) {
-    // TODO use metric
-    var countryData = getCountryData(d);
-    if (countryData !== null) {
-      return countryData.Country;
-    } else {
-      return null;
-    }
-  });
+  .attr('class', 'd3-tip');
 svg.call(tip);
 
 queue()
@@ -109,7 +100,13 @@ function updateChoropleth() {
     .attr("fill", function(d) {
       return calculateFill(d, metric)
     })
-    .on('mouseover', tip.show)
+    .on('mouseover', function(d) {
+        // only show tooltip if we have data for this country
+        var countryData = getCountryData(d);
+        if (countryData) {
+            return tip.show(d);
+        }
+    })
     .on('mouseout', tip.hide);
 
 
@@ -165,6 +162,18 @@ function updateChoropleth() {
   // EXIT
   legend.exit()
     .remove();
+
+
+    // TOOLTIP
+    tip.html(function(d) {
+      // TODO use metric
+      var countryData = getCountryData(d);
+      if (countryData !== null) {
+        return countryData.Country + ": " + countryData[metric];
+      } else {
+        return null;
+      }
+    });
 }
 
 /*
