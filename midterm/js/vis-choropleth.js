@@ -113,15 +113,20 @@ function updateChoropleth() {
     .on('mouseout', tip.hide);
 
 
+    // LEGEND
   // legend adapted from
   // http://stackoverflow.com/questions/21838013/d3-choropleth-map-with-legend
   var legend = svg.selectAll('g.legendEntry')
-    .data(choroplethScale.range())
-    .enter()
+    .data(choroplethScale.range(), function(d) {
+      return d;
+    });
+
+  // ENTER
+  var legendEnter = legend.enter()
     .append('g')
     .attr('class', 'legendEntry');
 
-  legend
+  legendEnter
     .append('rect')
     .attr("x", 500)
     .attr("y", function(d, i) {
@@ -130,19 +135,25 @@ function updateChoropleth() {
     .attr("width", 10)
     .attr("height", 10)
     .style("stroke", "black")
-    .style("stroke-width", 1)
-    .style("fill", function(d) {
-      return d;
-    });
-  //the data objects are the fill colors
+    .style("stroke-width", 1);
 
-  legend
+  legendEnter
     .append('text')
     .attr("x", 525)
     .attr("y", function(d, i) {
       return i * 20;
     })
-    .attr("dy", "0.8em") //place text one line *below* the x,y point
+    .attr("dy", "0.8em"); //place text one line *below* the x,y point
+
+
+  // UPDATE
+  legend.selectAll('rect')
+    .style("fill", function(d) {
+      //the data objects are the fill colors
+      return d;
+    });
+
+  legend.selectAll('text')
     .text(function(d, i) {
       var extent = choroplethScale.invertExtent(d);
       //extent will be a two-element array, format it however you want:
@@ -150,10 +161,10 @@ function updateChoropleth() {
       return format(+extent[0]) + " - " + format(+extent[1]);
     });
 
-  // legend.exit()
-  // .remove();
 
-
+  // EXIT
+  legend.exit()
+    .remove();
 }
 
 /*
