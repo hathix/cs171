@@ -101,16 +101,16 @@ function updateChoropleth() {
       return calculateFill(d, metric)
     })
     .on('mouseover', function(d) {
-        // only show tooltip if we have data for this country
-        var countryData = getCountryData(d);
-        if (countryData) {
-            return tip.show(d);
-        }
+      // only show tooltip if we have data for this country
+      var countryData = getCountryData(d);
+      if (countryData) {
+        return tip.show(d);
+      }
     })
     .on('mouseout', tip.hide);
 
 
-    // LEGEND
+  // LEGEND
   // legend adapted from
   // http://stackoverflow.com/questions/21838013/d3-choropleth-map-with-legend
   var legend = svg.selectAll('g.legendEntry')
@@ -164,16 +164,16 @@ function updateChoropleth() {
     .remove();
 
 
-    // TOOLTIP
-    tip.html(function(d) {
-      // TODO use metric
-      var countryData = getCountryData(d);
-      if (countryData !== null) {
-        return countryData.Country + ": " + countryData[metric];
-      } else {
-        return null;
-      }
-    });
+  // TOOLTIP
+  tip.html(function(d) {
+    // TODO use metric
+    var countryData = getCountryData(d);
+    if (countryData !== null) {
+      return countryData.Country + ": " + countryData[metric];
+    } else {
+      return null;
+    }
+  });
 }
 
 /*

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CS171 - HW 6</title>
+  <title>Neel Mehta - CS 171 Midterm </title>
 
   <link rel="stylesheet" href="css/bootstrap.sandstone.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -16,7 +16,30 @@
 
 <body>
 
-  <!--
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+        <a class="navbar-brand" href="#">Neel Mehta - CS 171 Midterm</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <div class="container-fluid">
+
+    <!--
 
     Water & Sanitation
     - Information
@@ -25,20 +48,100 @@
 
     -->
 
-
-        <select class="form-control" id="choropleth-metric" onchange="updateChoropleth()">
+    <h1>The Problem of Water and Sanitation</h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <select class="form-control input-lg" id="choropleth-metric" onchange="updateChoropleth()">
           <option value="UN_Population">Population</option>
           <option value="Improved_Sanitation_2015">Improved Sanitation</option>
           <option value="Improved_Water_2015">Improved Water</option>
         </select>
-  <div id="choropleth-holder">
+        <br>
+        <div id="choropleth-holder"></div>
+      </div>
+      <div class="col-sm-6">
+        <div>
+
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#population" aria-controls="home" role="tab" data-toggle="tab">Population</a></li>
+            <li role="presentation"><a href="#sanitation" aria-controls="profile" role="tab" data-toggle="tab">Sanitation</a></li>
+            <li role="presentation"><a href="#water" aria-controls="messages" role="tab" data-toggle="tab">Water</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="population">
+              <h3>Population growth and rural-urban migration</h3>
+              <p>
+                Africa’s rising population is driving demand for water and accelerating the degradation of water resources in many countries on the continent. Among developing regions, Sub-Saharan Africa is estimated to have the highest prevalence of urban slums and
+                it is expected to double to around 400 million by 2020. Despite the efforts of some Sub-Saharan African countries and cities to expand basic services and improve urban housing conditions. Rapid and unplanned urban growth has increased
+                the number of settlements on unstable, flood-prone, and high-risk land where phenomena such as landslides, rains, and earthquakes have devastating consequences.
+              </p>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="sanitation">
+              <h3>Problems of Sanitation</h3>
+              <blockquote>
+                Contaminated Water: At least <strong>1.8 billion people</strong> globally use a source of drinking water that is fecally contaminated.
+              </blockquote>
+              <blockquote>
+                Basic Sanitation: 2.4 billion people lack access to <strong>basic sanitation services</strong>, such as toilets or latrines.
+              </blockquote>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="water">
+              <h3>Clean Water and Sanitation</h3>
+              <p>
+                Clean, accessible water for all is an essential part of the world we want to live in. There is sufficient fresh water on the planet to achieve this. But due to bad economics or poor infrastructure, every year millions of people, most of them children,
+                die from diseases associated with inadequate water supply, sanitation and hygiene. Water scarcity, poor water quality and inadequate sanitation negatively impact food security, livelihood choices and educational opportunities for poor
+                families across the world. Drought afflicts some of the world’s poorest countries, worsening hunger and malnutrition.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+
+    <h1>Africa's Water Needs</h1>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <h3>Poverty and Water</h3>
+        <blockquote>
+          "Poverty in Africa is often caused by a lack of access to clean, safe water and proper sanitation." (The Water Project)
+        </blockquote>
+        <p>
+          There are a number of reasons why poverty has become an epidemic in Africa. Poverty can be the result of political instability, ethnic conflicts, climate change and other man-made causes.
+        </p>
+        <p>
+          But one of the greatest causes of poverty in Africa is also the most overlooked... the lack of access to clean drinking water.
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <h3>How much water is needed?</h3>
+        <p>
+          Water is essential for life, health and human dignity. In extreme emergency situations, there may not be sufficient water available to meet basic needs and in these cases, supplying a minimum level of safe drinking-water for survival is of critical importance.
+        </p>
+        <p>
+          People use water for a wide variety of activities. Some of these are more important than others. Having a few litres of water to drink each day, for example, is more important than having water for personal hygiene or laundry, but people will still want
+          and need to wash for the prevention of skin diseases and meeting other physiological needs. Other uses of water have health and other benefits but decrease in urgency.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="well">
+      <h2 class="centered">Water Requirement Hierarchy</h2>
+      <div id="tree-holder"></div>
+    </div>
+
+    <blockquote class="lead">
+      “Safe water, clean hands, healthy bodies. Time lost to sickness is reduced and people can get back to the work of lifting themselves out of poverty.”
+    </blockquote>
+
   </div>
-
-
-
-<div id="tree-holder">
-
-</div>
 
   <!-- Load JS libraries -->
   <script src="js/jquery.min.js"></script>

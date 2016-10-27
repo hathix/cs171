@@ -21,6 +21,7 @@ var vis = d3.select("#tree-holder")
   .append("svg")
   .attr("width", outerWidth)
   .attr("height", outerHeight)
+  .attr("class", "centered")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
