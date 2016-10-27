@@ -1,37 +1,35 @@
-
 /* YOUR CSS STYLES */
 
 .jumbotron {
-    background-image: url("../img/african-kids.jpg");
-    background-position: 0 -75px;
-
-    color: white;
+  background-image: url("../img/african-kids.jpg");
+  background-position: 0 -75px;
+  color: white;
 }
 
 .map {
-    /*fill: white;*/
-    stroke: black;
+  /*fill: white;*/
+  stroke: black;
 }
 
 .link {
-    stroke: royalblue;
-    fill: none;
+  stroke: royalblue;
+  fill: none;
 }
 
 .node-dot {
-    fill: royalblue;
+  fill: royalblue;
 }
 
 .node-dot:hover {
-    fill: skyblue;
+  fill: skyblue;
 }
 
 .link:hover {
-    stroke: skyblue;
+  stroke: skyblue;
 }
 
 .centered {
-    margin: auto;
-    display: block;
-    text-align: center;
+  margin: auto;
+  display: block;
+  text-align: center;
 }

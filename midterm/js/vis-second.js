@@ -4,17 +4,17 @@ var outerWidth = 1000;
 var outerHeight = 500;
 
 var margin = {
-    top: 30,
-    bottom: 30,
-    left: 150,
-    right: 300,
+  top: 30,
+  bottom: 30,
+  left: 150,
+  right: 300,
 }
 
 var innerWidth = outerWidth - margin.left - margin.right;
 var innerHeight = outerHeight - margin.top - margin.bottom;
 
 var options = {
-    nodeRadius: 10
+  nodeRadius: 10
 }
 
 var vis = d3.select("#tree-holder")
