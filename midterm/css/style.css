@@ -6,11 +6,18 @@
   color: white;
 }
 
+.centered {
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+/* map */
 .map {
-  /*fill: white;*/
   stroke: black;
 }
 
+/* tree diagram */
 .link {
   stroke: royalblue;
   fill: none;
@@ -26,10 +33,4 @@
 
 .link:hover {
   stroke: skyblue;
-}
-
-.centered {
-  margin: auto;
-  display: block;
-  text-align: center;
 }
