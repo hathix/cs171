@@ -117,6 +117,9 @@ function updateChoropleth() {
     .data(choroplethScale.range(), function(d) {
       return d;
     });
+  var legendOptions = {
+    leftOffset: 120
+  };
 
   // ENTER
   var legendEnter = legend.enter()
@@ -125,7 +128,7 @@ function updateChoropleth() {
 
   legendEnter
     .append('rect')
-    .attr("x", width - 100)
+    .attr("x", width - legendOptions.leftOffset)
     .attr("y", function(d, i) {
       return i * 20;
     })
@@ -136,7 +139,7 @@ function updateChoropleth() {
 
   legendEnter
     .append('text')
-    .attr("x", width - 75)
+    .attr("x", width - legendOptions.leftOffset + 25)
     .attr("y", function(d, i) {
       return i * 20;
     })
@@ -153,8 +156,18 @@ function updateChoropleth() {
   legend.selectAll('text')
     .text(function(d, i) {
       var extent = choroplethScale.invertExtent(d);
-      //extent will be a two-element array, format it however you want:
-      var format = d3.format("0.2f");
+      // extent will be a two-element array, format it however you want:
+      var format;
+      switch (metric) {
+        case "UN_Population":
+          format = d3.format(".2s");
+          break;
+        case "Improved_Sanitation_2015":
+        case "Improved_Water_2015":
+          format = d3.format("0.2f");
+          break;
+      }
+
       return format(+extent[0]) + " - " + format(+extent[1]);
     });
 
