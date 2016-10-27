@@ -22,6 +22,20 @@ var countryDataById = {};
 var choroplethScale = d3.scale.quantize();
 var choroplethMetric = null;
 
+// d3 tooltip
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .html(function(d) {
+    // TODO use metric
+    var countryData = getCountryData(d);
+    if (countryData !== null) {
+      return countryData.Country;
+    } else {
+      return null;
+    }
+  });
+svg.call(tip);
+
 queue()
   .defer(d3.json, "data/africa.topo.json")
   .defer(d3.csv, "data/global-water-sanitation-2015.csv")
@@ -71,8 +85,10 @@ queue()
 // }
 
 function updateChoropleth() {
-// grab metric from page
-var metric = d3.select("#choropleth-metric").node().value;
+  // grab metric from page
+  var metric = d3.select("#choropleth-metric")
+    .node()
+    .value;
 
   // var metric = "UN_Population";
   // grab list of values for metric to calculate domain
@@ -83,14 +99,61 @@ var metric = d3.select("#choropleth-metric").node().value;
   // update scale
   // colors designed w/ colorbrewer
   choroplethScale.domain(d3.extent(metricValues))
-    .range(['#fee5d9','#fcbba1','#fc9272','#fb6a4a','#de2d26','#a50f15']);
+    .range(['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#de2d26', '#a50f15']);
 
-    // ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15']
-    // ['#fee5d9','#fcbba1','#fc9272','#fb6a4a','#de2d26','#a50f15']
+  // ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15']
+  // ['#fee5d9','#fcbba1','#fc9272','#fb6a4a','#de2d26','#a50f15']
 
   // --> Choropleth implementation
   svg.selectAll(".map")
-    .attr("fill", function(d) { return calculateFill(d, metric) });
+    .attr("fill", function(d) {
+      return calculateFill(d, metric)
+    })
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide);
+
+
+  // legend adapted from
+  // http://stackoverflow.com/questions/21838013/d3-choropleth-map-with-legend
+  var legend = svg.selectAll('g.legendEntry')
+    .data(choroplethScale.range())
+    .enter()
+    .append('g')
+    .attr('class', 'legendEntry');
+
+  legend
+    .append('rect')
+    .attr("x", 500)
+    .attr("y", function(d, i) {
+      return i * 20;
+    })
+    .attr("width", 10)
+    .attr("height", 10)
+    .style("stroke", "black")
+    .style("stroke-width", 1)
+    .style("fill", function(d) {
+      return d;
+    });
+  //the data objects are the fill colors
+
+  legend
+    .append('text')
+    .attr("x", 525)
+    .attr("y", function(d, i) {
+      return i * 20;
+    })
+    .attr("dy", "0.8em") //place text one line *below* the x,y point
+    .text(function(d, i) {
+      var extent = choroplethScale.invertExtent(d);
+      //extent will be a two-element array, format it however you want:
+      var format = d3.format("0.2f");
+      return format(+extent[0]) + " - " + format(+extent[1]);
+    });
+
+  // legend.exit()
+  // .remove();
+
+
 }
 
 /*
@@ -98,11 +161,9 @@ var metric = d3.select("#choropleth-metric").node().value;
  * and the metric to consider for it.
  */
 function calculateFill(d, metric) {
-  var code = d.properties.adm0_a3_is;
-  var thisCountryData = countryDataById[code];
-
-  if (thisCountryData) {
-    var metricValue = thisCountryData[metric];
+  var countryData = getCountryData(d);
+  if (countryData !== null) {
+    var metricValue = countryData[metric];
     if (isNaN(metricValue)) {
       // invalid data
       return "white";
@@ -113,4 +174,14 @@ function calculateFill(d, metric) {
   } else {
     return "white";
   }
+}
+
+/**
+ * Returns country data (from our dataset) given its GeoJSON entry, or null
+ * if no data exists.
+ */
+function getCountryData(geodata) {
+  var code = geodata.properties.adm0_a3_is;
+  var thisCountryData = countryDataById[code];
+  return thisCountryData || null;
 }
