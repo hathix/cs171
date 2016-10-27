@@ -1,13 +1,13 @@
 // d3 tree visualization
 // --> CREATE SVG DRAWING AREA
-var outerWidth = 600;
+var outerWidth = 1000;
 var outerHeight = 500;
 
 var margin = {
     top: 30,
     bottom: 30,
-    left: 30,
-    right: 80,
+    left: 150,
+    right: 300,
 }
 
 var innerWidth = outerWidth - margin.left - margin.right;
