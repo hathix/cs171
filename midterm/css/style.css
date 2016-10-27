@@ -5,3 +5,12 @@
     /*fill: white;*/
     stroke: black;
 }
+
+.link {
+    stroke: red;
+    fill: none;
+}
+
+.node-dot {
+    fill: red;
+}
