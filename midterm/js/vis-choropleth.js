@@ -182,7 +182,21 @@ function updateChoropleth() {
     // TODO use metric
     var countryData = getCountryData(d);
     if (countryData !== null) {
-      return countryData.Country + ": " + countryData[metric];
+      var metricData = countryData[metric];
+      // format this according to the metric
+      var format;
+      switch (metric) {
+        case "UN_Population":
+          format = d3.format("0,000");
+          break;
+        case "Improved_Sanitation_2015":
+        case "Improved_Water_2015":
+          format = d3.format("0.1f");
+          break;
+      }
+      var metricString = format(metricData);
+
+      return countryData.Country + ": " + metricString;
     } else {
       return null;
     }
