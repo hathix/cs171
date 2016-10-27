@@ -71,7 +71,10 @@ queue()
 // }
 
 function updateChoropleth() {
-  var metric = "UN_Population";
+// grab metric from page
+var metric = d3.select("#choropleth-metric").node().value;
+
+  // var metric = "UN_Population";
   // grab list of values for metric to calculate domain
   var metricValues = countryDataCSV.map(function(d) {
     return d[metric];
