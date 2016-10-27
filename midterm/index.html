@@ -25,14 +25,15 @@
 
     -->
 
+
+        <select class="form-control" id="choropleth-metric" onchange="updateChoropleth()">
+          <option value="UN_Population">Population</option>
+          <option value="Improved_Sanitation_2015">Improved Sanitation</option>
+          <option value="Improved_Water_2015">Improved Water</option>
+        </select>
   <div id="choropleth-holder">
   </div>
 
-    <select class="form-control" id="choropleth-metric" onchange="updateChoropleth()">
-      <option value="UN_Population">Population</option>
-      <option value="Improved_Sanitation_2015">Improved Sanitation</option>
-      <option value="Improved_Water_2015">Improved Water</option>
-    </select>
 
   <!-- Load JS libraries -->
   <script src="js/jquery.min.js"></script>

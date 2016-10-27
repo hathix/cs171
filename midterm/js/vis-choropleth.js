@@ -1,6 +1,6 @@
 // --> CREATE SVG DRAWING AREA
-var width = 600;
-var height = 600;
+var width = 700;
+var height = 500;
 
 var svg = d3.select("#choropleth-holder")
   .append("svg")
@@ -10,7 +10,7 @@ var svg = d3.select("#choropleth-holder")
 // build map
 var projection = d3.geo.equirectangular()
   .scale(width / 2)
-  .translate([width / 3, height / 3]);
+  .translate([width / 4, 250]);
 var path = d3.geo.path()
   .projection(projection);
 
@@ -125,7 +125,7 @@ function updateChoropleth() {
 
   legendEnter
     .append('rect')
-    .attr("x", 500)
+    .attr("x", width - 100)
     .attr("y", function(d, i) {
       return i * 20;
     })
@@ -136,7 +136,7 @@ function updateChoropleth() {
 
   legendEnter
     .append('text')
-    .attr("x", 525)
+    .attr("x", width - 75)
     .attr("y", function(d, i) {
       return i * 20;
     })
