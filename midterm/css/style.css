@@ -1,6 +1,13 @@
 
 /* YOUR CSS STYLES */
 
+.jumbotron {
+    background-image: url("../img/african-kids.jpg");
+    background-position: 0 -75px;
+
+    color: white;
+}
+
 .map {
     /*fill: white;*/
     stroke: black;
@@ -13,6 +20,14 @@
 
 .node-dot {
     fill: royalblue;
+}
+
+.node-dot:hover {
+    fill: skyblue;
+}
+
+.link:hover {
+    stroke: skyblue;
 }
 
 .centered {
