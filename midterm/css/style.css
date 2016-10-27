@@ -1,2 +1,7 @@
 
 /* YOUR CSS STYLES */
+
+.map {
+    fill: white;
+    stroke: black;
+}
