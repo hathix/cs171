@@ -7,10 +7,10 @@
 }
 
 .link {
-    stroke: red;
+    stroke: royalblue;
     fill: none;
 }
 
 .node-dot {
-    fill: red;
+    fill: royalblue;
 }

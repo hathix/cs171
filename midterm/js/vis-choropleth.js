@@ -88,7 +88,7 @@ function updateChoropleth() {
   });
 
   // update scale
-  // colors designed w/ colorbrewer
+  // colors designed w/ ColorBrewer
   choroplethScale.domain(d3.extent(metricValues))
     .range(['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#de2d26', '#a50f15']);
 
