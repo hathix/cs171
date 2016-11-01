@@ -54,6 +54,7 @@ function createVis(error, perDayData, metaData){
 	// (4) Create visualization instances
 	var countVis = new CountVis("countvis", allData);
 	var ageVis = new AgeVis("agevis", allData);
+	var prioVis = new PrioVis("priovis", allData);
 
 	// *** TO-DO ***
 

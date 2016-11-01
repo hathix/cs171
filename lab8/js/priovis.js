@@ -38,7 +38,7 @@ PrioVis.prototype.initVis = function(){
 	vis.x = d3.scale.ordinal()
 			.rangeBands([0, vis.width], .2)
 			.domain(d3.range(0,15));
-	
+
 	vis.y = d3.scale.linear()
 			.range([vis.height,0]);
 
@@ -62,7 +62,7 @@ PrioVis.prototype.initVis = function(){
 			.attr("x", -50)
 			.attr("y", -8)
 			.text("Votes");
- 
+
 
 	// (Filter, aggregate, modify data)
 	vis.wrangleData();
@@ -78,14 +78,20 @@ PrioVis.prototype.wrangleData = function(){
 
 
 	// Create a sequence of values from 0 - 14 (priorities: 1-15; array length: 15)
-	// var votesPerPriority = ...
+	var votesPerPriority = d3.range(0, 15).map(function(x) {
+		return x + 1;
+	});
 
-	// Iterate over each priority
-	// ...
+	// Iterate over each day, summing the data into `votesPerPriority`
+	vis.data.forEach(function(day) {
+		// has an array `priorities` from 1-15 inclusive
+		// add it to our existing counter
+		day.priorities.map(function(d, i) {
+			votesPerPriority[i] += d;
+		});
+	});
 
-	
-	// vis.displayData = votesPerPriority;
-
+	vis.displayData = votesPerPriority;
 
 	// Update the visualization
 	vis.updateVis();
@@ -126,16 +132,16 @@ PrioVis.prototype.updateVis = function(){
 	bars.exit().remove();
 
 
-	// Call axis function with the new domain 
+	// Call axis function with the new domain
 	vis.svg.select(".y-axis").call(vis.yAxis);
-	
+
 	vis.svg.select(".x-axis").call(vis.xAxis)
-		.selectAll("text")	
+		.selectAll("text")
 			.style("text-anchor", "end")
 			.attr("dx", "-.8em")
 			.attr("dy", ".15em")
 			.attr("transform", function(d) {
-					return "rotate(-45)" 
+					return "rotate(-45)"
 			});
 }
 
@@ -143,7 +149,7 @@ PrioVis.prototype.updateVis = function(){
 PrioVis.prototype.onSelectionChange = function(selectionStart, selectionEnd){
 	var vis = this;
 
-	
+
 	// Filter data depending on selected time period (brush)
 
 	// *** TO-DO ***

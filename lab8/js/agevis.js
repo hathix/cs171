@@ -96,10 +96,9 @@ AgeVis.prototype.wrangleData = function(){
 	var vis = this;
 
 	// Create a sequence of values from 0 - 98 (age: 1-99; array length: 99)
-	var votesPerAge = d3.range(0,99).map(function(x) {
+	var votesPerAge = d3.range(0, 99).map(function(x) {
 		return x + 1;
 	});
-	console.log(vis.data);
 
 	// Iterate over each day, summing the data into `votesPerAge`
 	vis.data.forEach(function(day) {
