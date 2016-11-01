@@ -142,7 +142,17 @@ PrioVis.prototype.updateVis = function(){
 			.attr("dy", ".15em")
 			.attr("transform", function(d) {
 					return "rotate(-45)"
-			});
+			})
+	.text(function(d){
+		// d is an integer index, 0-14
+		// grab priority title from metadata
+		var priority = vis.metaData.priorities[d]["item-title"];
+		// add the index up front
+		var label = (d+1) + ") " + priority;
+		return label;
+	});
+
+	console.log(vis.metaData);
 }
 
 
