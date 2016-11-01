@@ -80,7 +80,7 @@ AgeVis.prototype.initVis = function(){
 			.attr("x", vis.width - 5)
 			.attr("y", vis.height + 25)
 			.text("Age");
- 
+
 
 	// (Filter, aggregate, modify data)
 	vis.wrangleData();
@@ -96,13 +96,21 @@ AgeVis.prototype.wrangleData = function(){
 	var vis = this;
 
 	// Create a sequence of values from 0 - 98 (age: 1-99; array length: 99)
-	// var votesPerAge = ...
+	var votesPerAge = d3.range(0,99).map(function(x) {
+		return x + 1;
+	});
+	console.log(vis.data);
 
-	// Iterate over each day
-	// ...
+	// Iterate over each day, summing the data into `votesPerAge`
+	vis.data.forEach(function(day) {
+		// has an array `ages` of voters for each age from 0-98 inclusive
+		// add it to our existing counter
+		day.ages.map(function(d, i) {
+			votesPerAge[i] += d;
+		});
+	});
 
-	
-	// vis.displayData = votesPerAge;
+	vis.displayData = votesPerAge;
 
 	// Update the visualization
 	vis.updateVis();
@@ -130,7 +138,7 @@ AgeVis.prototype.updateVis = function(){
 			.attr("d", vis.area);
 
 
-	// Call axis function with the new domain 
+	// Call axis function with the new domain
 	vis.svg.select(".x-axis").call(vis.xAxis);
 	vis.svg.select(".y-axis").call(vis.yAxis);
 }

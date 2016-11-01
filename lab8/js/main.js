@@ -16,7 +16,7 @@ function createVis(error, perDayData, metaData){
 
 	// (2) Make our data look nicer and more useful
 	allData = perDayData.map(function (d) {
-		
+
 		var result = {
 			time: dateFormatter.parse(d.day),
 			count: +d["count(*)"] + 1
@@ -40,7 +40,7 @@ function createVis(error, perDayData, metaData){
 				result.ages[a.age] = a["count(*)"];
 			}
 		})
-		
+
 		return result;
 	});
 
@@ -53,13 +53,14 @@ function createVis(error, perDayData, metaData){
 
 	// (4) Create visualization instances
 	var countVis = new CountVis("countvis", allData);
+	var ageVis = new AgeVis("agevis", allData);
 
 	// *** TO-DO ***
 
 
 
 	// (5) Bind event handler
-	
+
 	// *** TO-DO ***
 
 }
