@@ -63,7 +63,7 @@ function createVis(error, perDayData, metaData) {
   // (5) Bind event handler
   $(eventHandler)
     .bind("selectionChanged", function(event, rangeStart, rangeEnd) {
-        console.log(event);
+      console.log(event);
       ageVis.onSelectionChange(rangeStart, rangeEnd);
       prioVis.onSelectionChange(rangeStart, rangeEnd);
     });

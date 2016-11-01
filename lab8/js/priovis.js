@@ -172,7 +172,7 @@ PrioVis.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
 
   // Filter data depending on selected time period (brush)
   vis.filteredData = vis.data.filter(function(d) {
-     return d.time >= selectionStart && d.time <= selectionEnd;
+    return d.time >= selectionStart && d.time <= selectionEnd;
   });
 
   vis.wrangleData();
