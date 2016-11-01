@@ -96,6 +96,12 @@ AgeVis.prototype.initVis = function() {
 
   // (Filter, aggregate, modify data)
   vis.wrangleData();
+
+  // start the date fields with start/end of date range by default
+  var dates = vis.data.map(function(d) {
+      return d.time;
+  });
+  vis.updateDateLabels(d3.min(dates), d3.max(dates));
 }
 
 
@@ -160,10 +166,18 @@ AgeVis.prototype.updateVis = function() {
 AgeVis.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
   var vis = this;
 
-  // Filter data depending on selected time period (brush)
-  vis.filteredData = vis.data.filter(function(d) {
-    return d.time >= selectionStart && d.time <= selectionEnd;
-  });
+  // update text areas to show dates
+  vis.updateDateLabels(selectionStart, selectionEnd);
 
   vis.wrangleData();
+}
+
+/**
+ *  Updates the date labels to show the given start and end date.
+ */
+AgeVis.prototype.updateDateLabels = function(selectionStart, selectionEnd) {
+  $('#vis-date-start')
+    .html(dateFormatter(selectionStart));
+  $('#vis-date-end')
+    .html(dateFormatter(selectionEnd));
 }

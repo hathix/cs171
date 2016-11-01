@@ -176,3 +176,12 @@ CountVis.prototype.updateVis = function() {
   vis.svg.select(".y-axis")
     .call(vis.yAxis);
 }
+
+
+CountVis.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
+  var vis = this;
+
+  //
+
+  vis.wrangleData();
+}
