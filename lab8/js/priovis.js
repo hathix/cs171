@@ -7,6 +7,7 @@
 PrioVis = function(_parentElement, _data, _metaData) {
   this.parentElement = _parentElement;
   this.data = _data;
+  this.filteredData = _data;
   this.metaData = _metaData;
 
   this.initVis();
@@ -91,7 +92,7 @@ PrioVis.prototype.wrangleData = function() {
     });
 
   // Iterate over each day, summing the data into `votesPerPriority`
-  vis.data.forEach(function(day) {
+  vis.filteredData.forEach(function(day) {
     // has an array `priorities` from 1-15 inclusive
     // add it to our existing counter
     day.priorities.map(function(d, i) {
@@ -163,19 +164,16 @@ PrioVis.prototype.updateVis = function() {
       var label = (d + 1) + ") " + priority;
       return label;
     });
-
-  console.log(vis.metaData);
 }
 
 
 PrioVis.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
   var vis = this;
 
-
   // Filter data depending on selected time period (brush)
-
-  // *** TO-DO ***
-
+  vis.filteredData = vis.data.filter(function(d) {
+     return d.time >= selectionStart && d.time <= selectionEnd;
+  });
 
   vis.wrangleData();
 }

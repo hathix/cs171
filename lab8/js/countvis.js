@@ -4,9 +4,10 @@
  * @param _data						-- the actual data: perDayData
  */
 
-CountVis = function(_parentElement, _data) {
+CountVis = function(_parentElement, _data, _eventHandler) {
   this.parentElement = _parentElement;
   this.data = _data;
+  this.eventHandler = _eventHandler;
 
   this.initVis();
 }
@@ -105,13 +106,24 @@ CountVis.prototype.initVis = function() {
 
   // Initialize brushing component
 
-  // *** TO-DO ***
 
+  vis.brush = d3.svg.brush()
+    .x(vis.x)
+    .on("brush", function() {
+      if (vis.brush.empty()) {
+        // No region selected (brush inactive)
+        $(vis.eventHandler)
+          .trigger("selectionChanged", vis.x.domain());
+      } else {
+        // User selected specific region
+        $(vis.eventHandler)
+          .trigger("selectionChanged", vis.brush.extent());
+      }
+    });
 
   // Append brush component here
-
-  // *** TO-DO ***
-
+  vis.svg.append("g")
+    .attr("class", "brush");
 
   // (Filter, aggregate, modify data)
   vis.wrangleData();
@@ -144,8 +156,10 @@ CountVis.prototype.updateVis = function() {
 
 
   // Call brush component here
-
-  // *** TO-DO ***
+  vis.svg.select(".brush")
+    .call(vis.brush)
+    .selectAll('rect')
+    .attr("height", vis.height);
 
 
   // Call the area function and update the path

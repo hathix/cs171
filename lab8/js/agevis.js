@@ -7,6 +7,7 @@
 AgeVis = function(_parentElement, _data) {
   this.parentElement = _parentElement;
   this.data = _data;
+  this.filteredData = _data;
 
   this.initVis();
 }
@@ -112,7 +113,7 @@ AgeVis.prototype.wrangleData = function() {
     });
 
   // Iterate over each day, summing the data into `votesPerAge`
-  vis.data.forEach(function(day) {
+  vis.filteredData.forEach(function(day) {
     // has an array `ages` of voters for each age from 0-98 inclusive
     // add it to our existing counter
     day.ages.map(function(d, i) {
@@ -159,11 +160,10 @@ AgeVis.prototype.updateVis = function() {
 AgeVis.prototype.onSelectionChange = function(selectionStart, selectionEnd) {
   var vis = this;
 
-
   // Filter data depending on selected time period (brush)
-
-  // *** TO-DO ***
-
+  vis.filteredData = vis.data.filter(function(d) {
+     return d.time >= selectionStart && d.time <= selectionEnd;
+  });
 
   vis.wrangleData();
 }

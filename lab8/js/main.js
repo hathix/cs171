@@ -48,22 +48,24 @@ function createVis(error, perDayData, metaData) {
 
 
   // (3) Create event handler
-
-  // *** TO-DO ***
+  var eventHandler = {};
 
 
 
   // (4) Create visualization instances
-  var countVis = new CountVis("countvis", allData);
+  var countVis = new CountVis("countvis", allData, eventHandler);
   var ageVis = new AgeVis("agevis", allData);
   var prioVis = new PrioVis("priovis", allData, metaData);
 
-  // *** TO-DO ***
 
 
 
   // (5) Bind event handler
-
-  // *** TO-DO ***
+  $(eventHandler)
+    .bind("selectionChanged", function(event, rangeStart, rangeEnd) {
+        console.log(event);
+      ageVis.onSelectionChange(rangeStart, rangeEnd);
+      prioVis.onSelectionChange(rangeStart, rangeEnd);
+    });
 
 }
