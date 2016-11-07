@@ -122,8 +122,35 @@ CountVis.prototype.initVis = function() {
     });
 
   // Append brush component here
-  vis.svg.append("g")
+  vis.brushGroup = vis.svg.append("g")
     .attr("class", "brush");
+
+
+  // initialize zoom
+  vis.zoom = d3.behavior.zoom()
+    .on("zoom", function() {
+      console.log("zoom");
+      if (!(vis.brush.empty())) {
+        vis.brush.extent(vis.brush.extent());
+      }
+      vis.updateVis();
+    })
+    .scaleExtent([1, 20])
+    .x(vis.x);
+
+  // apply zoom to the brush group
+  vis.brushGroup.call(vis.zoom)
+    .on("mousedown.zoom", null)
+    .on("touchstart.zoom", null);
+
+
+  // Define the clipping region
+  vis.svg.append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", vis.width)
+    .attr("height", vis.height);
 
   // (Filter, aggregate, modify data)
   vis.wrangleData();
@@ -165,7 +192,8 @@ CountVis.prototype.updateVis = function() {
   vis.svg.select(".brush")
     .call(vis.brush)
     .selectAll('rect')
-    .attr("height", vis.height);
+    .attr("height", vis.height)
+    .attr("clip-path", "url(#clip)");
 
 
   // Call the area function and update the path
@@ -173,7 +201,8 @@ CountVis.prototype.updateVis = function() {
   // The area function translates the data into positions on the path in the SVG.
   vis.timePath
     .datum(vis.displayData)
-    .attr("d", vis.area);
+    .attr("d", vis.area)
+    .attr("clip-path", "url(#clip)");
 
 
   // Call axis functions with the new domain
