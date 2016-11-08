@@ -19,7 +19,9 @@ function loadData() {
   // TO-DO: LOAD DATA
   $.getJSON(proxy + url, function(data){
 	  var stations = data.station;
-	  var stationMap = new StationMap("station-map", stations);
+
+	  // create a map of boston
+	  var stationMap = new StationMap("station-map", stations, [42.360082, -71.058880]);
   });
 }
 
