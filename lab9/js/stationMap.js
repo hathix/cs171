@@ -61,6 +61,9 @@ StationMap.prototype.updateVis = function() {
 
   console.log(this.displayData);
 
+  // write # of stations
+  $('#station-count').html(vis.displayData.length);
+
   // create layer group for pins
   vis.pinGroup = L.layerGroup()
     .addTo(vis.map);
@@ -76,5 +79,27 @@ StationMap.prototype.updateVis = function() {
     var marker = L.marker([d.lat, d.long])
       .bindPopup(popupContent);
     vis.pinGroup.addLayer(marker);
-  })
+  });
+
+
+  // draw MBTA lines
+  $.getJSON("data/MBTA-Lines.json", function(mbtaData) {
+    console.log(mbtaData);
+
+    L.geoJson(mbtaData, {
+        weight: 4,
+        fillOpacity: 0.8,
+        style: function(feature) {
+          // T line: red, green, etc.
+          // note that these are capitalized
+          var line = feature.properties.LINE;
+          // color based off line
+          return {
+              color: line
+          };
+        }
+      })
+      .addTo(vis.map);
+  });
+
 }
