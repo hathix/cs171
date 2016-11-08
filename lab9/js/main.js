@@ -17,6 +17,10 @@ function loadData() {
   var url = 'https://www.thehubway.com/data/stations/bikeStations.xml';
 
   // TO-DO: LOAD DATA
+  $.getJSON(proxy + url, function(data){
+	  var stations = data.station;
+	  var stationMap = new StationMap("station-map", stations);
+  });
 }
 
 

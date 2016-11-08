@@ -20,7 +20,7 @@ StationMap = function(_parentElement, _data) {
 
 StationMap.prototype.initVis = function() {
 	var vis = this;
-	
+
 	vis.wrangleData();
 }
 
@@ -33,7 +33,7 @@ StationMap.prototype.wrangleData = function() {
 	var vis = this;
 
 	// Currently no data wrangling/filtering needed
-	// vis.displayData = vis.data;
+	vis.displayData = vis.data;
 
 	// Update the visualization
 	vis.updateVis();
@@ -46,5 +46,5 @@ StationMap.prototype.wrangleData = function() {
  */
 
 StationMap.prototype.updateVis = function() {
-
+	console.log(this.displayData);
 }
