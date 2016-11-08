@@ -57,14 +57,24 @@ StationMap.prototype.wrangleData = function() {
  */
 
 StationMap.prototype.updateVis = function() {
-	var vis = this;
+  var vis = this;
 
   console.log(this.displayData);
 
+  // create layer group for pins
+  vis.pinGroup = L.layerGroup()
+    .addTo(vis.map);
+
   // draw 1 pin per station
   vis.displayData.forEach(function(d) {
-	  var lat = +d.lat;
-	  var long = +d.long;
-	  L.marker([d.lat, d.long]).addTo(vis.map);
+    var lat = +d.lat;
+    var long = +d.long;
+
+    var popupContent = "<strong>" + d.name + "</strong><br>" + d.nbBikes +
+      " bikes, " + d.nbEmptyDocks + " empty docks";
+
+    var marker = L.marker([d.lat, d.long])
+      .bindPopup(popupContent);
+    vis.pinGroup.addLayer(marker);
   })
 }
