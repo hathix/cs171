@@ -21,7 +21,6 @@ StationMap = function(_parentElement, _data, _mapCenter) {
 StationMap.prototype.initVis = function() {
   var vis = this;
 
-
   // set up leaflet
   vis.map = L.map(vis.parentElement)
     .setView(vis.mapCenter, 13);
@@ -30,9 +29,8 @@ StationMap.prototype.initVis = function() {
     })
     .addTo(vis.map);
 
-  // If the images are in the directory "/img":
-  L.Icon.Default.imagePath = 'img';
-
+  // add link to images
+  L.Icon.Default.imagePath = 'css/images/';
 
   vis.wrangleData();
 }
@@ -59,5 +57,14 @@ StationMap.prototype.wrangleData = function() {
  */
 
 StationMap.prototype.updateVis = function() {
+	var vis = this;
+
   console.log(this.displayData);
+
+  // draw 1 pin per station
+  vis.displayData.forEach(function(d) {
+	  var lat = +d.lat;
+	  var long = +d.long;
+	  L.marker([d.lat, d.long]).addTo(vis.map);
+  })
 }
