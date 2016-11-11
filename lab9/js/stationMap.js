@@ -62,7 +62,8 @@ StationMap.prototype.updateVis = function() {
   console.log(this.displayData);
 
   // write # of stations
-  $('#station-count').html(vis.displayData.length);
+  $('#station-count')
+    .html(vis.displayData.length);
 
   // create layer group for pins
   vis.pinGroup = L.layerGroup()
@@ -87,15 +88,15 @@ StationMap.prototype.updateVis = function() {
     console.log(mbtaData);
 
     L.geoJson(mbtaData, {
-        weight: 4,
-        fillOpacity: 0.8,
+        weight: 5,
+        // opacity: 0.6,
         style: function(feature) {
           // T line: red, green, etc.
           // note that these are capitalized
           var line = feature.properties.LINE;
           // color based off line
           return {
-              color: line
+            color: line
           };
         }
       })
