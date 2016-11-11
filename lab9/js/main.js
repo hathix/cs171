@@ -17,17 +17,12 @@ function loadData() {
   var url = 'https://www.thehubway.com/data/stations/bikeStations.xml';
 
   // TO-DO: LOAD DATA
+  console.log("fetching data");
   $.getJSON(proxy + url, function(data){
+	  console.log("got data", data);
 	  var stations = data.station;
 
 	  // create a map of boston
 	  var stationMap = new StationMap("station-map", stations, [42.360082, -71.058880]);
   });
-}
-
-
-function createVis() {
-
-  // TO-DO: INSTANTIATE VISUALIZATION
-
 }
