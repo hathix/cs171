@@ -11,18 +11,18 @@ queue()
     // clean up data - convert each to an object
     // from 0/1's in marriages/business_ties matrices to
     // { marriage: 1, businessTie: 0  }
-    var rows = matrixData.marriages.length;
-    var cols = matrixData.marriages[0].length;
-    var combinedData = [];
-    for (var i = 0; i < rows; i++) {
-        combinedData[i] = [];
-        for (var j = 0; j < cols; j++) {
-            combinedData[i][j] = {
-                marriage: matrixData.marriages[i][j],
-                businessTie: matrixData.business_ties[i][j],
-            };
-        }
-    }
+    // var rows = matrixData.marriages.length;
+    // var cols = matrixData.marriages[0].length;
+    // var combinedData = [];
+    // for (var i = 0; i < rows; i++) {
+    //     combinedData[i] = [];
+    //     for (var j = 0; j < cols; j++) {
+    //         combinedData[i][j] = {
+    //             marriage: matrixData.marriages[i][j],
+    //             businessTie: matrixData.business_ties[i][j],
+    //         };
+    //     }
+    // }
 
-    new MatrixVis("matrix-holder", combinedData);
+    new MatrixVis("matrix-holder", florentineFamilyData, matrixData.marriages, matrixData.business_ties);
   });

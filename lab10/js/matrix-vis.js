@@ -1,12 +1,12 @@
 /**
  * A matrix visualizer.
  * @param {String} _parentElement   The id of the element to put the visualization in, without the "#"."
- * @param {Object[][]} _data A 2-dimensional matrix of objects to be visualized. Each one should have:
- *                              - int marriage (0 or 1)
  */
-MatrixVis = function(_parentElement, _data) {
-  this.data = _data;
+MatrixVis = function(_parentElement, _familyData, _marriageData, _businessTieData) {
   this.parentElement = _parentElement;
+  this.familyData = _familyData;
+  this.marriageData = _marriageData;
+  this.businessTieData = _businessTieData;
 
   this.outerWidth = 500;
   this.outerHeight = 500;
@@ -24,15 +24,14 @@ MatrixVis.prototype.initVis = function() {
     .attr('height', vis.outerHeight);
 
   // initialize grid
-  var rows = vis.data.length;
-  var cols = vis.data[0].length;
+  var rows = vis.marriageData.length;
+  var cols = vis.marriageData[0].length;
   vis.grid = d3.layout.grid()
     .bands()
     .rows(rows)
     .cols(cols)
     .size([vis.outerWidth, vis.outerHeight])
     .padding([0.2, 0.2]);
-  console.log(window.zzz = vis.grid);
 
   vis.wrangleData();
 };
@@ -40,8 +39,22 @@ MatrixVis.prototype.initVis = function() {
 MatrixVis.prototype.wrangleData = function() {
   var vis = this;
 
+  // merge all datasets into one
+  vis.masterData = vis.familyData.map(function(d, i) {
+      return {
+          index: i,
+          name: d.Family,
+          wealth: d.Wealth,
+          priorates: d.Priorates,
+          marriageValues: vis.marriageData[i],
+          businessTieValues: vis.businessTieData[i]
+      };
+  });
+
+  console.log(vis.masterData);
+
   // convert raw 2D data into a 1D array, to be shown to the user
-  vis.displayData = [].concat.apply([], vis.data);
+  // vis.displayData = [].concat.apply([], vis.data);
 
   vis.updateVis();
 };
@@ -63,4 +76,7 @@ MatrixVis.prototype.updateVis = function() {
     .attr("transform", function(d) {
       return "translate(" + d.x + "," + d.y + ")";
     });
+
+  square.exit()
+    .remove();
 }
