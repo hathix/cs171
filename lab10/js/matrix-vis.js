@@ -13,7 +13,7 @@ MatrixVis = function(_parentElement, _familyData, _marriageData,
   this.outerHeight = 700;
 
   this.margins = {
-    left: 100,
+    left: 120,
     right: 0,
     top: 100,
     bottom: 0
@@ -105,6 +105,8 @@ MatrixVis.prototype.updateVis = function() {
     .attr("transform", "translate(" + vis.margins.left + "," + vis.margins.top +
       ")");
 
+  //   group.append("rect").attr("width", vis.innerWidth).attr("height",vis.innerHeight).attr("fill", "red");
+
   var upperTriangles = group.append("path")
     .attr("class", "triangle-path")
     .attr("fill", function(d) {
@@ -168,9 +170,12 @@ MatrixVis.prototype.updateVis = function() {
       return 20;
     })
     .attr("y", function(d, i) {
-      return i * vis.cellSize + (2 * i) * vis.cellPadding;
+      // Vertically center on squares
+      return (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
     })
-    .text("hi");
+    .text(function(d, i) {
+        return d.name;
+    });
 
   labels.exit()
     .remove();
