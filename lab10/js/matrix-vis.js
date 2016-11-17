@@ -2,7 +2,8 @@
  * A matrix visualizer.
  * @param {String} _parentElement   The id of the element to put the visualization in, without the "#"."
  */
-MatrixVis = function(_parentElement, _familyData, _marriageData, _businessTieData) {
+MatrixVis = function(_parentElement, _familyData, _marriageData,
+  _businessTieData) {
   this.parentElement = _parentElement;
   this.familyData = _familyData;
   this.marriageData = _marriageData;
@@ -41,20 +42,36 @@ MatrixVis.prototype.wrangleData = function() {
 
   // merge all datasets into one
   vis.masterData = vis.familyData.map(function(d, i) {
-      return {
-          index: i,
-          name: d.Family,
-          wealth: d.Wealth,
-          priorates: d.Priorates,
-          marriageValues: vis.marriageData[i],
-          businessTieValues: vis.businessTieData[i]
-      };
+    return {
+      index: i,
+      name: d.Family,
+      wealth: +d.Wealth,
+      priorates: +d.Priorates,
+      marriageValues: vis.marriageData[i],
+      businessTieValues: vis.businessTieData[i]
+    };
   });
 
   console.log(vis.masterData);
 
-  // convert raw 2D data into a 1D array, to be shown to the user
-  // vis.displayData = [].concat.apply([], vis.data);
+  // we need to convert all this into a 2D array of objects
+  // { marriage: 0/1, businessTie: 0/1 }
+  var data2D = vis.masterData.map(function(d) {
+    // return an array
+    // combine the marriageValues and businessTie values - zip each corresponding
+    // element into an object
+    var list = [];
+    for (var i = 0; i < d.marriageValues.length; i++) {
+      list[i] = {
+        marriage: d.marriageValues[i],
+        businessTie: d.businessTieValues[i]
+      };
+    }
+    return list;
+  });
+
+  // now flatten into 1D
+  vis.displayData = [].concat.apply([], data2D);
 
   vis.updateVis();
 };
