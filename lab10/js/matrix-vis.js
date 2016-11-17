@@ -152,21 +152,18 @@ MatrixVis.prototype.updateVis = function() {
 
 
   // draw labels
-  // rows: families
-  var labelGroup = vis.svg.append("g")
+  // rows
+  var rowLabelGroup = vis.svg.append("g")
     .attr("transform", "translate(" + 0 + "," + vis.margins.top +
       ")");
-  var labels = labelGroup.selectAll(".family-label")
+  var rowLabels = rowLabelGroup.selectAll(".row-family-label")
     .data(vis.masterData);
 
-  // .attr("transform", "translate(" + vis.margins.top + "," + vis.margins.left +
-  //   ")");
-
-  labels.enter()
+  rowLabels.enter()
     .append("text")
-    .attr("class", "family-label");
+    .attr("class", "row-family-label");
 
-  labels.attr("x", function(d, i) {
+  rowLabels.attr("x", function(d, i) {
       return 20;
     })
     .attr("y", function(d, i) {
@@ -174,10 +171,35 @@ MatrixVis.prototype.updateVis = function() {
       return (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
     })
     .text(function(d, i) {
-        return d.name;
+      return d.name;
     });
 
-  labels.exit()
+  rowLabels.exit()
+    .remove();
+
+
+  // cols
+  var colLabelGroup = vis.svg.append("g")
+    .attr("transform", "translate(" + vis.margins.left + "," + 0 +
+      ")");
+  var colLabels = colLabelGroup.selectAll(".col-family-label")
+    .data(vis.masterData);
+
+  colLabels.enter()
+    .append("text")
+    .attr("class", "col-family-label");
+
+  colLabels
+    .text(function(d, i) {
+      return d.name;
+    })
+    .attr("transform", function(d, i) {
+      var x = (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
+      var y = 80;
+      return "translate(" + x + "," + y + ")rotate(270)";
+    });
+
+  colLabels.exit()
     .remove();
 
 }
