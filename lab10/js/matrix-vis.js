@@ -9,8 +9,18 @@ MatrixVis = function(_parentElement, _familyData, _marriageData,
   this.marriageData = _marriageData;
   this.businessTieData = _businessTieData;
 
-  this.outerWidth = 500;
-  this.outerHeight = 500;
+  this.outerWidth = 700;
+  this.outerHeight = 700;
+
+  this.margins = {
+    left: 100,
+    right: 0,
+    top: 100,
+    bottom: 0
+  };
+
+  this.innerWidth = this.outerWidth - this.margins.left - this.margins.right;
+  this.innerHeight = this.outerHeight - this.margins.top - this.margins.bottom;
 
   this.initVis();
 }
@@ -21,8 +31,8 @@ MatrixVis.prototype.initVis = function() {
   // initialize svg
   vis.svg = d3.select('#' + vis.parentElement)
     .append("svg")
-    .attr('width', vis.outerWidth)
-    .attr('height', vis.outerHeight);
+    .attr('width', vis.innerWidth)
+    .attr('height', vis.innerHeight);
 
   // initialize grid
   var rows = vis.marriageData.length;
@@ -31,8 +41,8 @@ MatrixVis.prototype.initVis = function() {
     .bands()
     .rows(rows)
     .cols(cols)
-    .size([vis.outerWidth, vis.outerHeight])
-    .padding([0.2, 0.2]);
+    .nodeSize([25, 25])
+    .padding([6, 6]);
 
   vis.wrangleData();
 };
@@ -84,19 +94,18 @@ MatrixVis.prototype.updateVis = function() {
   var squares = vis.svg.selectAll(".square")
     .data(vis.grid(vis.displayData));
 
-  console.log(vis.grid(vis.displayData));
-
   // var squares = vis.svg.selectAll("square")
 
   var group = squares.enter()
     .append("g")
-    .attr("class", "square");
+    .attr("class", "square")
+    .attr("transform", "translate(" + vis.margins.top + "," + vis.margins.left + ")");
 
   var upperTriangles = group.append("path")
     .attr("class", "triangle-path")
     .attr("fill", function(d) {
-        // purple if married
-        return d.marriage ? "purple" : null;
+      // purple if married
+      return d.marriage ? "purple" : null;
     })
     .attr("d", function(d, i) {
       var cellWidth = vis.grid.nodeSize()[0];
@@ -111,8 +120,8 @@ MatrixVis.prototype.updateVis = function() {
   var lowerTriangles = group.append("path")
     .attr("class", "triangle-path")
     .attr("fill", function(d) {
-        // orange if business tied
-        return d.businessTie ? "orange" : null;
+      // orange if business tied
+      return d.businessTie ? "orange" : null;
     })
     .attr("d", function(d, i) {
       var cellWidth = vis.grid.nodeSize()[0];
