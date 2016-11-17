@@ -19,6 +19,9 @@ MatrixVis = function(_parentElement, _familyData, _marriageData,
     bottom: 0
   };
 
+  this.cellSize = 25;
+  this.cellPadding = 6;
+
   this.innerWidth = this.outerWidth - this.margins.left - this.margins.right;
   this.innerHeight = this.outerHeight - this.margins.top - this.margins.bottom;
 
@@ -41,8 +44,8 @@ MatrixVis.prototype.initVis = function() {
     .bands()
     .rows(rows)
     .cols(cols)
-    .nodeSize([25, 25])
-    .padding([6, 6]);
+    .nodeSize([vis.cellSize, vis.cellSize])
+    .padding([vis.cellPadding, vis.cellPadding]);
 
   vis.wrangleData();
 };
@@ -99,7 +102,8 @@ MatrixVis.prototype.updateVis = function() {
   var group = squares.enter()
     .append("g")
     .attr("class", "square")
-    .attr("transform", "translate(" + vis.margins.top + "," + vis.margins.left + ")");
+    .attr("transform", "translate(" + vis.margins.left + "," + vis.margins.top +
+      ")");
 
   var upperTriangles = group.append("path")
     .attr("class", "triangle-path")
@@ -142,4 +146,33 @@ MatrixVis.prototype.updateVis = function() {
 
   squares.exit()
     .remove();
+
+
+
+  // draw labels
+  // rows: families
+  var labelGroup = vis.svg.append("g")
+    .attr("transform", "translate(" + 0 + "," + vis.margins.top +
+      ")");
+  var labels = labelGroup.selectAll(".family-label")
+    .data(vis.masterData);
+
+  // .attr("transform", "translate(" + vis.margins.top + "," + vis.margins.left +
+  //   ")");
+
+  labels.enter()
+    .append("text")
+    .attr("class", "family-label");
+
+  labels.attr("x", function(d, i) {
+      return 20;
+    })
+    .attr("y", function(d, i) {
+      return i * vis.cellSize + (2 * i) * vis.cellPadding;
+    })
+    .text("hi");
+
+  labels.exit()
+    .remove();
+
 }
