@@ -79,21 +79,58 @@ MatrixVis.prototype.wrangleData = function() {
 MatrixVis.prototype.updateVis = function() {
   var vis = this;
 
-  // draw grid squares
+  // draw a square made of 2 triangles for each
+  // each triangle represents marriage and business tie data
   var squares = vis.svg.selectAll(".square")
     .data(vis.grid(vis.displayData));
 
   console.log(vis.grid(vis.displayData));
 
-  squares.enter()
-    .append("rect")
-    .attr("class", "square")
-    .attr("width", vis.grid.nodeSize()[0])
-    .attr("height", vis.grid.nodeSize()[1])
-    .attr("transform", function(d) {
-      return "translate(" + d.x + "," + d.y + ")";
+  // var squares = vis.svg.selectAll("square")
+
+  var group = squares.enter()
+    .append("g")
+    .attr("class", "square");
+
+  var upperTriangles = group.append("path")
+    .attr("class", "triangle-path")
+    .attr("fill", function(d) {
+        // purple if married
+        return d.marriage ? "purple" : null;
+    })
+    .attr("d", function(d, i) {
+      var cellWidth = vis.grid.nodeSize()[0];
+      var cellHeight = vis.grid.nodeSize()[1];
+      var x = d.x;
+      var y = d.y;
+
+      return 'M ' + x + ' ' + y + ' l ' + cellWidth + ' 0 l 0 ' +
+        cellHeight + ' z';
     });
 
-  square.exit()
+  var lowerTriangles = group.append("path")
+    .attr("class", "triangle-path")
+    .attr("fill", function(d) {
+        // orange if business tied
+        return d.businessTie ? "orange" : null;
+    })
+    .attr("d", function(d, i) {
+      var cellWidth = vis.grid.nodeSize()[0];
+      var cellHeight = vis.grid.nodeSize()[1];
+      var x = d.x;
+      var y = d.y;
+
+      return 'M ' + x + ' ' + y + ' l 0 ' + cellHeight + ' l ' +
+        cellWidth + ' 0 z';
+    });
+
+  // .attr("class", "square")
+  // .attr("width", vis.grid.nodeSize()[0])
+  // .attr("height", vis.grid.nodeSize()[1])
+  // .attr("transform", function(d) {
+  //   return "translate(" + d.x + "," + d.y + ")";
+  // });
+
+  squares.exit()
     .remove();
 }
