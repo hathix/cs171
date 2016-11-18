@@ -170,12 +170,12 @@ MatrixVis.prototype.updateVis = function() {
 
   // UPDATE
   // move the row around
-  group.attr("transform", function(d, i) {
+  group.transition().attr("transform", function(d, i) {
     var left = 0;
     var top = vis.margins.top + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
     return "translate(" + left + "," + top +
       ")"
-  });
+  })
 
 
   // exit
