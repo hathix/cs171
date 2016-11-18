@@ -85,7 +85,7 @@ MatrixVis.prototype.wrangleData = function() {
   } else {
     // sort based on the `val` property of each family
     sortedMasterData = vis.masterData.sort(function(a, b) {
-      return a[filterCriterion] - b[filterCriterion];
+      return b[filterCriterion] - a[filterCriterion];
     });
   }
 
@@ -179,7 +179,9 @@ MatrixVis.prototype.updateVis = function() {
     .attr("transform", "translate(" + 0 + "," + vis.margins.top +
       ")");
   var rowLabels = rowLabelGroup.selectAll(".row-family-label")
-    .data(vis.masterData);
+    .data(vis.masterData, function(d) {
+        return d.name;
+    });
 
   rowLabels.enter()
     .append("text")
