@@ -34,8 +34,8 @@ MatrixVis.prototype.initVis = function() {
   // initialize svg
   vis.svg = d3.select('#' + vis.parentElement)
     .append("svg")
-    .attr('width', vis.innerWidth)
-    .attr('height', vis.innerHeight);
+    .attr('width', vis.outerWidth)
+    .attr('height', vis.outerHeight);
 
   // initialize grid
   var rows = vis.marriageData.length;
@@ -57,7 +57,7 @@ MatrixVis.prototype.initVis = function() {
     var relationships = marriages + businessTies;
 
     return {
-      index: i,
+      id: i,
       name: d.Family,
       wealth: +d.Wealth,
       priorates: +d.Priorates,
@@ -78,35 +78,19 @@ MatrixVis.prototype.wrangleData = function() {
   // update ordering of master data based on what the dropdown says
   var filterCriterion = $('#filter-control')
     .val();
-  var sortedMasterData;
+  // sort a clone of the master data
+  var sortedMasterData = vis.masterData.slice(0);
+
   if (filterCriterion === "default") {
     // don't change default sorting
-    sortedMasterData = vis.masterData;
   } else {
     // sort based on the `val` property of each family
-    sortedMasterData = vis.masterData.sort(function(a, b) {
+    sortedMasterData.sort(function(a, b) {
       return b[filterCriterion] - a[filterCriterion];
     });
   }
 
-  // we need to convert all this into a 2D array of objects
-  // { marriage: 0/1, businessTie: 0/1 }
-  var data2D = sortedMasterData.map(function(d) {
-    // return an array
-    // combine the marriageValues and businessTie values - zip each corresponding
-    // element into an object
-    var list = [];
-    for (var i = 0; i < d.marriageValues.length; i++) {
-      list[i] = {
-        marriage: d.marriageValues[i],
-        businessTie: d.businessTieValues[i]
-      };
-    }
-    return list;
-  });
-
-  // now flatten into 1D
-  vis.displayData = [].concat.apply([], data2D);
+  vis.displayData = sortedMasterData;
 
   vis.updateVis();
 };
@@ -114,116 +98,170 @@ MatrixVis.prototype.wrangleData = function() {
 MatrixVis.prototype.updateVis = function() {
   var vis = this;
 
-  // draw a square made of 2 triangles for each
-  // each triangle represents marriage and business tie data
-  var squares = vis.svg.selectAll(".square")
-    .data(vis.grid(vis.displayData));
+  var group = vis.svg.selectAll(".row")
+    .data(vis.displayData, function(d) {
+      return d.id;
+    });
 
-  // var squares = vis.svg.selectAll("square")
-
-  var group = squares.enter()
+  var groupEnter = group.enter()
     .append("g")
-    .attr("class", "square")
-    .attr("transform", "translate(" + vis.margins.left + "," + vis.margins.top +
-      ")");
+    .attr("class", "row")
+    .attr("id", function(d, i) {
+      return d.id;
+    });
 
-  //   group.append("rect").attr("width", vis.innerWidth).attr("height",vis.innerHeight).attr("fill", "red");
+  // ENTER
+  // add static text
+  groupEnter.append("text")
+    .text(function(d) {
+      return d.name;
+  }).
+  // vertically center on rest of row
+  attr("y", (vis.cellSize + vis.cellPadding) * 1 / 2);
 
-  var upperTriangles = group.append("path")
-    .attr("class", "triangle-path")
+  // draw triangles
+  var triangles = groupEnter.append("g")
+    .attr("class", "triangles")
+    .attr("id", function(d, i) {
+      return d.id;
+    });
+
+  // draw marriage triangle
+  triangles.selectAll(".marriage-triangle")
+    .data(function(d) {
+      console.log(d);
+      return d.marriageValues;
+    })
+    .enter()
+    .append("path")
+    .attr("class", "marriage-triangle")
     .attr("fill", function(d) {
       // purple if married
-      return d.marriage ? "purple" : null;
+      return d === 1 ? "purple" : "#DDD";
     })
     .attr("d", function(d, i) {
-      var cellWidth = vis.grid.nodeSize()[0];
-      var cellHeight = vis.grid.nodeSize()[1];
-      var x = d.x;
-      var y = d.y;
+      var x = vis.margins.left + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
+      var y = 0;
 
-      return 'M ' + x + ' ' + y + ' l ' + cellWidth + ' 0 l 0 ' +
-        cellHeight + ' z';
+      return 'M ' + x + ' ' + y + ' l ' + vis.cellSize + ' 0 l 0 ' +
+        vis.cellSize + ' z';
     });
 
-  var lowerTriangles = group.append("path")
-    .attr("class", "triangle-path")
+  // draw business tie triangle
+  triangles.selectAll(".business-triangle")
+    .data(function(d) {
+      console.log(d);
+      return d.businessTieValues;
+    })
+    .enter()
+    .append("path")
+    .attr("class", "business-triangle")
     .attr("fill", function(d) {
-      // orange if business tied
-      return d.businessTie ? "orange" : null;
+      // purple if married
+      return d === 1 ? "orange" : "#DDD";
     })
     .attr("d", function(d, i) {
-      var cellWidth = vis.grid.nodeSize()[0];
-      var cellHeight = vis.grid.nodeSize()[1];
-      var x = d.x;
-      var y = d.y;
+      var x = vis.margins.left + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
+      var y = 0;
 
-      return 'M ' + x + ' ' + y + ' l 0 ' + cellHeight + ' l ' +
-        cellWidth + ' 0 z';
+      return 'M ' + x + ' ' + y + ' l 0 ' + vis.cellSize + ' l ' +
+        vis.cellSize + ' 0 z'
     });
 
-  // .attr("class", "square")
-  // .attr("width", vis.grid.nodeSize()[0])
-  // .attr("height", vis.grid.nodeSize()[1])
-  // .attr("transform", function(d) {
-  //   return "translate(" + d.x + "," + d.y + ")";
+  // UPDATE
+  // move the row around
+  group.attr("transform", function(d, i) {
+    var left = 0;
+    var top = vis.margins.top + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
+    return "translate(" + left + "," + top +
+      ")"
+  });
+
+
+  // exit
+  group.exit()
+    .remove();
+
+
+
+
+  // draw triangles
+  // var triangleGroups = d3.selectAll(".triangles");
+  // triangleGroups.append("text").text(5);
+
+  // vis.displayData.forEach(function(family, index) {
+  //   var topMargin = vis.margins.top + (index * vis.cellSize);
+  //   var group = vis.svg.append("g")
+  //     .attr("class", "row")
+  //     .attr("transform", "translate(" + 0 + "," + topMargin + ")");
+  //
+  //     // draw labels
+  //     var labels = group.selectAll(".label").data(family);
+  //
+  //     // enter
+  //     labels.enter().append("text").text(family.name);
+  //
+  //     // update
+  //
+  //
+  //     // exit
+  //     labels.exit().remove();
   // });
 
-  squares.exit()
-    .remove();
+
+
+  // ENTER
+  // var rowGroup =  vis.svg.selectAll(".row")
+  //   .data(vis.displayData, function(d) {
+  //     return d.name;
+  //   })
+  //   .enter()
+  //   .append("g")
+  //   .attr("class", "row")
+  //   .attr("transform", function(d, i) {
+  //     var left = 0;
+  //     var top = vis.margins.top + (i * vis.cellSize);
+  //     return "translate(" + left + "," + top +
+  //       ")"
+  //   });
+  //
+  //
+  // rowGroup.append("text")
+  //   // .attr("class", "label")
+  //   .text(function(d) {
+  //     return d.name;
+  //   });
+  //
+  // // EXIT
+  // rowGroup.exit()
+  //   .remove();
 
 
 
-  // draw labels
-  // rows
-  var rowLabelGroup = vis.svg.append("g")
-    .attr("transform", "translate(" + 0 + "," + vis.margins.top +
-      ")");
-  var rowLabels = rowLabelGroup.selectAll(".row-family-label")
-    .data(vis.masterData, function(d) {
-        return d.name;
-    });
 
-  rowLabels.enter()
-    .append("text")
-    .attr("class", "row-family-label");
+  //
 
-  rowLabels.attr("x", function(d, i) {
-      return 20;
-    })
-    .attr("y", function(d, i) {
-      // Vertically center on squares
-      return (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
-    })
-    .text(function(d, i) {
-      return d.name;
-    });
-
-  rowLabels.exit()
-    .remove();
-
-
-  // cols
-  var colLabelGroup = vis.svg.append("g")
-    .attr("transform", "translate(" + vis.margins.left + "," + 0 +
-      ")");
-  var colLabels = colLabelGroup.selectAll(".col-family-label")
-    .data(vis.masterData);
-
-  colLabels.enter()
-    .append("text")
-    .attr("class", "col-family-label");
-
-  colLabels
-    .text(function(d, i) {
-      return d.name;
-    })
-    .attr("transform", function(d, i) {
-      var x = (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
-      var y = 80;
-      return "translate(" + x + "," + y + ")rotate(270)";
-    });
-
-  colLabels.exit()
-    .remove();
+  // var rowLabels = rowLabelGroup.selectAll(".row-family-label")
+  //   .data(vis.masterData, function(d) {
+  //     return d.name;
+  //   });
+  //
+  // rowLabels.enter()
+  //   .append("text")
+  //   .attr("class", "row-family-label");
+  //
+  // rowLabels.attr("x", function(d, i) {
+  //     return 20;
+  //   })
+  //   .attr("y", function(d, i) {
+  //     // Vertically center on squares
+  //     return (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
+  //   })
+  //   .text(function(d, i) {
+  //     return d.name;
+  //   });
+  //
+  // rowLabels.exit()
+  //   .remove();
 
 }
