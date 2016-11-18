@@ -24,5 +24,20 @@ queue()
     //     }
     // }
 
-    new MatrixVis("matrix-holder", florentineFamilyData, matrixData.marriages, matrixData.business_ties);
+    new MatrixVis("matrix-holder", florentineFamilyData, matrixData.marriages,
+      matrixData.business_ties);
   });
+
+
+
+
+/* HELPER FUNCTIONS */
+
+/*
+    Returns the sum of an array of numbers.
+ */
+function arraySum(array) {
+  return array.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+}

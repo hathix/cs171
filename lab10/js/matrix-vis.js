@@ -55,13 +55,20 @@ MatrixVis.prototype.wrangleData = function() {
 
   // merge all datasets into one
   vis.masterData = vis.familyData.map(function(d, i) {
+    var marriages = arraySum(vis.marriageData[i]);
+    var businessTies = arraySum(vis.businessTieData[i]);
+    var relationships = marriages + businessTies;
+
     return {
       index: i,
       name: d.Family,
       wealth: +d.Wealth,
       priorates: +d.Priorates,
       marriageValues: vis.marriageData[i],
-      businessTieValues: vis.businessTieData[i]
+      marriages: marriages,
+      businessTieValues: vis.businessTieData[i],
+      businessTies: businessTies,
+      relationships: relationships
     };
   });
 
