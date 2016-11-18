@@ -115,8 +115,9 @@ MatrixVis.prototype.updateVis = function() {
   groupEnter.append("text")
     .text(function(d) {
       return d.name;
-  }).
-  // vertically center on rest of row
+    })
+    .
+    // vertically center on rest of row
   attr("y", (vis.cellSize + vis.cellPadding) * 1 / 2);
 
   // draw triangles
@@ -170,12 +171,13 @@ MatrixVis.prototype.updateVis = function() {
 
   // UPDATE
   // move the row around
-  group.transition().attr("transform", function(d, i) {
-    var left = 0;
-    var top = vis.margins.top + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
-    return "translate(" + left + "," + top +
-      ")"
-  })
+  group.transition()
+    .attr("transform", function(d, i) {
+      var left = 0;
+      var top = vis.margins.top + (i * vis.cellSize) + ((i + 1) * vis.cellPadding);
+      return "translate(" + left + "," + top +
+        ")"
+    })
 
 
   // exit
@@ -185,83 +187,27 @@ MatrixVis.prototype.updateVis = function() {
 
 
 
-  // draw triangles
-  // var triangleGroups = d3.selectAll(".triangles");
-  // triangleGroups.append("text").text(5);
+    // draw column labels
+    var colLabelGroup = vis.svg.append("g")
+      .attr("transform", "translate(" + vis.margins.left + "," + 0 +
+        ")");
+    var colLabels = colLabelGroup.selectAll(".col-family-label")
+      .data(vis.masterData);
 
-  // vis.displayData.forEach(function(family, index) {
-  //   var topMargin = vis.margins.top + (index * vis.cellSize);
-  //   var group = vis.svg.append("g")
-  //     .attr("class", "row")
-  //     .attr("transform", "translate(" + 0 + "," + topMargin + ")");
-  //
-  //     // draw labels
-  //     var labels = group.selectAll(".label").data(family);
-  //
-  //     // enter
-  //     labels.enter().append("text").text(family.name);
-  //
-  //     // update
-  //
-  //
-  //     // exit
-  //     labels.exit().remove();
-  // });
+    colLabels.enter()
+      .append("text")
+      .attr("class", "col-family-label");
 
+    colLabels
+      .text(function(d, i) {
+        return d.name;
+      })
+      .attr("transform", function(d, i) {
+        var x = (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
+        var y = 80;
+        return "translate(" + x + "," + y + ")rotate(270)";
+      });
 
-
-  // ENTER
-  // var rowGroup =  vis.svg.selectAll(".row")
-  //   .data(vis.displayData, function(d) {
-  //     return d.name;
-  //   })
-  //   .enter()
-  //   .append("g")
-  //   .attr("class", "row")
-  //   .attr("transform", function(d, i) {
-  //     var left = 0;
-  //     var top = vis.margins.top + (i * vis.cellSize);
-  //     return "translate(" + left + "," + top +
-  //       ")"
-  //   });
-  //
-  //
-  // rowGroup.append("text")
-  //   // .attr("class", "label")
-  //   .text(function(d) {
-  //     return d.name;
-  //   });
-  //
-  // // EXIT
-  // rowGroup.exit()
-  //   .remove();
-
-
-
-
-  //
-
-  // var rowLabels = rowLabelGroup.selectAll(".row-family-label")
-  //   .data(vis.masterData, function(d) {
-  //     return d.name;
-  //   });
-  //
-  // rowLabels.enter()
-  //   .append("text")
-  //   .attr("class", "row-family-label");
-  //
-  // rowLabels.attr("x", function(d, i) {
-  //     return 20;
-  //   })
-  //   .attr("y", function(d, i) {
-  //     // Vertically center on squares
-  //     return (i + 1 / 2) * vis.cellSize + (i + 1) * vis.cellPadding;
-  //   })
-  //   .text(function(d, i) {
-  //     return d.name;
-  //   });
-  //
-  // rowLabels.exit()
-  //   .remove();
-
+    colLabels.exit()
+      .remove();
 }
