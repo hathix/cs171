@@ -47,11 +47,8 @@ MatrixVis.prototype.initVis = function() {
     .nodeSize([vis.cellSize, vis.cellSize])
     .padding([vis.cellPadding, vis.cellPadding]);
 
-  vis.wrangleData();
-};
 
-MatrixVis.prototype.wrangleData = function() {
-  var vis = this;
+  // initial data setup
 
   // merge all datasets into one
   vis.masterData = vis.familyData.map(function(d, i) {
@@ -72,11 +69,29 @@ MatrixVis.prototype.wrangleData = function() {
     };
   });
 
-  console.log(vis.masterData);
+  vis.wrangleData();
+};
+
+MatrixVis.prototype.wrangleData = function() {
+  var vis = this;
+
+  // update ordering of master data based on what the dropdown says
+  var filterCriterion = $('#filter-control')
+    .val();
+  var sortedMasterData;
+  if (filterCriterion === "default") {
+    // don't change default sorting
+    sortedMasterData = vis.masterData;
+  } else {
+    // sort based on the `val` property of each family
+    sortedMasterData = vis.masterData.sort(function(a, b) {
+      return a[filterCriterion] - b[filterCriterion];
+    });
+  }
 
   // we need to convert all this into a 2D array of objects
   // { marriage: 0/1, businessTie: 0/1 }
-  var data2D = vis.masterData.map(function(d) {
+  var data2D = sortedMasterData.map(function(d) {
     // return an array
     // combine the marriageValues and businessTie values - zip each corresponding
     // element into an object

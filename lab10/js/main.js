@@ -1,3 +1,5 @@
+var matrixVis;
+
 queue()
   .defer(d3.csv, "data/florentine-family-attributes.csv")
   .defer(d3.json, "data/matrices.json")
@@ -5,8 +7,8 @@ queue()
     if (error) {
       console.error(error);
     }
-    console.info(florentineFamilyData);
-    console.info(matrixData);
+    // console.info(florentineFamilyData);
+    // console.info(matrixData);
 
     // clean up data - convert each to an object
     // from 0/1's in marriages/business_ties matrices to
@@ -24,10 +26,16 @@ queue()
     //     }
     // }
 
-    new MatrixVis("matrix-holder", florentineFamilyData, matrixData.marriages,
+    matrixVis = new MatrixVis("matrix-holder", florentineFamilyData,
+      matrixData.marriages,
       matrixData.business_ties);
   });
 
+
+$('#filter-control')
+  .on('change', function() {
+    matrixVis.wrangleData();
+  });
 
 
 
