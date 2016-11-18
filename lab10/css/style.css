@@ -1,7 +1,11 @@
-.square {
-    fill: #CCC;
+body {
+    padding: 40px;
 }
 
-.triangle {
+.marriage {
+    color: purple;
+}
 
+.business-tie {
+    color: orange;
 }
